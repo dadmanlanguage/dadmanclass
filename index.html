@@ -117,14 +117,13 @@
                             </select>
                         </div>
                     </div>
-                    <!-- فیلد متن اضافی جدید -->
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">توضیحات یا پیام شما (اختیاری)</label>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">توضیحات یا پیام شما</label>
                         <div class="relative">
                             <span class="absolute top-3.5 right-0 pr-3.5 flex items-start text-slate-400">
                                 <i class="fa-solid fa-comment-dots"></i>
                             </span>
-                            <textarea id="userMessage" name="userMessage" rows="3" placeholder="اگر سوال یا توضیحی دارید اینجا بنویسید..." class="w-full pr-10 pl-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600 focus:bg-white transition resize-none"></textarea>
+                            <textarea id="userMessage" name="userMessage" rows="3" required placeholder="لطفاً سوال یا توضیحات خود را اینجا بنویسید..." class="w-full pr-10 pl-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600 focus:bg-white transition resize-none"></textarea>
                         </div>
                     </div>
                     <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-indigo-100 flex items-center justify-center space-x-2 space-x-reverse">
@@ -242,18 +241,44 @@
         </div>
     </section>
 
-    <!-- فوتر سایت -->
-    <footer class="bg-slate-900 text-white mt-auto py-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-sm">
-            <div class="flex items-center space-x-3 space-x-reverse">
-                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center font-bold">د</div>
-                <span class="font-bold text-base">موسسه زبان دادمان</span>
+    <!-- فوتر سایت همراه با آدرس و تلفن -->
+    <footer class="bg-slate-900 text-white mt-auto py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-10 border-b border-slate-800">
+                <!-- ستون اول: معرفی کوتاه -->
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center font-bold text-white">د</div>
+                        <span class="font-bold text-lg">موسسه زبان دادمان</span>
+                    </div>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        مرجع تخصصی آموزش زبان‌های خارجی با بهره‌گیری از برترین متدهای روز دنیا و اساتید مجرب.
+                    </p>
+                </div>
+                <!-- ستون دوم: آدرس دقیق -->
+                <div class="space-y-3">
+                    <h4 class="font-bold text-sm text-indigo-400">آدرس موسسه</h4>
+                    <p class="text-slate-300 text-xs leading-relaxed flex items-start space-x-2 space-x-reverse">
+                        <i class="fa-solid fa-location-dot text-indigo-500 mt-1"></i>
+                        <span>تهران، مشیریه، خیابان سازمان آب</span>
+                    </p>
+                </div>
+                <!-- ستون سوم: راه‌های ارتباطی و شبکه‌های اجتماعی -->
+                <div class="space-y-3">
+                    <h4 class="font-bold text-sm text-indigo-400">تماس با ما</h4>
+                    <p class="text-slate-300 text-xs flex items-center space-x-2 space-x-reverse">
+                        <i class="fa-solid fa-phone text-indigo-500"></i>
+                        <span dir="ltr">021-33800000</span>
+                    </p>
+                    <div class="flex space-x-4 space-x-reverse text-slate-400 pt-2">
+                        <a href="#" class="hover:text-white transition"><i class="fa-brands fa-telegram text-lg"></i></a>
+                        <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram text-lg"></i></a>
+                        <a href="#" class="hover:text-white transition"><i class="fa-brands fa-whatsapp text-lg"></i></a>
+                    </div>
+                </div>
             </div>
-            <p class="text-slate-400 text-center md:text-right">© تمامی حقوق مادی و معنوی برای موسسه زبان دادمان محفوظ است.</p>
-            <div class="flex space-x-6 space-x-reverse text-slate-400">
-                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-telegram text-xl"></i></a>
-                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram text-xl"></i></a>
-                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-whatsapp text-xl"></i></a>
+            <div class="pt-6 text-center text-slate-500 text-xs">
+                <p>© تمامی حقوق مادی و معنوی برای موسسه زبان دادمان محفوظ است.</p>
             </div>
         </div>
     </footer>
@@ -281,7 +306,6 @@
             const phone = document.getElementById('phoneNumber').value;
             const request = document.getElementById('requestType').value;
             
-            // نمایش اطلاعات در پاپ‌آپ موفقیت
             document.getElementById('modalDesc').innerText = `کاربر گرامی (${name})، درخواست شما برای دوره «${request}» با شماره تماس (${phone}) ثبت شد. مشاوران دادمان به زودی با شما تماس می‌گیرند.`;
             
             const modal = document.getElementById('customModal');
@@ -293,7 +317,6 @@
             const modal = document.getElementById('customModal');
             modal.classList.remove('flex');
             modal.classList.add('hidden');
-            // پاک کردن فرم
             document.querySelector('form').reset();
         }
     </script>

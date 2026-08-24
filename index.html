@@ -3,144 +3,316 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دادمان | طراحی وب و خدمات دیجیتال</title>
-    <!-- بوت‌استرپ ۵ نسخه راست‌چین -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
-    <!-- فونت وزیرمتن برای زیبایی بیشتر -->
-    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css">
+    <title>موسسه زبان دادمان - مرجع تخصصی آموزش زبان</title>
+    <!-- Tailwind CSS برای استایل‌دهی مدرن -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Vazirmatn', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
-        }
-        .hero-section {
-            background: linear-gradient(135deg, #0d6efd, #0dcaf0);
-            color: white;
-            padding: 100px 0;
-            text-align: center;
-        }
-        .section-title {
-            margin-bottom: 40px;
-            font-weight: bold;
-            position: relative;
-        }
-        .card {
-            border: none;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        footer {
-            background-color: #212529;
-            color: white;
-            padding: 30px 0;
-            text-align: center;
         }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
-    <!-- هدر و منوی ناوبری -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#">دادمان (Dadman)</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="#">صفحه اصلی</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#services">خدمات</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">تماس با ما</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- بخش معرفی (Hero) -->
-    <section class="hero-section">
-        <div class="container">
-            <h1 class="display-4 fw-bold mb-3">به وبسایت دادمان خوش آمدید</h1>
-            <p class="lead mb-4">ما ایده‌های شما را به وبسایت‌های مدرن، سریع و حرفه‌ای تبدیل می‌کنیم.</p>
-            <a href="#contact" class="btn btn-light btn-lg fw-bold text-primary px-4">ارتباط با ما</a>
-        </div>
-    </section>
-
-    <!-- بخش خدمات -->
-    <section id="services" class="py-5">
-        <div class="container">
-            <h2 class="text-center section-title">خدمات ما</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card p-4 h-100 text-center">
-                        <div class="card-body">
-                            <h3 class="h5 card-title fw-bold text-primary">طراحی وبسایت</h3>
-                            <p class="card-text text-muted mt-3">طراحی انواع وبسایت‌های شرکتی، شخصی و فروشگاهی با ظاهر مدرن و کاملاً ریسپانسیو.</p>
-                        </div>
-                    </div>
+    <!-- هدر سایت -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="w-12 h-12 bg-indigo-600 text-white rounded-2xl flex items-center justify-center shadow-md shadow-indigo-100">
+                    <i class="fa-solid fa-graduation-cap text-2xl"></i>
                 </div>
-                <div class="col-md-4">
-                    <div class="card p-4 h-100 text-center">
-                        <div class="card-body">
-                            <h3 class="h5 card-title fw-bold text-primary">توسعه فرانت‌اند</h3>
-                            <p class="card-text text-muted mt-3">پیاده‌سازی بهینه و استاندارد کدهای فرانت‌اند با استفاده از HTML، CSS، جاوااسکریپت و بوت‌استرپ.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card p-4 h-100 text-center">
-                        <div class="card-body">
-                            <h3 class="h5 card-title fw-bold text-primary">بهینه‌سازی و سرعت</h3>
-                            <p class="card-text text-muted mt-3">بهبود عملکرد صفحات وب، سئوی داخلی و سازگاری کامل با موبایل و تبلت.</p>
-                        </div>
-                    </div>
+                <div>
+                    <h1 class="font-extrabold text-xl text-slate-900">موسسه زبان دادمان</h1>
+                    <span class="text-xs text-indigo-600 font-medium">آموزش تخصصی زبان‌های خارجی</span>
                 </div>
             </div>
+            <nav class="hidden md:flex items-center space-x-8 space-x-reverse text-sm font-medium text-slate-600">
+                <a href="#" class="hover:text-indigo-600 transition">خانه</a>
+                <a href="#benefits" class="hover:text-indigo-600 transition">مزایای دادمان</a>
+                <a href="#courses" class="hover:text-indigo-600 transition">انواع دوره‌ها و جلسات</a>
+                <a href="#contact-form" class="hover:text-indigo-600 transition">مشاوره رایگان</a>
+            </nav>
+            <div>
+                <a href="#contact-form" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition shadow-md shadow-indigo-200">
+                    ثبت نام سریع
+                </a>
+            </div>
         </div>
-    </section>
+    </header>
 
-    <!-- بخش تماس با ما و فرم ارتباط -->
-    <section id="contact" class="py-5 bg-white">
-        <div class="container">
-            <h2 class="text-center section-title">تماس با ما</h2>
-            <div class="row justify-content-center">
-                <div class="col-md-8 col-lg-6">
-                    <div class="card p-4 shadow-sm">
-                        <form action="https://formspree.io/f/mrpzvwyp" method="POST">
-                            <div class="mb-3">
-                                <label for="name" class="form-label fw-bold">نام و نام خانوادگی:</label>
-                                <input type="text" class="form-control" id="name" name="name" required placeholder="نام خود را وارد کنید">
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="email" class="form-label fw-bold">ایمیل:</label>
-                                <input type="email" class="form-control" id="email" name="email" required placeholder="example@email.com">
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="message" class="form-label fw-bold">متن پیام:</label>
-                                <textarea class="form-control" id="message" name="message" rows="4" required placeholder="پیام خود را بنویسید..."></textarea>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">ارسال پیام</button>
-                        </form>
+    <!-- بخش قهرمان (Hero Section) و فرم اولیه درخواست مشاوره -->
+    <section class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 text-white py-16 lg:py-24 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#e0e7ff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- متن‌های معرفی و تبلیغاتی -->
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-right">
+                <span class="bg-indigo-500/30 text-indigo-200 text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider border border-indigo-400/30">
+                    پشتیبانی تا تسلط کامل بر زبان
+                </span>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+                    آینده تحصیلی و شغلی‌ات را با <span class="text-indigo-400">موسسه دادمان</span> بساز!
+                </h1>
+                <p class="text-indigo-100 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                    با مجرب‌ترین اساتید، متدهای مدرن آموزشی و برنامه‌ریزی اختصاصی، در کوتاه‌ترین زمان ممکن به هدف زبانی خود برسید. از مکالمه روزمره تا آزمون‌های بین‌المللی همراه شما هستیم.
+                </p>
+                <div class="flex flex-wrap justify-center lg:justify-start gap-6 text-sm text-indigo-200 pt-2">
+                    <div class="flex items-center space-x-2 space-x-reverse">
+                        <i class="fa-solid fa-check-circle text-emerald-400 text-lg"></i>
+                        <span>اساتید برتر کشور</span>
+                    </div>
+                    <div class="flex items-center space-x-2 space-x-reverse">
+                        <i class="fa-solid fa-check-circle text-emerald-400 text-lg"></i>
+                        <span>متد مکالمه‌محور</span>
+                    </div>
+                    <div class="flex items-center space-x-2 space-x-reverse">
+                        <i class="fa-solid fa-check-circle text-emerald-400 text-lg"></i>
+                        <span>مشاوره و تعیین سطح رایگان</span>
                     </div>
                 </div>
             </div>
+
+            <!-- فرم ثبت‌نام اولیه در بالای سایت -->
+            <div id="contact-form" class="lg:col-span-5 bg-white text-slate-800 p-6 sm:p-8 rounded-3xl shadow-2xl border border-slate-100">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-slate-900">درخواست مشاوره رایگان</h2>
+                    <p class="text-slate-500 text-sm mt-1">فرم زیر را پر کنید تا کارشناسان ما با شما تماس بگیرند</p>
+                </div>
+                <form id="consultationForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">نام و نام خانوادگی</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+                            <input type="text" id="fullName" name="fullName" required placeholder="مثال: علی رضایی" class="w-full pr-10 pl-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600 focus:bg-white transition">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">شماره تماس</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400">
+                                <i class="fa-solid fa-phone"></i>
+                            </span>
+                            <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="09123456789" class="w-full pr-10 pl-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600 focus:bg-white transition" dir="ltr">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">نوع درخواست یا دوره مورد نظر</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400">
+                                <i class="fa-solid fa-list-check"></i>
+                            </span>
+                            <select id="requestType" name="requestType" class="w-full pr-10 pl-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-600 focus:bg-white transition">
+                                <option value="مکالمه بزرگسالان">دوره‌های مکالمه بزرگسالان</option>
+                                <option value="آیلتس و تافل">آمادگی آزمون آیلتس (IELTS)</option>
+                                <option value="کودکان و نوجوانان">دوره‌های کودکان و نوجوانان</option>
+                                <option value="مشاوره عمومی">مشاوره عمومی و تعیین سطح</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" id="submitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-indigo-100 flex items-center justify-center space-x-2 space-x-reverse">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>ثبت درخواست و ارسال به موسسه</span>
+                    </button>
+                </form>
+            </div>
+
         </div>
     </section>
 
-    <!-- فوتر -->
-    <footer>
-        <div class="container">
-            <p class="mb-0">تمامی حقوق محفوظ است &copy; ۱۴۰۵ - دادمان</p>
+    <!-- بخش مزایای موسسه دادمان -->
+    <section id="benefits" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-indigo-600 font-semibold text-xs tracking-wider uppercase bg-indigo-50 px-3 py-1 rounded-full">چرا دادمان؟</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-3">مزایای رقابتی موسسه زبان دادمان</h2>
+                <p class="text-slate-600 text-sm sm:text-base mt-2">ما با فراهم کردن بهترین امکانات، مسیر یادگیری شما را هموارتر می‌کنیم</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">اساتید برجسته و مجرب</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">بهره‌گیری از اساتید دارای مدرک بین‌المللی تدریس (CELTA/DELTA) با سال‌ها سابقه موفق آموزشی.</p>
+                </div>
+                <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">تمرکز ۱۰۰٪ روی مکالمه</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">سیستم آموزشی ما بر پایه تقویت مهارت‌های شنیداری و گفتاری از جلسه اول طراحی شده است.</p>
+                </div>
+                <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">انعطاف در زمان برگزاری</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">امکان انتخاب جلسات آموزشی در ساعات مختلف صبح، عصر و روزهای آخر هفته متناسب با زمان شما.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- بخش انواع جلسات و توضیحات دوره‌ها -->
+    <section id="courses" class="py-20 bg-slate-100 border-t border-slate-200/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-indigo-600 font-semibold text-xs tracking-wider uppercase bg-indigo-100 px-3 py-1 rounded-full">برنامه‌های آموزشی</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-3">انواع جلسات و دوره‌های آموزشی دادمان</h2>
+                <p class="text-slate-600 text-sm sm:text-base mt-2">دوره‌های تخصصی متناسب با سنین، اهداف و سطوح مختلف زبان‌آموزان</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- دوره اول -->
+                <div class="bg-white rounded-3xl shadow-md overflow-hidden border border-slate-200 flex flex-col">
+                    <div class="bg-indigo-600 p-6 text-white text-center">
+                        <i class="fa-solid fa-users text-4xl mb-3 opacity-90"></i>
+                        <h3 class="text-xl font-bold">جلسات مکالمه بزرگسالان</h3>
+                        <p class="text-indigo-100 text-xs mt-1">تضمین روانی در گفتار</p>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            این جلسات به صورت گروهی تعاملی برگزار می‌شود و تمرکز اصلی روی سناریوهای واقعی زندگی روزمره، سفر و محیط‌های کاری است.
+                        </p>
+                        <ul class="space-y-2 text-xs text-slate-700">
+                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-indigo-600"></i><span>تعداد جلسات: ۱۲ جلسه در ماه</span></li>
+                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-indigo-600"></i><span>ظرفیت محدود کلاس‌ها (حداکثر ۸ نفر)</span></li>
+                        </ul>
+                        <a href="#contact-form" class="block text-center bg-slate-100 hover:bg-indigo-50 text-indigo-600 font-bold py-2.5 rounded-xl text-sm transition">رزرو مشاوره این دوره</a>
+                    </div>
+                </div>
+
+                <!-- دوره دوم -->
+                <div class="bg-white rounded-3xl shadow-md overflow-hidden border border-indigo-200 ring-2 ring-indigo-500/20 flex flex-col">
+                    <div class="bg-slate-900 p-6 text-white text-center relative">
+                        <span class="absolute top-3 left-3 bg-indigo-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full">پرطرفدار</span>
+                        <i class="fa-solid fa-medal text-4xl mb-3 text-indigo-400"></i>
+                        <h3 class="text-xl font-bold">دوره‌های تخصصی آیلتس (IELTS)</h3>
+                        <p class="text-slate-400 text-xs mt-1">ویژه مهاجرت و تحصیل</p>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            جلسات فشرده و تخصصی آیلتس با تحلیل دقیق مهارت‌های چهارگانه (Reading, Writing, Listening, Speaking) و آزمون‌های آزمایشی (Mock).
+                        </p>
+                        <ul class="space-y-2 text-xs text-slate-700">
+                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-indigo-600"></i><span>برنامه‌ریزی و پشتیبانی اختصاصی</span></li>
+                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-indigo-600"></i><span>تضمین نمره هدف با اساتید برند</span></li>
+                        </ul>
+                        <a href="#contact-form" class="block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl text-sm transition shadow-md shadow-indigo-100">رزرو مشاوره این دوره</a>
+                    </div>
+                </div>
+
+                <!-- دوره سوم -->
+                <div class="bg-white rounded-3xl shadow-md overflow-hidden border border-slate-200 flex flex-col">
+                    <div class="bg-indigo-800 p-6 text-white text-center">
+                        <i class="fa-solid fa-child-reaching text-4xl mb-3 opacity-90"></i>
+                        <h3 class="text-xl font-bold">کودکان و نوجوانان (Junior)</h3>
+                        <p class="text-indigo-200 text-xs mt-1">آموزش با بازی و انیمیشن</p>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            سیستم آموزشی نوین مخصوص کودکان که یادگیری زبان انگلیسی را به تجربه‌ای لذت‌بخش، شاد و ماندگار تبدیل می‌کند.
+                        </p>
+                        <ul class="space-y-2 text-xs text-slate-700">
+                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-indigo-600"></i><span>استفاده از پلتفرم‌های تعاملی و بازی</span></li>
+                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-indigo-600"></i><span>تقویت پایه‌ای تلفظ و واژگان</span></li>
+                        </ul>
+                        <a href="#contact-form" class="block text-center bg-slate-100 hover:bg-indigo-50 text-indigo-600 font-bold py-2.5 rounded-xl text-sm transition">رزرو مشاوره این دوره</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- فوتر سایت -->
+    <footer class="bg-slate-900 text-white mt-auto py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-sm">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center font-bold">د</div>
+                <span class="font-bold text-base">موسسه زبان دادمان</span>
+            </div>
+            <p class="text-slate-400 text-center md:text-right">© تمامی حقوق مادی و معنوی برای موسسه زبان دادمان محفوظ است.</p>
+            <div class="flex space-x-6 space-x-reverse text-slate-400">
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-telegram text-xl"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram text-xl"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-whatsapp text-xl"></i></a>
+            </div>
         </div>
     </footer>
 
-    <!-- اسکریپت بوت‌استرپ -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- کادر پیام سفارشی برای ثبت‌نام -->
+    <div id="customModal" class="fixed inset-0 bg-slate-900/60 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-center space-y-4">
+            <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900">درخواست شما با موفقیت ثبت شد!</h3>
+            <p id="modalDesc" class="text-sm text-slate-600 leading-relaxed">
+                کارشناسان موسسه زبان دادمان به زودی برای هماهنگی جلسات و مشاوره با شما تماس خواهند گرفت.
+            </p>
+            <button onclick="closeModal()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition">
+                متوجه شدم
+            </button>
+        </div>
+    </div>
+
+    <!-- کدهای جاوااسکریپت -->
+    <script>
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('fullName').value;
+            const phone = document.getElementById('phoneNumber').value;
+            const request = document.getElementById('requestType').value;
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // غیرفعال کردن موقت دکمه برای جلوگیری از ارسال چندباره
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i><span>در حال ارسال...</span>';
+
+            try {
+                // ارسال اطلاعات به Formspree بدون جابجایی صفحه
+                const response = await fetch('https://formspree.io/f/mrpzvwyp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        fullName: name,
+                        phoneNumber: phone,
+                        requestType: request
+                    })
+                });
+
+                if (response.ok) {
+                    // نمایش اطلاعات در پاپ‌آپ موفقیت خودت
+                    document.getElementById('modalDesc').innerText = `کاربر گرامی (${name})، درخواست شما برای دوره «${request}» با شماره تماس (${phone}) ثبت شد. مشاوران دادمان به زودی با شما تماس می‌گیرند.`;
+                    
+                    const modal = document.getElementById('customModal');
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                } else {
+                    alert('خطا در ارسال فرم. لطفاً دوباره تلاش کنید.');
+                }
+            } catch (error) {
+                alert('خطا در اتصال به اینترنت. لطفاً بررسی کنید.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i><span>ثبت درخواست و ارسال به موسسه</span>';
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('customModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+            // پاک کردن فرم
+            document.getElementById('consultationForm').reset();
+        }
+    </script>
 </body>
 </html>

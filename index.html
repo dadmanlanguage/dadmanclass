@@ -30,7 +30,6 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            /* گرادینت داینامیک بر اساس حالت روشن و تاریک */
             background: linear-gradient(-45deg, #f1f5f9, #e2e8f0, #dcfce7, #f3f4f6);
             background-size: 400% 400%;
             animation: globalGradientBG 15s ease infinite;
@@ -55,7 +54,7 @@
             body::before { animation: none; }
         }
 
-        /* ===================== انیمیشن‌های اسکرول (Scroll Reveal) ===================== */
+        /* ===================== انیمیشن‌های اسکرول (قابل تکرار در هر بار اسکرول) ===================== */
         .reveal {
             opacity: 0;
             transform: translateY(28px);
@@ -464,7 +463,7 @@
         function handleFormSubmit(event) {
             const name = document.getElementById('fullName').value;
             const phone = document.getElementById('phoneNumber').value;
-            const request = document.getElementById('requestType').value;
+            const request = document.getElementById('requestType.value') || document.getElementById('requestType').value;
             
             document.getElementById('modalDesc').innerText = `کاربر گرامی (${name})، درخواست شما برای دوره «${request}» با شماره تماس (${phone}) ثبت شد. مشاوران دادمان به زودی با شما تماس می‌گیرند.`;
             
@@ -480,6 +479,7 @@
             document.querySelector('form').reset();
         }
 
+        // اسکریپت اسکرول با قابلیت تکرار انیمیشن در هر بار بازدید مجدد
         document.addEventListener('DOMContentLoaded', function () {
             const revealElements = document.querySelectorAll('.reveal, .reveal-scale');
 
@@ -488,16 +488,19 @@
                 return;
             }
 
-            const observer = new IntersectionObserver((entries, obs) => {
+            const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
+                        // وقتی المان وارد صفحه میشه، انیمیشن اجرا میشه
                         entry.target.classList.add('reveal-visible');
-                        obs.unobserve(entry.target);
+                    } else {
+                        // وقتی المان از صفحه خارج میشه، کلاس پاک میشه تا دفعه بعدی دوباره انیمیشن اجرا بشه
+                        entry.target.classList.remove('reveal-visible');
                     }
                 });
             }, {
-                threshold: 0.15,
-                rootMargin: '0px 0px -60px 0px'
+                threshold: 0.1,
+                rootMargin: '0px 0px -40px 0px'
             });
 
             revealElements.forEach(el => observer.observe(el));

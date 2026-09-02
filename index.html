@@ -11,11 +11,38 @@
     <style>
         body {
             font-family: 'Vazirmatn', sans-serif;
+            position: relative;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        /* پس‌زمینه گرادینت متحرک زنده (پشت تمام لایه‌ها، بدون ایجاد اختلال در فرم‌ها و محتوا) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(-45deg, #4f46e5, #3b82f6, #06b6d4, #6366f1);
+            background-size: 400% 400%;
+            animation: gradientBG 18s ease infinite;
+            opacity: 0.12;
+            pointer-events: none;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            body::before { animation: none; }
         }
 
         /* ===================== انیمیشن‌های اسکرول (Scroll Reveal) ===================== */
-        /* این بخش فقط برای پس‌زمینه/ظاهر شدن المان‌ها موقع اسکرول اضافه شده و به تم رنگی سایت دست نمی‌زند */
-
         .reveal {
             opacity: 0;
             transform: translateY(28px);
@@ -28,12 +55,10 @@
             transform: translateY(0);
         }
 
-        /* تاخیر پلکانی برای کارت‌ها تا یکی‌یکی وارد شوند */
         .reveal-stagger.reveal-visible {
             transition-delay: var(--reveal-delay, 0ms);
         }
 
-        /* حالت مخصوص بزرگ‌نمایی ملایم برای آیکون‌ها/کارت‌ها */
         .reveal-scale {
             opacity: 0;
             transform: translateY(24px) scale(0.94);
@@ -45,7 +70,6 @@
             transition-delay: var(--reveal-delay, 0ms);
         }
 
-        /* اگر کاربر ترجیح می‌دهد انیمیشن کمتری ببیند */
         @media (prefers-reduced-motion: reduce) {
             .reveal, .reveal-scale, .reveal-stagger {
                 transition: none !important;
@@ -54,7 +78,7 @@
             }
         }
 
-        /* پس‌زمینه متحرک ظریف در بخش Hero (فقط پشت محتوا، بدون تاثیر روی فرم یا متن) */
+        /* پس‌زمینه متحرک ظریف در بخش Hero */
         .hero-animated-bg {
             position: absolute;
             inset: 0;
@@ -114,7 +138,7 @@
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
     <!-- هدر سایت همراه با لوگوی دایره‌ای -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
+    <header class="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3 space-x-reverse">
                 <!-- جایگاه لوگوی دایره‌ای -->
@@ -144,7 +168,7 @@
     <section class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 text-white py-16 lg:py-24 relative overflow-hidden">
         <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#e0e7ff_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
-        <!-- پس‌زمینه متحرک ظریف؛ فقط جلوه بصری، تاثیری روی فرم یا محتوا ندارد -->
+        <!-- پس‌زمینه متحرک ظریف -->
         <div class="hero-animated-bg" aria-hidden="true">
             <div class="hero-blob blob-1"></div>
             <div class="hero-blob blob-2"></div>
@@ -180,7 +204,7 @@
                 </div>
             </div>
 
-            <!-- فرم ثبت‌نام اولیه در بالای سایت (بدون هیچ تغییری) -->
+            <!-- فرم ثبت‌نام اولیه در بالای سایت (بدون هیچ تغییری در ساختار و اکشن Formspree) -->
             <div id="contact-form" class="lg:col-span-5 bg-white text-slate-800 p-6 sm:p-8 rounded-3xl shadow-2xl border border-slate-100">
                 <div class="text-center mb-6">
                     <h2 class="text-2xl font-bold text-slate-900">درخواست مشاوره رایگان</h2>
@@ -243,7 +267,7 @@
     </section>
 
     <!-- بخش مزایای موسسه دادمان -->
-    <section id="benefits" class="py-20 bg-white">
+    <section id="benefits" class="py-20 bg-white/80 backdrop-blur-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-16 reveal">
                 <span class="text-indigo-600 font-semibold text-xs tracking-wider uppercase bg-indigo-50 px-3 py-1 rounded-full">چرا دادمان؟</span>
@@ -251,21 +275,21 @@
                 <p class="text-slate-600 text-sm sm:text-base mt-2">ما با فراهم کردن بهترین امکانات، مسیر یادگیری شما را هموارتر می‌کنیم</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300 reveal reveal-stagger" style="--reveal-delay:0ms;">
+                <div class="p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 reveal reveal-stagger" style="--reveal-delay:0ms;">
                     <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
                         <i class="fa-solid fa-chalkboard-user"></i>
                     </div>
                     <h3 class="text-xl font-bold text-slate-900 mb-3">اساتید برجسته و مجرب</h3>
                     <p class="text-slate-600 text-sm leading-relaxed">بهره‌گیری از اساتید دارای مدرک بین‌المللی تدریس (CELTA/DELTA) با سال‌ها سابقه موفق آموزشی.</p>
                 </div>
-                <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300 reveal reveal-stagger" style="--reveal-delay:120ms;">
+                <div class="p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 reveal reveal-stagger" style="--reveal-delay:120ms;">
                     <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
                         <i class="fa-solid fa-comments"></i>
                     </div>
                     <h3 class="text-xl font-bold text-slate-900 mb-3">تمرکز ۱۰۰٪ روی مکالمه</h3>
                     <p class="text-slate-600 text-sm leading-relaxed">سیستم آموزشی ما بر پایه تقویت مهارت‌های شنیداری و گفتاری از جلسه اول طراحی شده است.</p>
                 </div>
-                <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300 reveal reveal-stagger" style="--reveal-delay:240ms;">
+                <div class="p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 reveal reveal-stagger" style="--reveal-delay:240ms;">
                     <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
                         <i class="fa-solid fa-clock-rotate-left"></i>
                     </div>
@@ -277,7 +301,7 @@
     </section>
 
     <!-- بخش انواع جلسات و توضیحات دوره‌ها -->
-    <section id="courses" class="py-20 bg-slate-100 border-t border-slate-200/60">
+    <section id="courses" class="py-20 bg-slate-100/70 backdrop-blur-sm border-t border-slate-200/60">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-16 reveal">
                 <span class="text-indigo-600 font-semibold text-xs tracking-wider uppercase bg-indigo-100 px-3 py-1 rounded-full">برنامه‌های آموزشی</span>
@@ -429,13 +453,10 @@
         }
 
         // ===================== انیمیشن اسکرول (Intersection Observer) =====================
-        // این اسکریپت فقط المان‌های دارای کلاس reveal / reveal-scale را موقع ورود به دید، آشکار می‌کند.
-        // هیچ تغییری در منطق فرم یا رفتار آن ایجاد نمی‌کند.
         document.addEventListener('DOMContentLoaded', function () {
             const revealElements = document.querySelectorAll('.reveal, .reveal-scale');
 
             if (!('IntersectionObserver' in window)) {
-                // مرورگرهای خیلی قدیمی: مستقیم نمایش بده
                 revealElements.forEach(el => el.classList.add('reveal-visible'));
                 return;
             }

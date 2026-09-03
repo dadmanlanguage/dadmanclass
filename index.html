@@ -30,6 +30,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
+            /* گرادینت داینامیک بر اساس حالت روشن و تاریک */
             background: linear-gradient(-45deg, #f1f5f9, #e2e8f0, #dcfce7, #f3f4f6);
             background-size: 400% 400%;
             animation: globalGradientBG 15s ease infinite;
@@ -54,7 +55,7 @@
             body::before { animation: none; }
         }
 
-        /* ===================== انیمیشن‌های اسکرول (قابل تکرار در هر بار اسکرول) ===================== */
+        /* ===================== انیمیشن‌های اسکرول (Scroll Reveal) ===================== */
         .reveal {
             opacity: 0;
             transform: translateY(28px);
@@ -134,6 +135,23 @@
 
         @media (prefers-reduced-motion: reduce) {
             .hero-blob { animation: none; }
+        }
+
+        /* اسپینر لودینگ دکمه ارسال */
+        .btn-spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(255,255,255,0.4);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        .btn-loading .btn-spinner { display: inline-block; }
+        .btn-loading .btn-text-default,
+        .btn-loading .btn-icon-default { display: none; }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -216,9 +234,13 @@
                     <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">فرم زیر را پر کنید تا کارشناسان ما با شما تماس بگیرند</p>
                 </div>
 
-                <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+                <!-- پیام خطا (پیش‌فرض مخفی) -->
+                <div id="formErrorBox" class="hidden mb-4 p-3 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-xs leading-relaxed flex items-start space-x-2 space-x-reverse">
+                    <i class="fa-solid fa-triangle-exclamation mt-0.5"></i>
+                    <span id="formErrorText">مشکلی در ارسال فرم پیش آمد. لطفاً دوباره تلاش کنید یا از طریق تماس تلفنی با ما در ارتباط باشید.</span>
+                </div>
 
-                <form action="https://formspree.io/f/mrpzvwyp" method="POST" target="hidden_iframe" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <form id="mainContactForm" action="https://formspree.io/f/mrpzvwyp" method="POST" class="space-y-4">
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">نام و نام خانوادگی</label>
                         <div class="relative">
@@ -260,9 +282,10 @@
                             <textarea id="userMessage" name="userMessage" rows="3" required placeholder="(این فیلد اجباری است) لطفاً توضیحات خود را بنویسید..." class="w-full pr-10 pl-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-700 transition resize-none"></textarea>
                         </div>
                     </div>
-                    <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl transition shadow-lg flex items-center justify-center space-x-2 space-x-reverse">
-                        <i class="fa-solid fa-paper-plane"></i>
-                        <span>ثبت درخواست و ارسال به موسسه</span>
+                    <button type="submit" id="submitBtn" class="w-full bg-emerald-700 hover:bg-emerald-800 disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl transition shadow-lg flex items-center justify-center space-x-2 space-x-reverse">
+                        <span class="btn-spinner"></span>
+                        <i class="fa-solid fa-paper-plane btn-icon-default"></i>
+                        <span class="btn-text-default">ثبت درخواست و ارسال به موسسه</span>
                     </button>
                 </form>
             </div>
@@ -460,26 +483,67 @@
 
         initTheme();
 
-        function handleFormSubmit(event) {
+        const mainForm = document.getElementById('mainContactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const errorBox = document.getElementById('formErrorBox');
+        const errorText = document.getElementById('formErrorText');
+
+        mainForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            errorBox.classList.add('hidden');
+            submitBtn.disabled = true;
+            submitBtn.classList.add('btn-loading');
+
             const name = document.getElementById('fullName').value;
             const phone = document.getElementById('phoneNumber').value;
-            const request = document.getElementById('requestType.value') || document.getElementById('requestType').value;
-            
-            document.getElementById('modalDesc').innerText = `کاربر گرامی (${name})، درخواست شما برای دوره «${request}» با شماره تماس (${phone}) ثبت شد. مشاوران دادمان به زودی با شما تماس می‌گیرند.`;
-            
-            const modal = document.getElementById('customModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
+            const request = document.getElementById('requestType').value;
+
+            const formData = new FormData(mainForm);
+
+            fetch(mainForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(async (response) => {
+                if (response.ok) {
+                    // ارسال موفق بود
+                    document.getElementById('modalDesc').innerText = `کاربر گرامی (${name})، درخواست شما برای دوره «${request}» با شماره تماس (${phone}) ثبت شد. مشاوران دادمان به زودی با شما تماس می‌گیرند.`;
+                    const modal = document.getElementById('customModal');
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                    mainForm.reset();
+                } else {
+                    // سرور خطا برگردانده (مثلاً فرم غیرفعال، پر شدن سهمیه، و غیره)
+                    let message = 'مشکلی در ارسال فرم پیش آمد. لطفاً کمی بعد دوباره تلاش کنید یا با شماره ۰۲۱-۳۳۴۷۹۰۵۴ تماس بگیرید.';
+                    try {
+                        const data = await response.json();
+                        if (data && data.errors && data.errors.length) {
+                            message = data.errors.map(e => e.message).join(' | ');
+                        }
+                    } catch (e) { /* پاسخ JSON نبود، از پیام پیش‌فرض استفاده می‌شود */ }
+                    errorText.innerText = message;
+                    errorBox.classList.remove('hidden');
+                }
+            })
+            .catch(function () {
+                // خطای شبکه یا عدم دسترسی به سرور Formspree
+                errorText.innerText = 'ارتباط با سرور برقرار نشد. اتصال اینترنت خود را بررسی کرده و دوباره تلاش کنید.';
+                errorBox.classList.remove('hidden');
+            })
+            .finally(function () {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('btn-loading');
+            });
+        });
 
         function closeModal() {
             const modal = document.getElementById('customModal');
             modal.classList.remove('flex');
             modal.classList.add('hidden');
-            document.querySelector('form').reset();
         }
 
-        // اسکریپت اسکرول با قابلیت تکرار انیمیشن در هر بار بازدید مجدد
         document.addEventListener('DOMContentLoaded', function () {
             const revealElements = document.querySelectorAll('.reveal, .reveal-scale');
 
@@ -488,19 +552,16 @@
                 return;
             }
 
-            const observer = new IntersectionObserver((entries) => {
+            const observer = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // وقتی المان وارد صفحه میشه، انیمیشن اجرا میشه
                         entry.target.classList.add('reveal-visible');
-                    } else {
-                        // وقتی المان از صفحه خارج میشه، کلاس پاک میشه تا دفعه بعدی دوباره انیمیشن اجرا بشه
-                        entry.target.classList.remove('reveal-visible');
+                        obs.unobserve(entry.target);
                     }
                 });
             }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -40px 0px'
+                threshold: 0.15,
+                rootMargin: '0px 0px -60px 0px'
             });
 
             revealElements.forEach(el => observer.observe(el));

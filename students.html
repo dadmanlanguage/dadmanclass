@@ -8,7 +8,6 @@
         :root {
             --excel-green: #107c41;
             --excel-dark: #0f5229;
-            --excel-light: #f3f9f5;
             --status-top: #107c41;
             --status-good: #2b579a;
             --status-retest: #d83b01;
@@ -18,7 +17,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, IRANSans, sans-serif;
             background-color: var(--bg-gray);
             margin: 0;
             padding: 20px;
@@ -30,7 +29,6 @@
             margin: 0 auto;
         }
 
-        /* هدر اصلی ایندکس (Index Header) */
         .index-header {
             background: linear-gradient(135deg, #0f5229, #107c41);
             color: white;
@@ -57,9 +55,6 @@
             margin: 0;
             font-size: 24px;
             font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
         .index-date {
@@ -67,25 +62,8 @@
             padding: 5px 15px;
             border-radius: 20px;
             font-size: 14px;
-            font-weight: 500;
         }
 
-        .index-levels-badge {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .level-pill {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-        }
-
-        /* کادر کنترل و سرچ */
         .controls-bar {
             background: white;
             padding: 15px 20px;
@@ -99,31 +77,48 @@
             gap: 15px;
         }
 
-        .search-box {
+        /* فرم سرچ واقعی همراه با دکمه */
+        .search-form {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             background: #f3f2f1;
-            padding: 8px 15px;
+            padding: 4px 6px 4px 12px;
             border-radius: 20px;
             border: 1px solid var(--border-color);
             width: 100%;
-            max-width: 380px;
+            max-width: 420px;
         }
 
-        .search-box input {
+        .search-form input {
             border: none;
             background: transparent;
             outline: none;
-            padding: 2px;
+            padding: 6px;
             width: 100%;
             font-family: inherit;
             font-size: 14px;
         }
 
+        .search-btn {
+            background: var(--excel-green);
+            color: white;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 13px;
+            transition: background 0.2s;
+        }
+
+        .search-btn:hover {
+            background: var(--excel-dark);
+        }
+
         .legend {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
             font-size: 13px;
         }
@@ -155,14 +150,6 @@
             align-items: center;
         }
 
-        .section-count {
-            font-size: 12px;
-            background: #e1dfdd;
-            padding: 2px 8px;
-            border-radius: 10px;
-            color: #323130;
-        }
-
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -173,18 +160,11 @@
             background: white;
             border-radius: 8px;
             border: 1px solid var(--border-color);
-            overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 12px;
             position: relative;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .card.hidden {
@@ -215,10 +195,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            border: 2px solid #f3f2f1;
-            color: #a19f9d;
+            margin: 10px 0;
         }
 
         .avatar svg {
@@ -235,7 +212,6 @@
             height: 36px;
             display: flex;
             align-items: center;
-            justify-content: center;
         }
 
         .score-tag {
@@ -247,7 +223,6 @@
             font-weight: bold;
         }
 
-        /* وضعیت‌ها */
         .status-top { background-color: #e6f4ea; color: var(--status-top); }
         .status-good { background-color: #e8f0fe; color: var(--status-good); }
         .status-retest { background-color: #fce8e6; color: var(--status-retest); }
@@ -255,7 +230,7 @@
 
         .no-results {
             text-align: center;
-            padding: 40px;
+            padding: 30px;
             background: white;
             border-radius: 8px;
             display: none;
@@ -267,43 +242,30 @@
 <body>
 
 <div class="container">
-    <!-- هدر اصلی ایندکس -->
     <header class="index-header">
         <div class="index-header-top">
             <h1 class="index-title">📋 کارنامه و نتایج آزمون جامع DTS</h1>
             <span class="index-date">📅 تیر ۱۴۰۵</span>
         </div>
-        <div class="index-levels-badge">
-            <span style="font-size: 13px; opacity: 0.9;">سطوح برگزاری:</span>
-            <span class="level-pill">Hip4 - Fam4</span>
-            <span class="level-pill">Hip2 - Fam2</span>
-            <span class="level-pill">First Friends</span>
-            <span class="level-pill">Hip1 - Family 1</span>
-            <span class="level-pill">Interchange 1</span>
-            <span class="level-pill">Interchange 2</span>
-        </div>
     </header>
 
-    <!-- نوار جستجو و راهنما -->
     <div class="controls-bar">
-        <div class="search-box">
-            <span>🔍</span>
-            <input type="text" id="searchInput" placeholder="جستجوی سریع نام زبان‌آموز..." onkeyup="filterStudents()">
-        </div>
+        <!-- فرم واقعی سرچ -->
+        <form class="search-form" onsubmit="executeSearch(event)">
+            <input type="text" id="searchInput" placeholder="نام، شماره ردیف یا سطح را بنویسید..." oninput="executeSearch(event)">
+            <button type="submit" class="search-btn">جستجو</button>
+        </form>
 
         <div class="legend">
             <div class="legend-item"><div class="legend-color" style="background: var(--status-top)"></div> ممتاز (۹۰+)</div>
-            <div class="legend-item"><div class="legend-color" style="background: var(--status-good)"></div> قبول (۸۰ تا ۸۹)</div>
-            <div class="legend-item"><div class="legend-color" style="background: var(--status-retest)"></div> آزمون مجدد (۷۰ تا ۷۹)</div>
+            <div class="legend-item"><div class="legend-color" style="background: var(--status-good)"></div> قبول (۸۰-۸۹)</div>
+            <div class="legend-item"><div class="legend-color" style="background: var(--status-retest)"></div> آزمون مجدد (۷۰-۷۹)</div>
             <div class="legend-item"><div class="legend-color" style="background: var(--status-fail)"></div> غیر قابل قبول (زیر ۷۰)</div>
         </div>
     </div>
 
-    <div id="noResults" class="no-results">هیچ زبان‌آموزی با این نام یافت نشد.</div>
-
-    <div id="studentContainer">
-        <!-- کارت‌های تمام ۶ سطح در اینجا رندر می‌شوند -->
-    </div>
+    <div id="noResults" class="no-results">نتیجه‌ای یافت نشد.</div>
+    <div id="studentContainer"></div>
 </div>
 
 <script>
@@ -447,6 +409,15 @@ const studentsData = [
 
 const svgAvatar = `<svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
 
+// استانداردسازی متن فارسی جهت تطابق کیبورد عربی/فارسی
+function normalizeText(text) {
+    return text.toString().toLowerCase()
+        .replace(/ي/g, "ی")
+        .replace(/ك/g, "ک")
+        .replace(/‌/g, " ")
+        .trim();
+}
+
 function getStatusClass(score) {
     if (score < 70) return 'status-fail';
     if (score >= 90) return 'status-top';
@@ -467,41 +438,42 @@ function renderCards() {
     studentsData.forEach(sec => {
         const secEl = document.createElement('div');
         secEl.className = 'section-block';
+        secEl.setAttribute('data-section', normalizeText(sec.section));
         secEl.innerHTML = `
             <div class="section-title">
                 <span>سطح: ${sec.section}</span>
                 <span class="section-count">${sec.list.length} نفر</span>
             </div>
             <div class="grid">
-                ${sec.list.map(s => {
-                    const statusClass = getStatusClass(s.score);
-                    const statusText = getStatusText(s.score, s.retest);
-                    return `
-                        <div class="card" data-name="${s.name}">
-                            <div class="rank">${s.id}</div>
-                            <div class="avatar">${svgAvatar}</div>
-                            <div class="name">${s.name}</div>
-                            <div class="score-tag ${statusClass}">${statusText}</div>
-                        </div>
-                    `;
-                }).join('')}
+                ${sec.list.map(s => `
+                    <div class="card" data-name="${normalizeText(s.name)}" data-id="${s.id}">
+                        <div class="rank">${s.id}</div>
+                        <div class="avatar">${svgAvatar}</div>
+                        <div class="name">${s.name}</div>
+                        <div class="score-tag ${getStatusClass(s.score)}">${getStatusText(s.score, s.retest)}</div>
+                    </div>
+                `).join('')}
             </div>
         `;
         container.appendChild(secEl);
     });
 }
 
-function filterStudents() {
-    const query = document.getElementById('searchInput').value.trim().toLowerCase();
+// تابع اصلی جستجو
+function executeSearch(e) {
+    if (e) e.preventDefault();
+    const query = normalizeText(document.getElementById('searchInput').value);
     const cards = document.querySelectorAll('.card');
     const sections = document.querySelectorAll('.section-block');
-    let hasResult = false;
+    let totalFound = 0;
 
     cards.forEach(card => {
-        const name = card.getAttribute('data-name').toLowerCase();
-        if (name.includes(query)) {
+        const name = card.getAttribute('data-name');
+        const id = card.getAttribute('data-id');
+        
+        if (name.includes(query) || id === query) {
             card.classList.remove('hidden');
-            hasResult = true;
+            totalFound++;
         } else {
             card.classList.add('hidden');
         }
@@ -512,7 +484,7 @@ function filterStudents() {
         sec.style.display = visibleCards.length === 0 ? 'none' : 'block';
     });
 
-    document.getElementById('noResults').style.display = hasResult ? 'none' : 'block';
+    document.getElementById('noResults').style.display = totalFound === 0 ? 'block' : 'none';
 }
 
 renderCards();

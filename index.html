@@ -780,11 +780,12 @@
                 return;
             }
 
-            const observer = new IntersectionObserver((entries, obs) => {
+            const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('reveal-visible');
-                        obs.unobserve(entry.target);
+                    } else {
+                        entry.target.classList.remove('reveal-visible');
                     }
                 });
             }, {

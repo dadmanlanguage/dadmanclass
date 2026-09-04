@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>موسسه زبان دادمان - مرجع تخصصی آموزش زبان</title>
-    <!-- Tailwind CSS برای استایل‌دهی مدرن -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -289,7 +288,6 @@
 </head>
 <body class="bg-transparent text-slate-700 dark:text-slate-100 flex flex-col min-h-screen transition-colors duration-300">
 
-    <!-- نوار اطلاعات تماس (بالاترین بخش سایت) -->
     <div class="bg-emerald-900 dark:bg-slate-950 text-emerald-50 dark:text-emerald-300 text-xs transition-colors duration-300 border-b border-emerald-950/40 dark:border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-row flex-wrap items-center justify-center sm:justify-between gap-x-4 gap-y-1">
             <div class="flex items-center gap-2">
@@ -303,10 +301,8 @@
         </div>
     </div>
 
-    <!-- نوار منوی ثانویه -->
     <div class="bg-white/95 dark:bg-slate-900/95 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-center sm:justify-start gap-x-6 gap-y-1 flex-wrap">
-            <!-- لینک به فایل students.html جایگزین دکمه قبلی گردید -->
             <a href="students.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
                 <i class="fa-solid fa-graduation-cap"></i>
                 <span>دانش‌آموزان DTS</span>
@@ -319,10 +315,13 @@
                 <i class="fa-solid fa-book"></i>
                 <span>کتاب‌هایی که ما تدریس می‌کنیم</span>
             </a>
+            <a href="new-page.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
+                <i class="fa-solid fa-file-lines"></i>
+                <span>عنوان صفحه جدید</span>
+            </a>
         </div>
     </div>
 
-    <!-- هدر سایت همراه با لوگوی دایره‌ای و دکمه تم -->
     <header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-sm sticky top-0 z-50 transition-colors duration-300 border-b border-slate-200 dark:border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3 space-x-reverse">
@@ -338,13 +337,13 @@
             <nav class="hidden md:flex items-center space-x-8 space-x-reverse text-sm font-medium text-slate-600 dark:text-slate-300">
                 <a href="#" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">خانه</a>
                 <a href="students.html" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">دانش‌آموزان DTS</a>
+                <a href="new-page.html" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">صفحه جدید</a>
                 <a href="#benefits" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">مزایای دادمان</a>
                 <a href="#courses" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">انواع دوره‌ها و جلسات</a>
                 <a href="#contact-form" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">مشاوره رایگان</a>
             </nav>
 
             <div class="flex items-center space-x-3 space-x-reverse">
-                <!-- دکمه تغییر حالت روشن/تاریک -->
                 <button onclick="toggleTheme()" aria-label="تغییر تم" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
                     <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
                 </button>
@@ -356,7 +355,6 @@
         </div>
     </header>
 
-    <!-- بخش قهرمان (Hero Section) با تم سبز لجنی و تیره -->
     <section class="bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-950 text-white py-16 lg:py-24 relative overflow-hidden transition-colors duration-300">
         <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#4ade80_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
@@ -393,14 +391,12 @@
                 </div>
             </div>
 
-            <!-- فرم ثبت‌نام اولیه -->
             <div id="contact-form" class="lg:col-span-5 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 p-6 sm:p-8 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 transition-colors duration-300">
                 <div class="text-center mb-6">
                     <h2 class="text-2xl font-bold text-slate-900 dark:text-white">درخواست مشاوره رایگان</h2>
                     <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">فرم زیر را پر کنید تا کارشناسان ما با شما تماس بگیرند</p>
                 </div>
 
-                <!-- پیام خطا (پیش‌فرض مخفی) -->
                 <div id="formErrorBox" class="hidden mb-4 p-3 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-xs leading-relaxed flex items-start space-x-2 space-x-reverse">
                     <i class="fa-solid fa-triangle-exclamation mt-0.5"></i>
                     <span id="formErrorText">مشکلی در ارسال فرم پیش آمد. لطفاً دوباره تلاش کنید یا از طریق تماس تلفنی با ما در ارتباط باشید.</span>
@@ -459,7 +455,6 @@
         </div>
     </section>
 
-    <!-- بخش مزایای موسسه دادمان -->
     <section id="benefits" class="py-20 bg-white/70 dark:bg-slate-900/70 backdrop-blur-sm transition-colors duration-300 border-b border-slate-200 dark:border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-16 reveal">
@@ -493,7 +488,6 @@
         </div>
     </section>
 
-    <!-- بخش انواع جلسات و دوره‌ها -->
     <section id="courses" class="py-20 bg-slate-100/70 dark:bg-slate-950/70 backdrop-blur-sm transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-16 reveal">
@@ -503,7 +497,6 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- دوره اول -->
                 <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-md overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col reveal-scale reveal-stagger" style="--reveal-delay:0ms;">
                     <div class="bg-emerald-800 p-6 text-white text-center">
                         <i class="fa-solid fa-users text-4xl mb-3 opacity-90"></i>
@@ -522,7 +515,6 @@
                     </div>
                 </div>
 
-                <!-- دوره دوم (ویژه) -->
                 <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-md overflow-hidden border border-emerald-500/50 ring-2 ring-emerald-600/20 flex flex-col reveal-scale reveal-stagger" style="--reveal-delay:150ms;">
                     <div class="bg-slate-900 dark:bg-slate-950 p-6 text-white text-center relative border-b border-slate-800">
                         <span class="absolute top-3 left-3 bg-emerald-700 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full">پرطرفدار</span>
@@ -542,7 +534,6 @@
                     </div>
                 </div>
 
-                <!-- دوره سوم -->
                 <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-md overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col reveal-scale reveal-stagger" style="--reveal-delay:300ms;">
                     <div class="bg-emerald-950 p-6 text-white text-center">
                         <i class="fa-solid fa-child-reaching text-4xl mb-3 text-emerald-400"></i>
@@ -564,7 +555,6 @@
         </div>
     </section>
 
-    <!-- فوتر سایت -->
     <footer class="bg-slate-950 text-white mt-auto py-12 border-t border-slate-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-10 border-b border-slate-800">
@@ -605,7 +595,6 @@
         </div>
     </footer>
 
-    <!-- دکمه شناور ارتباط سریع -->
     <div class="float-actions" aria-label="ارتباط سریع">
         <button type="button" onclick="showComingSoon(event, 'روبیکا'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:3; background: linear-gradient(145deg, #9333ea, #581c87);">
             <span class="float-tooltip">روبیکا</span>
@@ -625,7 +614,6 @@
         </button>
     </div>
 
-    <!-- کادر پیام سفارشی -->
     <div id="customModal" class="fixed inset-0 bg-slate-950/60 hidden items-center justify-center z-50 p-4">
         <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-center space-y-4 transition-colors">
             <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto text-2xl">
@@ -641,7 +629,6 @@
         </div>
     </div>
 
-    <!-- کادر پیام "به زودی" -->
     <div id="comingSoonModal" class="fixed inset-0 bg-slate-950/60 hidden items-center justify-center z-50 p-4">
         <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-center space-y-4 transition-colors">
             <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto text-2xl">
@@ -657,7 +644,6 @@
         </div>
     </div>
 
-    <!-- کدهای جاوااسکریپت -->
     <script>
         const themeIcon = document.getElementById('themeIcon');
 

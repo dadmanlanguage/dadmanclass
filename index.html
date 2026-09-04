@@ -303,13 +303,14 @@
         </div>
     </div>
 
-    <!-- نوار منوی ثانویه (مشابه بخش درباره ما / محصولات در سایر سایت‌ها) -->
+    <!-- نوار منوی ثانویه -->
     <div class="bg-white/95 dark:bg-slate-900/95 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-center sm:justify-start gap-x-6 gap-y-1 flex-wrap">
-            <button onclick="showComingSoon(event, 'دانش‌آموزان DTS')" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
+            <!-- لینک به فایل students.html جایگزین دکمه قبلی گردید -->
+            <a href="students.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
                 <i class="fa-solid fa-graduation-cap"></i>
                 <span>دانش‌آموزان DTS</span>
-            </button>
+            </a>
             <a href="teaching-method.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
                 <i class="fa-solid fa-chalkboard"></i>
                 <span>نحوه‌ی تدریس</span>
@@ -336,6 +337,7 @@
             
             <nav class="hidden md:flex items-center space-x-8 space-x-reverse text-sm font-medium text-slate-600 dark:text-slate-300">
                 <a href="#" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">خانه</a>
+                <a href="students.html" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">دانش‌آموزان DTS</a>
                 <a href="#benefits" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">مزایای دادمان</a>
                 <a href="#courses" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">انواع دوره‌ها و جلسات</a>
                 <a href="#contact-form" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">مشاوره رایگان</a>
@@ -603,8 +605,7 @@
         </div>
     </footer>
 
-    <!-- دکمه شناور ارتباط سریع (مطابق تم سبز سایت، با برق ملیح هر ۱ ثانیه) -->
-    <!-- با هاور یا لمس، سه گزینه روبیکا، ایتا و بله باز می‌شوند -->
+    <!-- دکمه شناور ارتباط سریع -->
     <div class="float-actions" aria-label="ارتباط سریع">
         <button type="button" onclick="showComingSoon(event, 'روبیکا'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:3; background: linear-gradient(145deg, #9333ea, #581c87);">
             <span class="float-tooltip">روبیکا</span>
@@ -640,13 +641,13 @@
         </div>
     </div>
 
-    <!-- کادر پیام "به زودی" برای بخش دانش‌آموزان DTS -->
+    <!-- کادر پیام "به زودی" -->
     <div id="comingSoonModal" class="fixed inset-0 bg-slate-950/60 hidden items-center justify-center z-50 p-4">
         <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-center space-y-4 transition-colors">
             <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto text-2xl">
                 <i class="fa-solid fa-hourglass-half"></i>
             </div>
-            <h3 id="comingSoonTitle" class="text-xl font-bold text-slate-900 dark:text-white">دانش‌آموزان DTS</h3>
+            <h3 id="comingSoonTitle" class="text-xl font-bold text-slate-900 dark:text-white">این بخش</h3>
             <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                 به زودی فعال خواهد شد.
             </p>
@@ -709,27 +710,24 @@
             })
             .then(async (response) => {
                 if (response.ok) {
-                    // ارسال موفق بود
                     document.getElementById('modalDesc').innerText = `کاربر گرامی (${name})، درخواست شما برای دوره «${request}» با شماره تماس (${phone}) ثبت شد. مشاوران دادمان به زودی با شما تماس می‌گیرند.`;
                     const modal = document.getElementById('customModal');
                     modal.classList.remove('hidden');
                     modal.classList.add('flex');
                     mainForm.reset();
                 } else {
-                    // سرور خطا برگردانده (مثلاً فرم غیرفعال، پر شدن سهمیه، و غیره)
                     let message = 'مشکلی در ارسال فرم پیش آمد. لطفاً کمی بعد دوباره تلاش کنید یا با شماره ۰۲۱-۳۳۴۷۹۰۵۴ تماس بگیرید.';
                     try {
                         const data = await response.json();
                         if (data && data.errors && data.errors.length) {
                             message = data.errors.map(e => e.message).join(' | ');
                         }
-                    } catch (e) { /* پاسخ JSON نبود، از پیام پیش‌فرض استفاده می‌شود */ }
+                    } catch (e) { }
                     errorText.innerText = message;
                     errorBox.classList.remove('hidden');
                 }
             })
             .catch(function () {
-                // خطای شبکه یا عدم دسترسی به سرور Formspree
                 errorText.innerText = 'ارتباط با سرور برقرار نشد. اتصال اینترنت خود را بررسی کرده و دوباره تلاش کنید.';
                 errorBox.classList.remove('hidden');
             })

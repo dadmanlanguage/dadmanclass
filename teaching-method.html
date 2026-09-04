@@ -53,16 +53,15 @@
             bottom: 1.5rem;
             left: 1.25rem;
             z-index: 40;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.75rem;
+            width: 52px;
+            height: 52px;
         }
 
         .float-btn {
             position: relative;
             width: 52px;
             height: 52px;
+            box-sizing: border-box;
             border-radius: 9999px;
             display: flex;
             align-items: center;
@@ -76,6 +75,44 @@
             text-decoration: none;
             border: none;
             cursor: pointer;
+        }
+
+        .float-main {
+            position: relative;
+            z-index: 5;
+        }
+
+        /* دکمه‌های فرعی: روبیکا، ایتا، بله */
+        .float-sub {
+            position: absolute;
+            left: 4px;
+            bottom: 0;
+            width: 44px;
+            height: 44px;
+            font-size: 1rem;
+            font-weight: 800;
+            z-index: 4;
+            opacity: 0;
+            transform: translateY(0) scale(0.45);
+            pointer-events: none;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+        }
+
+        .float-actions.float-open .float-sub {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(calc(var(--i) * -60px)) scale(1);
+            transition-delay: calc((var(--i) - 1) * 0.06s);
+        }
+
+        /* هاور فقط روی دستگاه‌هایی با ماوس واقعی فعال شود؛ در موبایل فقط با لمس دکمه اصلی باز/بسته می‌شود */
+        @media (hover: hover) and (pointer: fine) {
+            .float-actions:hover .float-sub {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateY(calc(var(--i) * -60px)) scale(1);
+                transition-delay: calc((var(--i) - 1) * 0.06s);
+            }
         }
 
         .dark .float-btn {
@@ -132,6 +169,10 @@
 
         @media (prefers-reduced-motion: reduce) {
             .float-btn::after { animation: none; }
+        }
+
+        .float-sub .float-tooltip {
+            font-size: 0.65rem;
         }
     </style>
 </head>
@@ -337,8 +378,21 @@
     </footer>
 
     <!-- دکمه شناور ارتباط سریع (مطابق تم سبز سایت، با برق ملیح هر ۱ ثانیه) -->
+    <!-- با هاور یا لمس، سه گزینه روبیکا، ایتا و بله باز می‌شوند -->
     <div class="float-actions" aria-label="ارتباط سریع">
-        <button type="button" onclick="showComingSoon(event, 'ارتباط سریع')" class="float-btn">
+        <button type="button" onclick="showComingSoon(event, 'روبیکا'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:3; background: linear-gradient(145deg, #9333ea, #581c87);">
+            <span class="float-tooltip">روبیکا</span>
+            <span>ر</span>
+        </button>
+        <button type="button" onclick="showComingSoon(event, 'ایتا'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:2; background: #ffffff; padding: 8px;">
+            <span class="float-tooltip">ایتا</span>
+            <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/eitaa.svg" alt="ایتا" class="w-full h-full object-contain">
+        </button>
+        <button type="button" onclick="showComingSoon(event, 'بله'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:1; background: #ffffff; padding: 8px;">
+            <span class="float-tooltip">بله</span>
+            <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/bale.svg" alt="بله" class="w-full h-full object-contain">
+        </button>
+        <button type="button" onclick="toggleFloatMenu(event)" class="float-btn float-main">
             <span class="float-tooltip">ارتباط سریع</span>
             <i class="fa-solid fa-comment-dots"></i>
         </button>
@@ -401,6 +455,18 @@
             modal.classList.remove('flex');
             modal.classList.add('hidden');
         }
+
+        function toggleFloatMenu(event) {
+            if (event) event.stopPropagation();
+            document.querySelector('.float-actions').classList.toggle('float-open');
+        }
+
+        document.addEventListener('click', function (event) {
+            const floatActions = document.querySelector('.float-actions');
+            if (floatActions && !floatActions.contains(event.target)) {
+                floatActions.classList.remove('float-open');
+            }
+        });
     </script>
 </body>
 </html>

@@ -30,13 +30,68 @@
             margin: 0 auto;
         }
 
-        header {
-            background-color: white;
-            padding: 20px 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        /* هدر اصلی ایندکس (Index Header) */
+        .index-header {
+            background: linear-gradient(135deg, #0f5229, #107c41);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
             margin-bottom: 25px;
-            border-top: 5px solid var(--excel-green);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .index-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 15px;
+        }
+
+        .index-title {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .index-date {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .index-levels-badge {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .level-pill {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        /* کادر کنترل و سرچ */
+        .controls-bar {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -44,33 +99,23 @@
             gap: 15px;
         }
 
-        h1 {
-            margin: 0;
-            color: #252423;
-            font-size: 22px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* بخش جستجو */
         .search-box {
             display: flex;
             align-items: center;
             gap: 10px;
             background: #f3f2f1;
-            padding: 6px 12px;
+            padding: 8px 15px;
             border-radius: 20px;
             border: 1px solid var(--border-color);
             width: 100%;
-            max-width: 350px;
+            max-width: 380px;
         }
 
         .search-box input {
             border: none;
             background: transparent;
             outline: none;
-            padding: 6px;
+            padding: 2px;
             width: 100%;
             font-family: inherit;
             font-size: 14px;
@@ -78,12 +123,7 @@
 
         .legend {
             display: flex;
-            gap: 12px;
-            background: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+            gap: 15px;
             flex-wrap: wrap;
             font-size: 13px;
         }
@@ -207,7 +247,7 @@
             font-weight: bold;
         }
 
-        /* رنگ‌بندی بر اساس شرایط */
+        /* وضعیت‌ها */
         .status-top { background-color: #e6f4ea; color: var(--status-top); }
         .status-good { background-color: #e8f0fe; color: var(--status-good); }
         .status-retest { background-color: #fce8e6; color: var(--status-retest); }
@@ -218,34 +258,51 @@
             padding: 40px;
             background: white;
             border-radius: 8px;
-            grid-column: 1 / -1;
             display: none;
             color: #605e5c;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header>
-        <h1>📊 نتایج آزمون DTS - تیر ۱۴۰۵</h1>
-        <div class="search-box">
-            <span>🔍</span>
-            <input type="text" id="searchInput" placeholder="جستجوی نام زبان‌آموز..." onkeyup="filterStudents()">
+    <!-- هدر اصلی ایندکس -->
+    <header class="index-header">
+        <div class="index-header-top">
+            <h1 class="index-title">📋 کارنامه و نتایج آزمون جامع DTS</h1>
+            <span class="index-date">📅 تیر ۱۴۰۵</span>
+        </div>
+        <div class="index-levels-badge">
+            <span style="font-size: 13px; opacity: 0.9;">سطوح برگزاری:</span>
+            <span class="level-pill">Hip4 - Fam4</span>
+            <span class="level-pill">Hip2 - Fam2</span>
+            <span class="level-pill">First Friends</span>
+            <span class="level-pill">Hip1 - Family 1</span>
+            <span class="level-pill">Interchange 1</span>
+            <span class="level-pill">Interchange 2</span>
         </div>
     </header>
 
-    <div class="legend">
-        <div class="legend-item"><div class="legend-color" style="background: var(--status-top)"></div> ممتاز (۹۰+)</div>
-        <div class="legend-item"><div class="legend-color" style="background: var(--status-good)"></div> قبول (۸۰ تا ۸۹)</div>
-        <div class="legend-item"><div class="legend-color" style="background: var(--status-retest)"></div> آزمون مجدد (۷۰ تا ۷۹)</div>
-        <div class="legend-item"><div class="legend-color" style="background: var(--status-fail)"></div> غیر قابل قبول (زیر ۷۰)</div>
+    <!-- نوار جستجو و راهنما -->
+    <div class="controls-bar">
+        <div class="search-box">
+            <span>🔍</span>
+            <input type="text" id="searchInput" placeholder="جستجوی سریع نام زبان‌آموز..." onkeyup="filterStudents()">
+        </div>
+
+        <div class="legend">
+            <div class="legend-item"><div class="legend-color" style="background: var(--status-top)"></div> ممتاز (۹۰+)</div>
+            <div class="legend-item"><div class="legend-color" style="background: var(--status-good)"></div> قبول (۸۰ تا ۸۹)</div>
+            <div class="legend-item"><div class="legend-color" style="background: var(--status-retest)"></div> آزمون مجدد (۷۰ تا ۷۹)</div>
+            <div class="legend-item"><div class="legend-color" style="background: var(--status-fail)"></div> غیر قابل قبول (زیر ۷۰)</div>
+        </div>
     </div>
 
-    <div id="noResults" class="no-results">هیچ زبان‌آموزی با این مشخصات یافت نشد.</div>
+    <div id="noResults" class="no-results">هیچ زبان‌آموزی با این نام یافت نشد.</div>
 
     <div id="studentContainer">
-        <!-- داده‌ها توسط جاوااسکریپت بارگذاری می‌شوند -->
+        <!-- کارت‌های تمام ۶ سطح در اینجا رندر می‌شوند -->
     </div>
 </div>
 
@@ -450,20 +507,14 @@ function filterStudents() {
         }
     });
 
-    // مخفی کردن بخش‌های خالی
     sections.forEach(sec => {
         const visibleCards = sec.querySelectorAll('.card:not(.hidden)');
-        if (visibleCards.length === 0) {
-            sec.style.display = 'none';
-        } else {
-            sec.style.display = 'block';
-        }
+        sec.style.display = visibleCards.length === 0 ? 'none' : 'block';
     });
 
     document.getElementById('noResults').style.display = hasResult ? 'none' : 'block';
 }
 
-// بارگذاری اولیه
 renderCards();
 </script>
 

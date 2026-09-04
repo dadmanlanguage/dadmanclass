@@ -168,6 +168,7 @@
             position: relative;
             width: 52px;
             height: 52px;
+            box-sizing: border-box;
             border-radius: 9999px;
             display: flex;
             align-items: center;
@@ -609,13 +610,13 @@
             <span class="float-tooltip">روبیکا</span>
             <span>ر</span>
         </button>
-        <button type="button" onclick="showComingSoon(event, 'ایتا'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:2; background: linear-gradient(145deg, #0ea5e9, #0c4a6e);">
+        <button type="button" onclick="showComingSoon(event, 'ایتا'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:2; background: #ffffff; padding: 8px;">
             <span class="float-tooltip">ایتا</span>
-            <span>ای</span>
+            <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/eitaa.svg" alt="ایتا" class="w-full h-full object-contain">
         </button>
-        <button type="button" onclick="showComingSoon(event, 'بله'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:1; background: linear-gradient(145deg, #f97316, #9a3412);">
+        <button type="button" onclick="showComingSoon(event, 'بله'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:1; background: #ffffff; padding: 8px;">
             <span class="float-tooltip">بله</span>
-            <span>ب</span>
+            <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/bale.svg" alt="بله" class="w-full h-full object-contain">
         </button>
         <button type="button" onclick="toggleFloatMenu(event)" class="float-btn float-main">
             <span class="float-tooltip">ارتباط سریع</span>

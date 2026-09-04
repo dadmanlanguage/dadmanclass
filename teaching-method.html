@@ -46,6 +46,93 @@
         @media (prefers-reduced-motion: reduce) {
             body::before { animation: none; }
         }
+
+        /* ===================== دکمه شناور ارتباط سریع ===================== */
+        .float-actions {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 1.25rem;
+            z-index: 40;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .float-btn {
+            position: relative;
+            width: 52px;
+            height: 52px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: #ecfdf5;
+            background: linear-gradient(145deg, #15803d, #064e3b);
+            box-shadow: 0 8px 20px -6px rgba(6, 78, 59, 0.55), 0 0 0 1px rgba(255,255,255,0.06) inset;
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dark .float-btn {
+            background: linear-gradient(145deg, #10b981, #065f46);
+            box-shadow: 0 8px 22px -6px rgba(0,0,0,0.6), 0 0 0 1px rgba(16,185,129,0.25) inset;
+        }
+
+        .float-btn:hover {
+            transform: translateY(-3px) scale(1.06);
+            box-shadow: 0 12px 26px -6px rgba(6, 78, 59, 0.6);
+        }
+
+        .float-btn .float-tooltip {
+            position: absolute;
+            right: calc(100% + 10px);
+            top: 50%;
+            transform: translateY(-50%) translateX(6px);
+            background: #0f172a;
+            color: #f0fdf4;
+            font-size: 0.7rem;
+            font-weight: 600;
+            white-space: nowrap;
+            padding: 5px 10px;
+            border-radius: 8px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .float-btn:hover .float-tooltip {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        /* برق ملیح: هر ۱ ثانیه یک بار روی دکمه می‌گذرد */
+        .float-btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -60%;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.65), transparent);
+            transform: skewX(-20deg);
+            animation: floatShine 1s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes floatShine {
+            0% { left: -60%; }
+            22% { left: 130%; }
+            100% { left: 130%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .float-btn::after { animation: none; }
+        }
     </style>
 </head>
 <body class="bg-transparent text-slate-700 dark:text-slate-100 flex flex-col min-h-screen transition-colors duration-300">
@@ -249,6 +336,14 @@
         </div>
     </footer>
 
+    <!-- دکمه شناور ارتباط سریع (مطابق تم سبز سایت، با برق ملیح هر ۱ ثانیه) -->
+    <div class="float-actions" aria-label="ارتباط سریع">
+        <button type="button" onclick="showComingSoon(event, 'ارتباط سریع')" class="float-btn">
+            <span class="float-tooltip">ارتباط سریع</span>
+            <i class="fa-solid fa-comment-dots"></i>
+        </button>
+    </div>
+
     <!-- کادر پیام "به زودی" برای بخش‌های دیگر -->
     <div id="comingSoonModal" class="fixed inset-0 bg-slate-950/60 hidden items-center justify-center z-50 p-4">
         <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-center space-y-4 transition-colors">
@@ -257,7 +352,7 @@
             </div>
             <h3 id="comingSoonTitle" class="text-xl font-bold text-slate-900 dark:text-white">این بخش</h3>
             <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                این بخش به زودی باز خواهد شد.
+                به زودی فعال خواهد شد.
             </p>
             <button onclick="closeComingSoonModal()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition">
                 متوجه شدم

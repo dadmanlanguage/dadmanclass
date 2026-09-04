@@ -3,224 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نتایج آزمون DTS - تیر ۱۴۰۵</title>
+    <title>دانش‌آموزان DTS - موسسه زبان دادمان</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            position: relative;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        /* پس‌زمینه متحرک سراسری */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(-45deg, #f1f5f9, #e2e8f0, #dcfce7, #f3f4f6);
+            background-size: 400% 400%;
+            animation: globalGradientBG 15s ease infinite;
+            opacity: 0.8;
+            pointer-events: none;
+            transition: background 0.5s ease;
+        }
+
+        .dark body::before, html.dark body::before {
+            background: linear-gradient(-45deg, #064e3b, #022c22, #0f172a, #1e293b) !important;
+            opacity: 1;
+        }
+
+        @keyframes globalGradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* دکمه‌های شناور (Floating Action Buttons) */
+        .float-actions {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 1.25rem;
+            z-index: 40;
+            width: 52px;
+            height: 52px;
+        }
+
+        .float-btn {
+            position: relative;
+            width: 52px;
+            height: 52px;
+            box-sizing: border-box;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: #ecfdf5;
+            background: linear-gradient(145deg, #15803d, #064e3b);
+            box-shadow: 0 8px 20px -6px rgba(6, 78, 59, 0.55), 0 0 0 1px rgba(255,255,255,0.06) inset;
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .float-main {
+            position: relative;
+            z-index: 5;
+        }
+
+        .float-sub {
+            position: absolute;
+            left: 4px;
+            bottom: 0;
+            width: 44px;
+            height: 44px;
+            font-size: 1rem;
+            font-weight: 800;
+            z-index: 4;
+            opacity: 0;
+            transform: translateY(0) scale(0.45);
+            pointer-events: none;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+        }
+
+        .float-actions.float-open .float-sub {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(calc(var(--i) * -60px)) scale(1);
+            transition-delay: calc((var(--i) - 1) * 0.06s);
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .float-actions:hover .float-sub {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateY(calc(var(--i) * -60px)) scale(1);
+                transition-delay: calc((var(--i) - 1) * 0.06s);
+            }
+        }
+
+        .dark .float-btn {
+            background: linear-gradient(145deg, #10b981, #065f46);
+            box-shadow: 0 8px 22px -6px rgba(0,0,0,0.6), 0 0 0 1px rgba(16,185,129,0.25) inset;
+        }
+
+        .float-btn:hover {
+            transform: translateY(-3px) scale(1.06);
+            box-shadow: 0 12px 26px -6px rgba(6, 78, 59, 0.6);
+        }
+
+        .float-btn .float-tooltip {
+            position: absolute;
+            right: calc(100% + 10px);
+            top: 50%;
+            transform: translateY(-50%) translateX(6px);
+            background: #0f172a;
+            color: #f0fdf4;
+            font-size: 0.7rem;
+            font-weight: 600;
+            white-space: nowrap;
+            padding: 5px 10px;
+            border-radius: 8px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .float-btn:hover .float-tooltip {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        .float-btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -60%;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.65), transparent);
+            transform: skewX(-20deg);
+            animation: floatShine 1s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes floatShine {
+            0% { left: -60%; }
+            22% { left: 130%; }
+            100% { left: 130%; }
+        }
+
+        /* استایل‌های اختصاصی کارت‌های آزمون */
         :root {
-            --excel-green: #107c41;
-            --excel-dark: #0f5229;
             --status-top: #107c41;
             --status-good: #2b579a;
             --status-retest: #d83b01;
             --status-fail: #a80000;
-            --bg-gray: #f8f9fa;
-            --border-color: #e1dfdd;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, IRANSans, sans-serif;
-            background-color: var(--bg-gray);
-            margin: 0;
-            padding: 20px;
-            color: #323130;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .index-header {
-            background: linear-gradient(135deg, #0f5229, #107c41);
-            color: white;
-            padding: 25px 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            margin-bottom: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .index-header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding-bottom: 15px;
-        }
-
-        .index-title {
-            margin: 0;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .index-date {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-
-        .controls-bar {
-            background: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        /* فرم سرچ واقعی همراه با دکمه */
-        .search-form {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #f3f2f1;
-            padding: 4px 6px 4px 12px;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-            width: 100%;
-            max-width: 420px;
-        }
-
-        .search-form input {
-            border: none;
-            background: transparent;
-            outline: none;
-            padding: 6px;
-            width: 100%;
-            font-family: inherit;
-            font-size: 14px;
-        }
-
-        .search-btn {
-            background: var(--excel-green);
-            color: white;
-            border: none;
-            padding: 6px 16px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 13px;
-            transition: background 0.2s;
-        }
-
-        .search-btn:hover {
-            background: var(--excel-dark);
-        }
-
-        .legend {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            font-size: 13px;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .legend-color {
-            width: 12px;
-            height: 12px;
-            border-radius: 3px;
-        }
-
-        .section-title {
-            background: white;
-            padding: 12px 20px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 16px;
-            color: var(--excel-dark);
-            border-right: 4px solid var(--excel-green);
-            margin: 30px 0 15px 0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 15px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 12px;
-            position: relative;
         }
 
         .card.hidden {
             display: none !important;
-        }
-
-        .rank {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #f3f2f1;
-            color: #605e5c;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: bold;
-        }
-
-        .avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background-color: #e1dfdd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 10px 0;
-        }
-
-        .avatar svg {
-            width: 45px;
-            height: 45px;
-            fill: #a19f9d;
-        }
-
-        .name {
-            font-size: 13px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 8px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-        }
-
-        .score-tag {
-            width: 100%;
-            text-align: center;
-            padding: 6px 0;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
         }
 
         .status-top { background-color: #e6f4ea; color: var(--status-top); }
@@ -228,267 +183,483 @@
         .status-retest { background-color: #fce8e6; color: var(--status-retest); }
         .status-fail { background-color: #fdeded; color: var(--status-fail); }
 
-        .no-results {
-            text-align: center;
-            padding: 30px;
-            background: white;
-            border-radius: 8px;
-            display: none;
-            color: #605e5c;
-            margin-top: 20px;
-        }
+        .dark .status-top { background-color: rgba(16, 124, 65, 0.25); color: #4ade80; }
+        .dark .status-good { background-color: rgba(43, 87, 154, 0.25); color: #60a5fa; }
+        .dark .status-retest { background-color: rgba(216, 59, 1, 0.25); color: #fb923c; }
+        .dark .status-fail { background-color: rgba(168, 0, 0, 0.25); color: #f87171; }
     </style>
 </head>
-<body>
+<body class="bg-transparent text-slate-700 dark:text-slate-100 flex flex-col min-h-screen transition-colors duration-300">
 
-<div class="container">
-    <header class="index-header">
-        <div class="index-header-top">
-            <h1 class="index-title">📋 کارنامه و نتایج آزمون جامع DTS</h1>
-            <span class="index-date">📅 تیر ۱۴۰۵</span>
-        </div>
-    </header>
-
-    <div class="controls-bar">
-        <!-- فرم واقعی سرچ -->
-        <form class="search-form" onsubmit="executeSearch(event)">
-            <input type="text" id="searchInput" placeholder="نام، شماره ردیف یا سطح را بنویسید..." oninput="executeSearch(event)">
-            <button type="submit" class="search-btn">جستجو</button>
-        </form>
-
-        <div class="legend">
-            <div class="legend-item"><div class="legend-color" style="background: var(--status-top)"></div> ممتاز (۹۰+)</div>
-            <div class="legend-item"><div class="legend-color" style="background: var(--status-good)"></div> قبول (۸۰-۸۹)</div>
-            <div class="legend-item"><div class="legend-color" style="background: var(--status-retest)"></div> آزمون مجدد (۷۰-۷۹)</div>
-            <div class="legend-item"><div class="legend-color" style="background: var(--status-fail)"></div> غیر قابل قبول (زیر ۷۰)</div>
+    <!-- نوار اطلاعات تماس (بالاترین بخش سایت) -->
+    <div class="bg-emerald-900 dark:bg-slate-950 text-emerald-50 dark:text-emerald-300 text-xs transition-colors duration-300 border-b border-emerald-950/40 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-row flex-wrap items-center justify-center sm:justify-between gap-x-4 gap-y-1">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-envelope"></i>
+                <span dir="ltr">info@dadmanlanguage.ir</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                <span dir="ltr">0912-345-6789</span>
+            </div>
         </div>
     </div>
 
-    <div id="noResults" class="no-results">نتیجه‌ای یافت نشد.</div>
-    <div id="studentContainer"></div>
-</div>
+    <!-- نوار منوی ثانویه -->
+    <div class="bg-white/95 dark:bg-slate-900/95 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-center sm:justify-start gap-x-6 gap-y-1 flex-wrap">
+            <a href="students.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>دانش‌آموزان DTS</span>
+            </a>
+            <a href="teaching-method.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
+                <i class="fa-solid fa-chalkboard"></i>
+                <span>نحوه‌ی تدریس</span>
+            </a>
+            <a href="books.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
+                <i class="fa-solid fa-book"></i>
+                <span>کتاب‌هایی که ما تدریس می‌کنیم</span>
+            </a>
+        </div>
+    </div>
 
-<script>
-const studentsData = [
-    {
-        section: "Hip4 - Fam4",
-        list: [
-            { id: 1, name: "محمدحسین جعفری", score: 92.5, retest: false },
-            { id: 2, name: "کیان شمس", score: 92.5, retest: false },
-            { id: 3, name: "محمدمهدی قویدل", score: 92.0, retest: true },
-            { id: 4, name: "محمدحسین مومنی", score: 91.75, retest: false },
-            { id: 5, name: "آرش جوادی زاده", score: 90.5, retest: false },
-            { id: 6, name: "سبحان ملایی", score: 88.5, retest: false },
-            { id: 7, name: "بردیا اسفندیار", score: 87.0, retest: false },
-            { id: 8, name: "محسن میرزاخانی", score: 87.0, retest: false },
-            { id: 9, name: "ابوالفضل طبسی", score: 87.0, retest: false },
-            { id: 10, name: "پرهام پرمر", score: 87.0, retest: true },
-            { id: 11, name: "کیان قاسم", score: 86.5, retest: false },
-            { id: 12, name: "امیرعلی فرجی", score: 86.5, retest: true },
-            { id: 13, name: "امیرعلی محمدی", score: 86.0, retest: false },
-            { id: 14, name: "امیرعباس محمودی", score: 86.0, retest: true },
-            { id: 15, name: "امیرحسین خلیلی", score: 85.75, retest: false },
-            { id: 16, name: "محمدصالح بیات", score: 85.25, retest: false },
-            { id: 17, name: "عرفان رستگار", score: 85.0, retest: false },
-            { id: 18, name: "امیرحسین ایزدی", score: 85.0, retest: true },
-            { id: 19, name: "امیرمهدی ترک", score: 84.75, retest: false },
-            { id: 20, name: "محمدکیان امیرآبادی", score: 84.5, retest: true },
-            { id: 21, name: "یاسین زارعی", score: 84.5, retest: true },
-            { id: 22, name: "کارن چهاردولی", score: 83.5, retest: false },
-            { id: 23, name: "امیرعلی صابری", score: 82.5, retest: true },
-            { id: 24, name: "طاها گودرزی", score: 80.0, retest: false },
-            { id: 25, name: "آرمان مرادی", score: 80.0, retest: false },
-            { id: 26, name: "محمدطاها گل لاله", score: 80.0, retest: true },
-            { id: 27, name: "محمدحسین عسگری", score: 79.5, retest: true },
-            { id: 28, name: "امیرحسین مرادی", score: 81.0, retest: true },
-            { id: 29, name: "سیدحسین رضانیارمی", score: 78.25, retest: true },
-            { id: 30, name: "محمد حبیبی", score: 76.5, retest: true },
-            { id: 31, name: "امیرعلی قنبری", score: 75.25, retest: true }
-        ]
-    },
-    {
-        section: "Hip2 - Fam2",
-        list: [
-            { id: 1, name: "صالح عبدالملکی", score: 98.5, retest: false },
-            { id: 2, name: "امیرعلی نیرومند", score: 97.5, retest: false },
-            { id: 3, name: "آرین پارسا", score: 97.0, retest: false },
-            { id: 4, name: "مانی دولتی", score: 95.0, retest: false },
-            { id: 5, name: "محمدآرمین نوری", score: 93.75, retest: false },
-            { id: 6, name: "ابوالفضل محبوبى", score: 90.0, retest: false },
-            { id: 7, name: "طاها مرحمتی", score: 89.5, retest: false },
-            { id: 8, name: "فریور مرادی", score: 89.0, retest: false },
-            { id: 9, name: "یزدان سرلک", score: 88.25, retest: false },
-            { id: 10, name: "پارسا رفیع", score: 88.25, retest: false },
-            { id: 11, name: "دانیال ملا محمدی", score: 87.0, retest: false },
-            { id: 12, name: "م. طارق فلاحی پور", score: 86.75, retest: true },
-            { id: 13, name: "رضا طاهری", score: 85.75, retest: false },
-            { id: 14, name: "علی امیرآبادی", score: 85.0, retest: false },
-            { id: 15, name: "امیرحسین صمدیان", score: 85.0, retest: false },
-            { id: 16, name: "حسین اسماعیلی", score: 84.0, retest: false },
-            { id: 17, name: "پارسا ارحمی", score: 83.75, retest: true },
-            { id: 18, name: "پرهام گودرزی", score: 83.5, retest: false },
-            { id: 19, name: "امیرمحمد حجتی", score: 83.0, retest: false },
-            { id: 20, name: "کامیار خسروی", score: 82.25, retest: false },
-            { id: 21, name: "امیرمحمد اصغری", score: 82.0, retest: true },
-            { id: 22, name: "حسام لره وندی", score: 81.25, retest: false },
-            { id: 23, name: "م. یاسین یارمحمدی", score: 81.25, retest: false },
-            { id: 24, name: "مهدیار طاهریان", score: 81.5, retest: true },
-            { id: 25, name: "محمدرضا پورمهدی", score: 81.0, retest: false },
-            { id: 26, name: "علی اسکندری", score: 80.75, retest: false },
-            { id: 27, name: "محمد سلمانی امند", score: 80.0, retest: true },
-            { id: 28, name: "سامان بیابانى", score: 79.5, retest: true },
-            { id: 29, name: "علی اصغر قدیم دلاح", score: 77.5, retest: true },
-            { id: 30, name: "عرفان ایوبی", score: 76.75, retest: true },
-            { id: 31, name: "محمدطاها امجدی", score: 76.0, retest: true },
-            { id: 32, name: "محمدصالح بتویی", score: 71.5, retest: true },
-            { id: 33, name: "محمدپارسا برزگر", score: 67.0, retest: true }
-        ]
-    },
-    {
-        section: "First Friends",
-        list: [
-            { id: 1, name: "محمد سفرجوئی", score: 99.13, retest: false },
-            { id: 2, name: "مهراد لطفی زاده", score: 99.13, retest: false },
-            { id: 3, name: "محمدمتین طاهری", score: 98.69, retest: false },
-            { id: 4, name: "م. پارسا منصوری نیا", score: 94.78, retest: false },
-            { id: 5, name: "امیرسام طاهریان", score: 93.04, retest: false },
-            { id: 6, name: "امیرعلی جعفری", score: 92.17, retest: false },
-            { id: 7, name: "امیرمهدی سلطانی", score: 88.69, retest: false },
-            { id: 8, name: "محمد شکاری", score: 85.21, retest: false },
-            { id: 9, name: "آرتین کریمی", score: 84.78, retest: false },
-            { id: 10, name: "رهام پرمر", score: 83.9, retest: true },
-            { id: 11, name: "محمدکسرا کیایی", score: 83.47, retest: false },
-            { id: 12, name: "آرتین خراسانی", score: 81.73, retest: false },
-            { id: 13, name: "امیرحسین ملکی", score: 80.86, retest: true }
-        ]
-    },
-    {
-        section: "Hip1 - Family 1",
-        list: [
-            { id: 1, name: "رضا محسنی", score: 95.9, retest: false },
-            { id: 2, name: "ایلیا راغبی", score: 90.82, retest: false },
-            { id: 3, name: "محمدرضا حسن پور", score: 83.02, retest: true },
-            { id: 4, name: "علیسان مقدم آذر", score: 81.19, retest: false },
-            { id: 5, name: "آرشا علی بخشی", score: 80.04, retest: true },
-            { id: 6, name: "یاسین زارعی", score: 80.0, retest: false },
-            { id: 7, name: "امیرارسلان زمانی", score: 79.81, retest: false },
-            { id: 8, name: "امیرارسلان تقوی", score: 79.58, retest: true },
-            { id: 9, name: "پرویز گودرزی", score: 54.0, retest: false }
-        ]
-    },
-    {
-        section: "Interchange 1",
-        list: [
-            { id: 1, name: "محمدیاسین زرنوشه", score: 87.5, retest: false },
-            { id: 2, name: "امیرحسین خسروآبادی", score: 86.5, retest: false },
-            { id: 3, name: "محمدپارسا ملکی", score: 83.5, retest: false },
-            { id: 4, name: "محراب شه رستمی", score: 80.5, retest: false },
-            { id: 5, name: "امیرسام ربانی پور", score: 83.0, retest: true },
-            { id: 6, name: "پوریا شیخی", score: 78.0, retest: true },
-            { id: 7, name: "امیرعلی خسروی", score: 60.0, retest: true }
-        ]
-    },
-    {
-        section: "Interchange 2",
-        list: [
-            { id: 1, name: "امیرعلی بلوردی", score: 92.0, retest: false },
-            { id: 2, name: "علی منادی", score: 89.0, retest: false },
-            { id: 3, name: "محمد اسلامی", score: 87.25, retest: false },
-            { id: 4, name: "علی اسکندری", score: 87.25, retest: false },
-            { id: 5, name: "محمدمهدی کرمی", score: 86.25, retest: false },
-            { id: 6, name: "امیرحسین میرزاخانی", score: 82.5, retest: false },
-            { id: 7, name: "عرفان کاظمی نیک", score: 80.0, retest: false },
-            { id: 8, name: "امیرعلی نوروزی", score: 79.0, retest: false },
-            { id: 9, name: "عرفان عینی", score: 81.75, retest: true },
-            { id: 10, name: "امیررضا سلیمی", score: 78.5, retest: true },
-            { id: 11, name: "رهام غمیلویی", score: 75.0, retest: true },
-            { id: 12, name: "امیرعلی حسنی", score: 57.25, retest: false }
-        ]
-    }
-];
-
-const svgAvatar = `<svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
-
-// استانداردسازی متن فارسی جهت تطابق کیبورد عربی/فارسی
-function normalizeText(text) {
-    return text.toString().toLowerCase()
-        .replace(/ي/g, "ی")
-        .replace(/ك/g, "ک")
-        .replace(/‌/g, " ")
-        .trim();
-}
-
-function getStatusClass(score) {
-    if (score < 70) return 'status-fail';
-    if (score >= 90) return 'status-top';
-    if (score >= 80) return 'status-good';
-    return 'status-retest';
-}
-
-function getStatusText(score, retest) {
-    if (score < 70) return `غیر قابل قبول (${score})`;
-    if (retest) return `مجدد (${score})`;
-    return `نمره: ${score}`;
-}
-
-function renderCards() {
-    const container = document.getElementById('studentContainer');
-    container.innerHTML = '';
-
-    studentsData.forEach(sec => {
-        const secEl = document.createElement('div');
-        secEl.className = 'section-block';
-        secEl.setAttribute('data-section', normalizeText(sec.section));
-        secEl.innerHTML = `
-            <div class="section-title">
-                <span>سطح: ${sec.section}</span>
-                <span class="section-count">${sec.list.length} نفر</span>
+    <!-- هدر سایت همراه با لوگوی دایره‌ای و دکمه تم -->
+    <header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-sm sticky top-0 z-50 transition-colors duration-300 border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="w-12 h-12 bg-emerald-700 text-white rounded-full overflow-hidden flex items-center justify-center shadow-md border-2 border-emerald-500">
+                    <img src="logo.jpg" alt="لوگو موسسه زبان دادمان" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-xl text-slate-900 dark:text-white">موسسه زبان دادمان</h1>
+                    <span class="text-xs text-emerald-700 dark:text-emerald-400 font-medium">آموزش تخصصی زبان‌های خارجی</span>
+                </div>
             </div>
-            <div class="grid">
-                ${sec.list.map(s => `
-                    <div class="card" data-name="${normalizeText(s.name)}" data-id="${s.id}">
-                        <div class="rank">${s.id}</div>
-                        <div class="avatar">${svgAvatar}</div>
-                        <div class="name">${s.name}</div>
-                        <div class="score-tag ${getStatusClass(s.score)}">${getStatusText(s.score, s.retest)}</div>
+            
+            <nav class="hidden md:flex items-center space-x-8 space-x-reverse text-sm font-medium text-slate-600 dark:text-slate-300">
+                <a href="index.html" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">خانه</a>
+                <a href="students.html" class="text-emerald-700 dark:text-emerald-400 font-bold transition">دانش‌آموزان DTS</a>
+                <a href="index.html#benefits" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">مزایای دادمان</a>
+                <a href="index.html#courses" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">انواع دوره‌ها و جلسات</a>
+                <a href="index.html#contact-form" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">مشاوره رایگان</a>
+            </nav>
+
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <!-- دکمه بازگشت -->
+                <button onclick="goBack()" class="flex items-center gap-2 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-xs sm:text-sm font-bold px-3.5 py-2 rounded-xl hover:bg-emerald-200 dark:hover:bg-slate-800 transition shadow-sm border border-emerald-200 dark:border-emerald-800/50">
+                    <span>بازگشت</span>
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+
+                <!-- دکمه تغییر حالت روشن/تاریک -->
+                <button onclick="toggleTheme()" aria-label="تغییر تم" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
+                    <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- محتوای صفحه دانش‌آموزان DTS -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+        <!-- عنوان اصلی صفحه -->
+        <div class="bg-gradient-to-r from-emerald-800 to-emerald-900 text-white rounded-2xl p-6 mb-8 shadow-lg flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <h2 class="text-2xl font-extrabold flex items-center gap-2">
+                    <i class="fa-solid fa-clipboard-check text-emerald-400"></i>
+                    <span>کارنامه و نتایج آزمون جامع DTS</span>
+                </h2>
+                <p class="text-emerald-200 text-xs mt-1">مشاهده لیست نمرات به تفکیک سطح و رتبه‌بندی دانش‌آموزان</p>
+            </div>
+            <span class="bg-white/20 text-white px-4 py-1.5 rounded-full text-xs font-bold border border-white/20">
+                📅 تیر ۱۴۰۵
+            </span>
+        </div>
+
+        <!-- نوار کنترل و جستجو -->
+        <div class="bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 mb-8 flex flex-col md:flex-row justify-between items-center gap-4 transition-colors">
+            <form onsubmit="executeSearch(event)" class="w-full md:w-96 relative">
+                <input type="text" id="searchInput" oninput="executeSearch(event)" placeholder="نام، شماره ردیف یا سطح را بنویسید..." class="w-full pr-10 pl-24 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-600 transition">
+                <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-3.5 text-slate-400 text-sm"></i>
+                <button type="submit" class="absolute left-1.5 top-1.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs px-3 py-1.5 rounded-lg font-bold transition">جستجو</button>
+            </form>
+
+            <div class="flex flex-wrap gap-3 text-xs">
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-600"></span> ممتاز (۹۰+)</div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-600"></span> قبول (۸۰-۸۹)</div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-orange-600"></span> آزمون مجدد (۷۰-۷۹)</div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-600"></span> غیر قابل قبول (زیر ۷۰)</div>
+            </div>
+        </div>
+
+        <div id="noResults" class="hidden text-center py-12 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 text-slate-500 font-bold">
+            نتیجه‌ای یافت نشد.
+        </div>
+
+        <!-- کانتینر اصلی کارت‌ها -->
+        <div id="studentContainer" class="space-y-10"></div>
+    </main>
+
+    <!-- فوتر سایت -->
+    <footer class="bg-slate-950 text-white mt-auto py-12 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-10 border-b border-slate-800">
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <div class="w-10 h-10 bg-emerald-700 rounded-full overflow-hidden flex items-center justify-center font-bold text-white border border-emerald-500">
+                            <img src="logo.jpg" alt="لوگو" class="w-full h-full object-cover">
+                        </div>
+                        <span class="font-bold text-base">موسسه زبان دادمان</span>
                     </div>
-                `).join('')}
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        مرجع تخصصی آموزش زبان‌های خارجی با بهره‌گیری از برترین متدهای روز دنیا و اساتید مجرب.
+                    </p>
+                </div>
+                <div class="space-y-3">
+                    <h4 class="font-bold text-sm text-emerald-400">آدرس موسسه</h4>
+                    <p class="text-slate-300 text-xs leading-relaxed flex items-start space-x-2 space-x-reverse">
+                        <i class="fa-solid fa-location-dot text-emerald-500 mt-1"></i>
+                        <span>تهران، مشیریه، خیابان سازمان آب</span>
+                    </p>
+                </div>
+                <div class="space-y-3">
+                    <h4 class="font-bold text-sm text-emerald-400">تماس با ما</h4>
+                    <p class="text-slate-300 text-xs flex items-center space-x-2 space-x-reverse">
+                        <i class="fa-solid fa-phone text-emerald-500"></i>
+                        <span dir="ltr">021-33479054</span>
+                    </p>
+                    <div class="flex space-x-4 space-x-reverse text-slate-400 pt-2">
+                        <a href="#" class="hover:text-emerald-400 transition"><i class="fa-brands fa-telegram text-lg"></i></a>
+                        <a href="#" class="hover:text-emerald-400 transition"><i class="fa-brands fa-instagram text-lg"></i></a>
+                        <a href="#" class="hover:text-emerald-400 transition"><i class="fa-brands fa-whatsapp text-lg"></i></a>
+                    </div>
+                </div>
             </div>
-        `;
-        container.appendChild(secEl);
-    });
-}
+            <div class="pt-6 text-center text-slate-500 text-xs">
+                <p>© تمامی حقوق مادی و معنوی برای موسسه زبان دادمان محفوظ است.</p>
+            </div>
+        </div>
+    </footer>
 
-// تابع اصلی جستجو
-function executeSearch(e) {
-    if (e) e.preventDefault();
-    const query = normalizeText(document.getElementById('searchInput').value);
-    const cards = document.querySelectorAll('.card');
-    const sections = document.querySelectorAll('.section-block');
-    let totalFound = 0;
+    <!-- دکمه شناور ارتباط سریع -->
+    <div class="float-actions" aria-label="ارتباط سریع">
+        <button type="button" onclick="showComingSoon(event, 'روبیکا'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:3; background: linear-gradient(145deg, #9333ea, #581c87);">
+            <span class="float-tooltip">روبیکا</span>
+            <span>ر</span>
+        </button>
+        <button type="button" onclick="showComingSoon(event, 'ایتا'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:2; background: #ffffff; padding: 8px;">
+            <span class="float-tooltip">ایتا</span>
+            <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/eitaa.svg" alt="ایتا" class="w-full h-full object-contain">
+        </button>
+        <button type="button" onclick="showComingSoon(event, 'بله'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:1; background: #ffffff; padding: 8px;">
+            <span class="float-tooltip">بله</span>
+            <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/bale.svg" alt="بله" class="w-full h-full object-contain">
+        </button>
+        <button type="button" onclick="toggleFloatMenu(event)" class="float-btn float-main">
+            <span class="float-tooltip">ارتباط سریع</span>
+            <i class="fa-solid fa-comment-dots"></i>
+        </button>
+    </div>
 
-    cards.forEach(card => {
-        const name = card.getAttribute('data-name');
-        const id = card.getAttribute('data-id');
-        
-        if (name.includes(query) || id === query) {
-            card.classList.remove('hidden');
-            totalFound++;
-        } else {
-            card.classList.add('hidden');
+    <!-- کادر پیام "به زودی" -->
+    <div id="comingSoonModal" class="fixed inset-0 bg-slate-950/60 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-center space-y-4 transition-colors">
+            <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto text-2xl">
+                <i class="fa-solid fa-hourglass-half"></i>
+            </div>
+            <h3 id="comingSoonTitle" class="text-xl font-bold text-slate-900 dark:text-white">این بخش</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                به زودی فعال خواهد شد.
+            </p>
+            <button onclick="closeComingSoonModal()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition">
+                متوجه شدم
+            </button>
+        </div>
+    </div>
+
+    <!-- اسکریپت‌ها -->
+    <script>
+        // تغییر تم
+        const themeIcon = document.getElementById('themeIcon');
+
+        function initTheme() {
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                themeIcon.className = "fa-solid fa-sun text-lg";
+            } else {
+                document.documentElement.classList.remove('dark');
+                themeIcon.className = "fa-solid fa-moon text-lg";
+            }
         }
-    });
 
-    sections.forEach(sec => {
-        const visibleCards = sec.querySelectorAll('.card:not(.hidden)');
-        sec.style.display = visibleCards.length === 0 ? 'none' : 'block';
-    });
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+                themeIcon.className = "fa-solid fa-moon text-lg";
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+                themeIcon.className = "fa-solid fa-sun text-lg";
+            }
+        }
 
-    document.getElementById('noResults').style.display = totalFound === 0 ? 'block' : 'none';
-}
+        initTheme();
 
-renderCards();
-</script>
+        // عملکرد دکمه بازگشت
+        function goBack() {
+            if (document.referrer !== "") {
+                window.history.back();
+            } else {
+                window.location.href = "index.html";
+            }
+        }
 
+        // عملکرد چت شناور
+        function toggleFloatMenu(event) {
+            if (event) event.stopPropagation();
+            document.querySelector('.float-actions').classList.toggle('float-open');
+        }
+
+        document.addEventListener('click', function (event) {
+            const floatActions = document.querySelector('.float-actions');
+            if (floatActions && !floatActions.contains(event.target)) {
+                floatActions.classList.remove('float-open');
+            }
+        });
+
+        function showComingSoon(event, title) {
+            if (event) event.preventDefault();
+            const modal = document.getElementById('comingSoonModal');
+            const titleEl = document.getElementById('comingSoonTitle');
+            if (titleEl) titleEl.innerText = title || 'این بخش';
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeComingSoonModal() {
+            const modal = document.getElementById('comingSoonModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        // داده‌های دانش‌آموزان
+        const studentsData = [
+            {
+                section: "Hip4 - Fam4",
+                list: [
+                    { id: 1, name: "محمدحسین جعفری", score: 92.5, retest: false },
+                    { id: 2, name: "کیان شمس", score: 92.5, retest: false },
+                    { id: 3, name: "محمدمهدی قویدل", score: 92.0, retest: true },
+                    { id: 4, name: "محمدحسین مومنی", score: 91.75, retest: false },
+                    { id: 5, name: "آرش جوادی زاده", score: 90.5, retest: false },
+                    { id: 6, name: "سبحان ملایی", score: 88.5, retest: false },
+                    { id: 7, name: "بردیا اسفندیار", score: 87.0, retest: false },
+                    { id: 8, name: "محسن میرزاخانی", score: 87.0, retest: false },
+                    { id: 9, name: "ابوالفضل طبسی", score: 87.0, retest: false },
+                    { id: 10, name: "پرهام پرمر", score: 87.0, retest: true },
+                    { id: 11, name: "کیان قاسم", score: 86.5, retest: false },
+                    { id: 12, name: "امیرعلی فرجی", score: 86.5, retest: true },
+                    { id: 13, name: "امیرعلی محمدی", score: 86.0, retest: false },
+                    { id: 14, name: "امیرعباس محمودی", score: 86.0, retest: true },
+                    { id: 15, name: "امیرحسین خلیلی", score: 85.75, retest: false },
+                    { id: 16, name: "محمدصالح بیات", score: 85.25, retest: false },
+                    { id: 17, name: "عرفان رستگار", score: 85.0, retest: false },
+                    { id: 18, name: "امیرحسین ایزدی", score: 85.0, retest: true },
+                    { id: 19, name: "امیرمهدی ترک", score: 84.75, retest: false },
+                    { id: 20, name: "محمدکیان امیرآبادی", score: 84.5, retest: true },
+                    { id: 21, name: "یاسین زارعی", score: 84.5, retest: true },
+                    { id: 22, name: "کارن چهاردولی", score: 83.5, retest: false },
+                    { id: 23, name: "امیرعلی صابری", score: 82.5, retest: true },
+                    { id: 24, name: "طاها گودرزی", score: 80.0, retest: false },
+                    { id: 25, name: "آرمان مرادی", score: 80.0, retest: false },
+                    { id: 26, name: "محمدطاها گل لاله", score: 80.0, retest: true },
+                    { id: 27, name: "محمدحسین عسگری", score: 79.5, retest: true },
+                    { id: 28, name: "امیرحسین مرادی", score: 81.0, retest: true },
+                    { id: 29, name: "سیدحسین رضانیارمی", score: 78.25, retest: true },
+                    { id: 30, name: "محمد حبیبی", score: 76.5, retest: true },
+                    { id: 31, name: "امیرعلی قنبری", score: 75.25, retest: true }
+                ]
+            },
+            {
+                section: "Hip2 - Fam2",
+                list: [
+                    { id: 1, name: "صالح عبدالملکی", score: 98.5, retest: false },
+                    { id: 2, name: "امیرعلی نیرومند", score: 97.5, retest: false },
+                    { id: 3, name: "آرین پارسا", score: 97.0, retest: false },
+                    { id: 4, name: "مانی دولتی", score: 95.0, retest: false },
+                    { id: 5, name: "محمدآرمین نوری", score: 93.75, retest: false },
+                    { id: 6, name: "ابوالفضل محبوبى", score: 90.0, retest: false },
+                    { id: 7, name: "طاها مرحمتی", score: 89.5, retest: false },
+                    { id: 8, name: "فریور مرادی", score: 89.0, retest: false },
+                    { id: 9, name: "یزدان سرلک", score: 88.25, retest: false },
+                    { id: 10, name: "پارسا رفیع", score: 88.25, retest: false },
+                    { id: 11, name: "دانیال ملا محمدی", score: 87.0, retest: false },
+                    { id: 12, name: "م. طارق فلاحی پور", score: 86.75, retest: true },
+                    { id: 13, name: "رضا طاهری", score: 85.75, retest: false },
+                    { id: 14, name: "علی امیرآبادی", score: 85.0, retest: false },
+                    { id: 15, name: "امیرحسین صمدیان", score: 85.0, retest: false },
+                    { id: 16, name: "حسین اسماعیلی", score: 84.0, retest: false },
+                    { id: 17, name: "پارسا ارحمی", score: 83.75, retest: true },
+                    { id: 18, name: "پرهام گودرزی", score: 83.5, retest: false },
+                    { id: 19, name: "امیرمحمد حجتی", score: 83.0, retest: false },
+                    { id: 20, name: "کامیار خسروی", score: 82.25, retest: false },
+                    { id: 21, name: "امیرمحمد اصغری", score: 82.0, retest: true },
+                    { id: 22, name: "حسام لره وندی", score: 81.25, retest: false },
+                    { id: 23, name: "م. یاسین یارمحمدی", score: 81.25, retest: false },
+                    { id: 24, name: "مهدیار طاهریان", score: 81.5, retest: true },
+                    { id: 25, name: "محمدرضا پورمهدی", score: 81.0, retest: false },
+                    { id: 26, name: "علی اسکندری", score: 80.75, retest: false },
+                    { id: 27, name: "محمد سلمانی امند", score: 80.0, retest: true },
+                    { id: 28, name: "سامان بیابانى", score: 79.5, retest: true },
+                    { id: 29, name: "علی اصغر قدیم دلاح", score: 77.5, retest: true },
+                    { id: 30, name: "عرفان ایوبی", score: 76.75, retest: true },
+                    { id: 31, name: "محمدطاها امجدی", score: 76.0, retest: true },
+                    { id: 32, name: "محمدصالح بتویی", score: 71.5, retest: true },
+                    { id: 33, name: "محمدپارسا برزگر", score: 67.0, retest: true }
+                ]
+            },
+            {
+                section: "First Friends",
+                list: [
+                    { id: 1, name: "محمد سفرجوئی", score: 99.13, retest: false },
+                    { id: 2, name: "مهراد لطفی زاده", score: 99.13, retest: false },
+                    { id: 3, name: "محمدمتین طاهری", score: 98.69, retest: false },
+                    { id: 4, name: "م. پارسا منصوری نیا", score: 94.78, retest: false },
+                    { id: 5, name: "امیرسام طاهریان", score: 93.04, retest: false },
+                    { id: 6, name: "امیرعلی جعفری", score: 92.17, retest: false },
+                    { id: 7, name: "امیرمهدی سلطانی", score: 88.69, retest: false },
+                    { id: 8, name: "محمد شکاری", score: 85.21, retest: false },
+                    { id: 9, name: "آرتین کریمی", score: 84.78, retest: false },
+                    { id: 10, name: "رهام پرمر", score: 83.9, retest: true },
+                    { id: 11, name: "محمدکسرا کیایی", score: 83.47, retest: false },
+                    { id: 12, name: "آرتین خراسانی", score: 81.73, retest: false },
+                    { id: 13, name: "امیرحسین ملکی", score: 80.86, retest: true }
+                ]
+            },
+            {
+                section: "Hip1 - Family 1",
+                list: [
+                    { id: 1, name: "رضا محسنی", score: 95.9, retest: false },
+                    { id: 2, name: "ایلیا راغبی", score: 90.82, retest: false },
+                    { id: 3, name: "محمدرضا حسن پور", score: 83.02, retest: true },
+                    { id: 4, name: "علیسان مقدم آذر", score: 81.19, retest: false },
+                    { id: 5, name: "آرشا علی بخشی", score: 80.04, retest: true },
+                    { id: 6, name: "یاسین زارعی", score: 80.0, retest: false },
+                    { id: 7, name: "امیرارسلان زمانی", score: 79.81, retest: false },
+                    { id: 8, name: "امیرارسلان تقوی", score: 79.58, retest: true },
+                    { id: 9, name: "پرویز گودرزی", score: 54.0, retest: false }
+                ]
+            },
+            {
+                section: "Interchange 1",
+                list: [
+                    { id: 1, name: "محمدیاسین زرنوشه", score: 87.5, retest: false },
+                    { id: 2, name: "امیرحسین خسروآبادی", score: 86.5, retest: false },
+                    { id: 3, name: "محمدپارسا ملکی", score: 83.5, retest: false },
+                    { id: 4, name: "محراب شه رستمی", score: 80.5, retest: false },
+                    { id: 5, name: "امیرسام ربانی پور", score: 83.0, retest: true },
+                    { id: 6, name: "پوریا شیخی", score: 78.0, retest: true },
+                    { id: 7, name: "امیرعلی خسروی", score: 60.0, retest: true }
+                ]
+            },
+            {
+                section: "Interchange 2",
+                list: [
+                    { id: 1, name: "امیرعلی بلوردی", score: 92.0, retest: false },
+                    { id: 2, name: "علی منادی", score: 89.0, retest: false },
+                    { id: 3, name: "محمد اسلامی", score: 87.25, retest: false },
+                    { id: 4, name: "علی اسکندری", score: 87.25, retest: false },
+                    { id: 5, name: "محمدمهدی کرمی", score: 86.25, retest: false },
+                    { id: 6, name: "امیرحسین میرزاخانی", score: 82.5, retest: false },
+                    { id: 7, name: "عرفان کاظمی نیک", score: 80.0, retest: false },
+                    { id: 8, name: "امیرعلی نوروزی", score: 79.0, retest: false },
+                    { id: 9, name: "عرفان عینی", score: 81.75, retest: true },
+                    { id: 10, name: "امیررضا سلیمی", score: 78.5, retest: true },
+                    { id: 11, name: "رهام غمیلویی", score: 75.0, retest: true },
+                    { id: 12, name: "امیرعلی حسنی", score: 57.25, retest: false }
+                ]
+            }
+        ];
+
+        function normalizeText(text) {
+            return text.toString().toLowerCase()
+                .replace(/ي/g, "ی")
+                .replace(/ك/g, "ک")
+                .replace(/‌/g, " ")
+                .trim();
+        }
+
+        function getStatusClass(score) {
+            if (score < 70) return 'status-fail';
+            if (score >= 90) return 'status-top';
+            if (score >= 80) return 'status-good';
+            return 'status-retest';
+        }
+
+        function getStatusText(score, retest) {
+            if (score < 70) return `غیر قابل قبول (${score})`;
+            if (retest) return `مجدد (${score})`;
+            return `نمره: ${score}`;
+        }
+
+        function renderCards() {
+            const container = document.getElementById('studentContainer');
+            container.innerHTML = '';
+
+            studentsData.forEach(sec => {
+                const secEl = document.createElement('div');
+                secEl.className = 'section-block';
+                secEl.setAttribute('data-section', normalizeText(sec.section));
+                secEl.innerHTML = `
+                    <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border-r-4 border-emerald-700 shadow-sm mb-4 flex justify-between items-center transition-colors">
+                        <span class="font-bold text-slate-800 dark:text-slate-100 text-sm">سطح: ${sec.section}</span>
+                        <span class="bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-xs px-2.5 py-1 rounded-lg font-bold">${sec.list.length} نفر</span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                        ${sec.list.map(s => `
+                            <div class="card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col items-center relative shadow-sm hover:shadow-md transition" data-name="${normalizeText(s.name)}" data-id="${s.id}">
+                                <div class="absolute top-2 right-2 w-6 h-6 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full flex items-center justify-center text-[10px] font-bold">${s.id}</div>
+                                <div class="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 my-2">
+                                    <i class="fa-solid fa-user text-2xl"></i>
+                                </div>
+                                <div class="text-xs font-bold text-center text-slate-800 dark:text-slate-100 mb-3 h-8 flex items-center justify-center">${s.name}</div>
+                                <div class="w-full text-center py-1.5 rounded-lg text-xs font-bold ${getStatusClass(s.score)}">${getStatusText(s.score, s.retest)}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(secEl);
+            });
+        }
+
+        function executeSearch(e) {
+            if (e) e.preventDefault();
+            const query = normalizeText(document.getElementById('searchInput').value);
+            const cards = document.querySelectorAll('.card');
+            const sections = document.querySelectorAll('.section-block');
+            let totalFound = 0;
+
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                const id = card.getAttribute('data-id');
+                
+                if (name.includes(query) || id === query) {
+                    card.classList.remove('hidden');
+                    totalFound++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            sections.forEach(sec => {
+                const visibleCards = sec.querySelectorAll('.card:not(.hidden)');
+                sec.style.display = visibleCards.length === 0 ? 'none' : 'block';
+            });
+
+            document.getElementById('noResults').style.display = totalFound === 0 ? 'block' : 'none';
+        }
+
+        renderCards();
+    </script>
 </body>
 </html>

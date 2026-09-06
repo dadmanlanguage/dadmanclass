@@ -437,11 +437,42 @@
             --g-text: #ffffff;
         }
         html[data-gamer-theme="rgb"] #siteContent {
-            animation: rgbHueShift 8s linear infinite !important;
+            animation: rgbHueShift 10s linear infinite;
+            will-change: filter;
+            transform: translateZ(0);
         }
         @keyframes rgbHueShift {
             from { filter: hue-rotate(0deg); }
             to { filter: hue-rotate(360deg); }
+        }
+
+        /* پالس نور ملایم برای هدر و کارت‌ها در همه‌ی تم‌های گیمری (بدون تغییر اندازه/جابجایی، پس هیچ لرزشی ایجاد نمی‌کند) */
+        html[data-gamer-theme] header,
+        html[data-gamer-theme] .bg-emerald-700,
+        html[data-gamer-theme] .bg-emerald-800,
+        html[data-gamer-theme] .bg-emerald-950,
+        html[data-gamer-theme] .bg-slate-900,
+        html[data-gamer-theme] .bg-white,
+        html[data-gamer-theme] #contact-form {
+            animation: gamerGlowPulse 3.2s ease-in-out infinite;
+            will-change: box-shadow;
+        }
+        @keyframes gamerGlowPulse {
+            0%, 100% { box-shadow: var(--g-glow); }
+            50% { box-shadow: var(--g-glow), 0 0 12px 2px var(--g-secondary); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html[data-gamer-theme] #siteContent,
+            html[data-gamer-theme] header,
+            html[data-gamer-theme] .bg-emerald-700,
+            html[data-gamer-theme] .bg-emerald-800,
+            html[data-gamer-theme] .bg-emerald-950,
+            html[data-gamer-theme] .bg-slate-900,
+            html[data-gamer-theme] .bg-white,
+            html[data-gamer-theme] #contact-form {
+                animation: none !important;
+            }
         }
 
         /* ---- قوانین عمومی مشترک بین همه تم‌های گیمری ---- */
@@ -563,20 +594,20 @@
     </div>
 
     <div class="bg-white/95 dark:bg-slate-900/95 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-center sm:justify-start gap-x-6 gap-y-1 flex-wrap">
-            <a href="students.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-10 py-1.5 flex items-center justify-center sm:justify-start gap-x-4 sm:gap-x-6 gap-y-1 flex-wrap">
+            <a href="students.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition whitespace-nowrap">
                 <i class="fa-solid fa-graduation-cap"></i>
                 <span data-i18n="subnavStudents">دانش‌آموزان DTS</span>
             </a>
-            <a href="teaching-method.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
+            <a href="teaching-method.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition whitespace-nowrap">
                 <i class="fa-solid fa-chalkboard"></i>
                 <span data-i18n="subnavMethod">نحوه‌ی تدریس</span>
             </a>
-            <a href="books.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
+            <a href="books.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition whitespace-nowrap">
                 <i class="fa-solid fa-book"></i>
                 <span data-i18n="subnavBooks">کتاب‌هایی که ما تدریس می‌کنیم</span>
             </a>
-            <a href="new-page.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
+            <a href="new-page.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition invisible">
                 <i class="fa-solid fa-file-lines"></i>
                 <span class="invisible">.</span>
             </a>
@@ -584,27 +615,34 @@
     </div>
 
     <header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-sm sticky top-0 z-50 transition-colors duration-300 border-b border-slate-200 dark:border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-3 space-x-reverse">
-                <div class="w-12 h-12 bg-emerald-700 text-white rounded-full overflow-hidden flex items-center justify-center shadow-md border-2 border-emerald-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[5rem] py-3 flex items-center justify-between flex-wrap gap-y-3 gap-x-4">
+            <div class="flex items-center gap-3 min-w-0">
+                <div class="w-12 h-12 bg-emerald-700 text-white rounded-full overflow-hidden flex items-center justify-center shadow-md border-2 border-emerald-500 shrink-0">
                     <img src="logo.jpg" alt="لوگو موسسه زبان دادمان" class="w-full h-full object-cover">
                 </div>
-                <div>
-                    <h1 class="font-extrabold text-xl text-slate-900 dark:text-white" data-i18n="brandName">موسسه زبان دادمان</h1>
-                    <span class="text-xs text-emerald-700 dark:text-emerald-400 font-medium" data-i18n="brandTagline">آموزش تخصصی زبان‌های خارجی</span>
+                <div class="min-w-0">
+                    <h1 class="font-extrabold text-lg sm:text-xl text-slate-900 dark:text-white leading-tight" data-i18n="brandName">موسسه زبان دادمان</h1>
+                    <span class="block text-xs text-emerald-700 dark:text-emerald-400 font-medium leading-snug" data-i18n="brandTagline">آموزش تخصصی زبان‌های خارجی</span>
                 </div>
             </div>
             
-            <nav class="hidden md:flex items-center space-x-8 space-x-reverse text-sm font-medium text-slate-600 dark:text-slate-300">
-                <a href="#" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition" data-i18n="navHome">خانه</a>
-                <a href="students.html" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition" data-i18n="navStudents">دانش‌آموزان DTS</a>
-                <a href="new-page.html" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition invisible">.</a>
-                <a href="#benefits" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition" data-i18n="navBenefits">مزایای دادمان</a>
-                <a href="#courses" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition" data-i18n="navCourses">انواع دوره‌ها و جلسات</a>
-                <a href="#contact-form" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition" data-i18n="navContact">مشاوره رایگان</a>
+            <nav class="hidden md:flex items-center flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-slate-600 dark:text-slate-300">
+                <a href="#" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navHome">خانه</a>
+                <a href="students.html" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navStudents">دانش‌آموزان DTS</a>
+                <a href="#benefits" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navBenefits">مزایای دادمان</a>
+                <a href="#courses" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navCourses">انواع دوره‌ها و جلسات</a>
+                <a href="#contact-form" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navContact">مشاوره رایگان</a>
             </nav>
 
-            <div class="flex items-center space-x-3 space-x-reverse">
+            <div class="flex items-center flex-wrap justify-end gap-2 sm:gap-3">
+                <a href="tel:02133479054" aria-label="تماس مستقیم" title="تماس مستقیم" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
+                    <i class="fa-solid fa-phone text-lg"></i>
+                </a>
+
+                <button onclick="cycleFontSize()" aria-label="اندازه متن" title="اندازه متن" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700 font-extrabold text-sm">
+                    <span id="fontSizeIcon">A+</span>
+                </button>
+
                 <button onclick="openLanguageModal()" aria-label="تغییر زبان" title="تغییر زبان" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
                     <i class="fa-solid fa-globe text-lg"></i>
                 </button>
@@ -617,7 +655,7 @@
                     <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
                 </button>
 
-                <a href="#contact-form" class="hidden sm:inline-block bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-md" data-i18n="navQuickSignup">
+                <a href="#contact-form" class="hidden sm:inline-block bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-md whitespace-nowrap" data-i18n="navQuickSignup">
                     ثبت نام سریع
                 </a>
             </div>
@@ -635,7 +673,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             <div class="lg:col-span-7 space-y-6 text-center lg:text-right reveal">
-                <span class="bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider border border-emerald-400/30" data-i18n="heroBadge">
+                <span class="inline-block bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-4 py-1.5 rounded-2xl uppercase tracking-wider border border-emerald-400/30 leading-relaxed" data-i18n="heroBadge">
                     پشتیبانی تا تسلط کامل بر زبان
                 </span>
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
@@ -786,7 +824,7 @@
 
                 <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-md overflow-hidden border border-emerald-500/50 ring-2 ring-emerald-600/20 flex flex-col reveal-scale reveal-stagger" style="--reveal-delay:150ms;">
                     <div class="bg-slate-900 dark:bg-slate-950 p-6 text-white text-center relative border-b border-slate-800">
-                        <span class="absolute top-3 left-3 bg-emerald-700 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full" data-i18n="course2Badge">پرطرفدار</span>
+                        <span class="absolute top-3 left-3 max-w-[45%] bg-emerald-700 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full whitespace-nowrap overflow-hidden text-ellipsis" data-i18n="course2Badge">پرطرفدار</span>
                         <i class="fa-solid fa-medal text-4xl mb-3 text-emerald-400"></i>
                         <h3 class="text-xl font-bold" data-i18n="course2Title">دوره‌های تخصصی آیلتس (IELTS)</h3>
                         <p class="text-slate-400 text-xs mt-1" data-i18n="course2Tag">ویژه مهاجرت و تحصیل</p>
@@ -854,7 +892,7 @@
                     <div class="flex space-x-4 space-x-reverse text-slate-400 pt-2">
                         <a href="#" class="hover:text-emerald-400 transition"><i class="fa-brands fa-telegram text-lg"></i></a>
                         <a href="#" class="hover:text-emerald-400 transition"><i class="fa-brands fa-instagram text-lg"></i></a>
-                        <a href="#" class="hover:text-emerald-400 transition"><i class="fa-brands fa-whatsapp text-lg"></i></a>
+                        <a href="https://wa.me/989123456789" target="_blank" rel="noopener" class="hover:text-emerald-400 transition"><i class="fa-brands fa-whatsapp text-lg"></i></a>
                     </div>
                 </div>
             </div>
@@ -867,6 +905,10 @@
     </div>
 
     <div class="float-actions" aria-label="ارتباط سریع">
+        <a href="https://wa.me/989123456789" target="_blank" rel="noopener" class="float-btn float-sub" style="--i:4; background: linear-gradient(145deg, #25D366, #128C7E);">
+            <span class="float-tooltip">واتساپ</span>
+            <i class="fa-brands fa-whatsapp"></i>
+        </a>
         <button type="button" onclick="showComingSoon(event, 'روبیکا'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:3; background: linear-gradient(145deg, #9333ea, #581c87);">
             <span class="float-tooltip">روبیکا</span>
             <span>ر</span>
@@ -1034,6 +1076,35 @@
         }
 
         initTheme();
+
+        /* ===================== دکمه اندازه متن (دسترسی‌پذیری) ===================== */
+        const fontSizeSteps = [
+            { label: 'A+', scale: '100%' },
+            { label: 'A++', scale: '112%' },
+            { label: 'A+++', scale: '125%' }
+        ];
+        let fontSizeIndex = 0;
+
+        function applyFontSize(index) {
+            fontSizeIndex = index % fontSizeSteps.length;
+            document.documentElement.style.fontSize = fontSizeSteps[fontSizeIndex].scale;
+            const icon = document.getElementById('fontSizeIcon');
+            if (icon) icon.textContent = 'A+';
+        }
+
+        function cycleFontSize() {
+            applyFontSize(fontSizeIndex + 1);
+            try { localStorage.fontSizeIndex = String(fontSizeIndex); } catch (e) {}
+        }
+
+        (function initFontSize() {
+            let idx = 0;
+            try {
+                const saved = parseInt(localStorage.fontSizeIndex, 10);
+                if (!isNaN(saved) && saved >= 0 && saved < fontSizeSteps.length) idx = saved;
+            } catch (e) {}
+            applyFontSize(idx);
+        })();
 
         const mainForm = document.getElementById('mainContactForm');
         const submitBtn = document.getElementById('submitBtn');

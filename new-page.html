@@ -1,302 +1,738 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa" dir="rtl" class="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مدیریت و دستیار هوشمند - موسسه دادمان</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>tailwind.config = { darkMode: 'class' }</script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  body { font-family:'Vazirmatn',sans-serif; min-height:100vh; }
-  body::before{
-    content:"";position:fixed;inset:0;z-index:-1;
-    background:linear-gradient(-45deg,#f1f5f9,#e2e8f0,#eef2ff,#f3f4f6);
-    background-size:400% 400%;animation:bgshift 18s ease infinite;opacity:.9;
-  }
-  html.dark body::before{
-    background:linear-gradient(-45deg,#0b0f1a,#131a2b,#1a1030,#0e1522) !important;opacity:1;
-  }
-  @keyframes bgshift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیدعلی حسینی | برنامه نویس و طراح وب سه‌بعدی</title>
 
-  /* ---- Gemini-style tokens ---- */
-  .g-gradient-text{
-    background:linear-gradient(90deg,#4285F4 0%,#9168C0 45%,#D96570 75%,#F2A65A 100%);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-  }
-  .g-orb{
-    background:conic-gradient(from 180deg,#4285F4,#9168C0,#D96570,#F2A65A,#4285F4);
-    filter:blur(0px);
-  }
-  .g-orb-spin{animation:orbspin 6s linear infinite}
-  @keyframes orbspin{to{transform:rotate(360deg)}}
-  .g-thinking-dot{animation:gpulse 1.2s ease-in-out infinite}
-  .g-thinking-dot:nth-child(2){animation-delay:.15s}
-  .g-thinking-dot:nth-child(3){animation-delay:.3s}
-  @keyframes gpulse{0%,80%,100%{opacity:.25;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#06b6d4',
+                        accent: '#8b5cf6',
+                        darkbg: '#0a0f1d'
+                    },
+                    fontFamily: {
+                        sans: ['Vazirmatn', 'Tahoma', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
 
-  .chat-scroll::-webkit-scrollbar{width:6px}
-  .chat-scroll::-webkit-scrollbar-thumb{background:#c7c9d1;border-radius:999px}
-  html.dark .chat-scroll::-webkit-scrollbar-thumb{background:#3a3f4b}
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  .msg-in{animation:msgin .35s cubic-bezier(.2,.8,.2,1)}
-  @keyframes msgin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+    <!-- Three.js Library & GSAP for 3D Camera Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
-  .g-input:focus-within{
-    box-shadow:0 0 0 3px rgba(66,133,244,.15);
-    border-color:#9168C0;
-  }
-</style>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #0a0f1d;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism styling */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-btn:hover {
+            background: rgba(99, 102, 241, 0.3);
+            border-color: rgba(6, 182, 212, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Custom glowing scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0f1d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #312e81;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6366f1;
+        }
+
+        /* Interactive Canvas positioning */
+        #webgl-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            outline: none;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 15px rgba(99, 102, 241, 0.6);
+        }
+
+        .cyan-glow {
+            text-shadow: 0 0 15px rgba(6, 182, 212, 0.6);
+        }
+    </style>
 </head>
-<body class="bg-transparent text-slate-700 dark:text-slate-100 flex flex-col min-h-screen">
+<body class="bg-darkbg text-gray-100 min-h-screen overflow-y-auto antialiased">
 
-<header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-200 dark:border-slate-800">
-  <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-    <div class="flex items-center space-x-3 space-x-reverse">
-      <div class="w-12 h-12 rounded-full overflow-hidden flex items-center justify-center border-2 border-slate-200 dark:border-slate-700">
-        <img src="logo.jpg" alt="لوگو" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150'">
-      </div>
-      <div>
-        <h1 class="font-extrabold text-xl text-slate-900 dark:text-white">پنل مدیریت <span class="g-gradient-text">هوش مصنوعی</span> دادمان</h1>
-        <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">ویرایش و تغییر صفحات سایت</span>
-      </div>
-    </div>
-    <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-indigo-300 flex items-center justify-center border border-slate-200 dark:border-slate-700">
-      <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
-    </button>
-  </div>
-</header>
+    <canvas id="webgl-canvas"></canvas>
 
-<main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 my-auto flex flex-col justify-center">
+    <!-- Main Navigation Header -->
+    <header class="fixed top-4 left-0 right-0 z-50 px-4 md:px-8">
+        <div class="max-w-6xl mx-auto glass-panel rounded-2xl px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center font-bold text-white shadow-lg text-xl">
+                    س
+                </div>
+                <div>
+                    <h1 class="text-base font-bold tracking-tight text-white">سیدعلی حسینی</h1>
+                    <p class="text-xs text-cyan-400 font-medium">برنامه نویس و توسعه‌دهنده وب</p>
+                </div>
+            </div>
 
-  <!-- ورود -->
-  <div id="loginSection" class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-6 sm:p-8 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 max-w-md w-full mx-auto">
-    <div class="text-center mb-6">
-      <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-3 g-orb">
-        <i class="fa-solid fa-lock text-white"></i>
-      </div>
-      <h2 class="text-xl font-bold text-slate-900 dark:text-white">ورود مدیر سیستم</h2>
-      <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">جهت دسترسی به دستیار هوشمند و تغییر صفحات وارد شوید</p>
-    </div>
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-1 space-x-reverse">
+                <button onclick="navigateTo('home')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium transition text-white hover:text-cyan-400 hover:bg-white/5">صفحه اصلی</button>
+                <button onclick="navigateTo('skills')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium transition text-gray-300 hover:text-cyan-400 hover:bg-white/5">مهارت‌ها</button>
+                <button onclick="navigateTo('styles')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium transition text-gray-300 hover:text-cyan-400 hover:bg-white/5">مدل‌های طراحی</button>
+                <button onclick="navigateTo('projects')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium transition text-gray-300 hover:text-cyan-400 hover:bg-white/5">نمونه کارها</button>
+                <button onclick="navigateTo('about')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium transition text-gray-300 hover:text-cyan-400 hover:bg-white/5">درباره من</button>
+            </nav>
 
-    <form onsubmit="handleLogin(event)" class="space-y-4">
-      <div>
-        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">نام کاربری</label>
-        <div class="relative">
-          <span class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400"><i class="fa-solid fa-user"></i></span>
-          <input type="text" id="username" required placeholder="نام کاربری..." class="w-full pr-10 pl-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:border-indigo-500">
+            <!-- Action Button -->
+            <div>
+                <button onclick="navigateTo('contact')" class="glass-btn px-4 py-2 rounded-xl text-xs md:text-sm font-semibold text-cyan-300 flex items-center gap-2">
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                    تماس با من
+                </button>
+            </div>
         </div>
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">رمز عبور</label>
-        <div class="relative">
-          <span class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400"><i class="fa-solid fa-key"></i></span>
-          <input type="password" id="password" required placeholder="••••••••" class="w-full pr-10 pl-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:border-indigo-500">
-        </div>
-      </div>
-      <div id="loginError" class="text-red-500 text-xs hidden text-center font-bold">نام کاربری یا رمز عبور اشتباه است!</div>
-      <button type="submit" class="w-full text-white font-bold py-3.5 rounded-xl transition shadow-lg text-sm flex items-center justify-center gap-2 g-orb hover:opacity-90">
-        <i class="fa-solid fa-right-to-bracket"></i>
-        <span>ورود به پنل ویرایش</span>
-      </button>
-    </form>
-    <div class="mt-4 text-center">
-      <span class="text-[11px] text-slate-400">دسترسی آزمایشی: ali / ali</span>
-    </div>
-  </div>
+    </header>
 
-  <!-- پنل ادمین با چت هوش مصنوعی به سبک Gemini -->
-  <div id="adminPanel" class="hidden bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full overflow-hidden">
+    <!-- UI Overlay Containers -->
+    <main class="relative z-10 pt-28 pb-20 px-4 md:px-8 max-w-6xl mx-auto min-h-screen flex flex-col justify-between">
 
-    <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 px-6 py-4">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg g-orb">
-          <i class="fa-solid fa-sparkles text-white text-sm"></i>
-        </div>
-        <div>
-          <h3 class="font-bold text-slate-900 dark:text-white">دستیار <span class="g-gradient-text">هوش مصنوعی</span> ویرایشگر سایت</h3>
-          <p class="text-xs text-slate-500 dark:text-slate-400">درباره تغییر صفحه‌تان گفتگو کنید</p>
-        </div>
-      </div>
-      <button onclick="logout()" class="text-xs bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-950/40 dark:text-red-400 px-3 py-2 rounded-xl transition">
-        خروج <i class="fa-solid fa-arrow-right-from-bracket mr-1"></i>
-      </button>
-    </div>
+        <section id="sec-home" class="min-h-[80vh] flex flex-col justify-center items-start">
+            <div class="glass-panel p-8 md:p-12 rounded-3xl max-w-2xl border-r-4 border-r-cyan-400 transform transition-all hover:scale-[1.01]">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-semibold mb-6">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    امکانات وب ۳ بعدی آماده سفارش
+                </div>
 
-    <div class="px-6 pt-4">
-      <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">کدام صفحه را می‌خواهید تغییر دهید؟</label>
-      <select id="targetPage" class="w-full p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:border-indigo-500">
-        <option value="index.html">صفحه اصلی (index.html)</option>
-        <option value="students.html">دانش‌آموزان DTS (students.html)</option>
-        <option value="teaching-method.html">نحوه تدریس (teaching-method.html)</option>
-        <option value="books.html">کتاب‌ها (books.html)</option>
-      </select>
-    </div>
+                <h1 class="text-3xl md:text-5xl font-black text-white mb-4 leading-tight">
+                    سلام، من <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-500 text-glow">سیدعلی حسینی</span> هستم
+                </h1>
+                
+                <p class="text-gray-300 text-base md:text-lg mb-8 leading-relaxed font-light">
+                    توسعه‌دهنده وب مسلط به <b class="text-cyan-300">HTML5</b>، <b class="text-indigo-300">CSS3</b>، <b class="text-yellow-300">JavaScript</b> و خلق رابط‌های کاربری تعاملی سه‌بعدی با <b class="text-purple-300">WebGL / Three.js</b>.
+                </p>
 
-    <!-- تاریخچه چت -->
-    <div id="chatHistory" class="chat-scroll px-6 py-5 space-y-4 h-[380px] overflow-y-auto">
-      <div class="msg-in flex items-start gap-3">
-        <div class="w-8 h-8 shrink-0 rounded-full g-orb flex items-center justify-center">
-          <i class="fa-solid fa-sparkles text-white text-xs"></i>
-        </div>
-        <div class="bg-slate-100 dark:bg-slate-800 rounded-2xl rounded-tr-sm px-4 py-3 text-sm leading-7 max-w-[85%]">
-          سلام! من دستیار ویرایش سایت شما هستم. بگویید روی کدام صفحه چه تغییری می‌خواهید — مثلاً «متن بخش درباره ما را بازنویسی کن» یا «رنگ دکمه ثبت‌نام را عوض کن» — و پیشنهاد و متن آماده را برایتان می‌نویسم.
-        </div>
-      </div>
-    </div>
+                <!-- Interactive Skill Tags -->
+                <div class="flex flex-wrap gap-3 mb-8">
+                    <span class="px-4 py-2 rounded-xl bg-slate-800/80 border border-amber-500/30 text-amber-300 text-sm font-bold flex items-center gap-2 shadow-sm">
+                        <i class="fa-brands fa-js text-yellow-400"></i> JavaScript ES6+
+                    </span>
+                    <span class="px-4 py-2 rounded-xl bg-slate-800/80 border border-orange-500/30 text-orange-300 text-sm font-bold flex items-center gap-2 shadow-sm">
+                        <i class="fa-brands fa-html5 text-orange-500"></i> HTML5
+                    </span>
+                    <span class="px-4 py-2 rounded-xl bg-slate-800/80 border border-blue-500/30 text-blue-300 text-sm font-bold flex items-center gap-2 shadow-sm">
+                        <i class="fa-brands fa-css3-alt text-blue-400"></i> CSS3 / Modern Layouts
+                    </span>
+                    <span class="px-4 py-2 rounded-xl bg-slate-800/80 border border-cyan-500/30 text-cyan-300 text-sm font-bold flex items-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-cube text-cyan-400"></i> طراحی سه‌بعدی WebGL
+                    </span>
+                </div>
 
-    <!-- ورودی پیام -->
-    <div class="px-6 pb-6 pt-2">
-      <div id="statusBox" class="hidden mb-3 p-3 rounded-xl text-xs leading-relaxed border"></div>
-      <form onsubmit="sendMessage(event)" class="g-input flex items-center gap-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl px-2 py-2 transition">
-        <input id="aiPrompt" type="text" autocomplete="off" placeholder="دستور خود را بنویسید..." class="flex-1 bg-transparent px-3 py-2 text-sm focus:outline-none">
-        <button type="submit" id="sendBtn" class="w-10 h-10 shrink-0 rounded-full g-orb text-white flex items-center justify-center hover:opacity-90 disabled:opacity-50">
-          <i class="fa-solid fa-paper-plane text-sm"></i>
-        </button>
-      </form>
-      <p class="text-[11px] text-slate-400 mt-2 leading-5">
-        این دستیار پیشنهاد متن/کد و راهنمایی می‌دهد؛ برای اعمال خودکار روی فایل‌های سرور، نیاز به اتصال بک‌اند جداگانه است.
-      </p>
-    </div>
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="navigateTo('styles')" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-bold text-sm shadow-lg shadow-indigo-500/30 transition-all transform hover:-translate-y-1 flex items-center gap-2">
+                        <i class="fa-solid fa-eye"></i>
+                        مشاهده مدل‌های ساخت سایت
+                    </button>
+                    <button onclick="navigateTo('contact')" class="glass-btn px-6 py-3.5 rounded-xl text-white font-semibold text-sm hover:bg-white/10 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-comments text-cyan-400"></i>
+                        مشاوره و سفارش پروژه
+                    </button>
+                </div>
+            </div>
 
-  </div>
-</main>
+            <!-- Hint overlay for 3D Camera manipulation -->
+            <div class="mt-8 flex items-center gap-3 text-xs text-gray-400 bg-slate-900/60 px-4 py-2 rounded-full border border-white/5 backdrop-blur-md">
+                <i class="fa-solid fa-arrows-spin text-cyan-400 animate-spin"></i>
+                راهنما: با ماوس صفحه را بپیمایید یا زاویه دید دوربین ۳ بعدی را تغییر دهید
+            </div>
+        </section>
 
-<script>
-  const themeIcon = document.getElementById('themeIcon');
-  function initTheme(){
-    if(localStorage.theme==='dark'||(!('theme' in localStorage)&&window.matchMedia('(prefers-color-scheme: dark)').matches)){
-      document.documentElement.classList.add('dark'); themeIcon.className="fa-solid fa-sun text-lg";
-    } else {
-      document.documentElement.classList.remove('dark'); themeIcon.className="fa-solid fa-moon text-lg";
-    }
-  }
-  function toggleTheme(){
-    if(document.documentElement.classList.contains('dark')){
-      document.documentElement.classList.remove('dark'); localStorage.theme='light'; themeIcon.className="fa-solid fa-moon text-lg";
-    } else {
-      document.documentElement.classList.add('dark'); localStorage.theme='dark'; themeIcon.className="fa-solid fa-sun text-lg";
-    }
-  }
-  initTheme();
+        <section id="sec-skills" class="py-16 hidden">
+            <div class="glass-panel p-8 md:p-10 rounded-3xl max-w-4xl mx-auto">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-black text-white mb-2">تخصص‌ها و مهارت‌های فنی</h2>
+                    <p class="text-gray-400 text-sm">ابزارها و تکنولوژی‌هایی که به طور کامل بر آن‌ها مسلط هستم</p>
+                </div>
 
-  function handleLogin(e){
-    e.preventDefault();
-    const user=document.getElementById('username').value;
-    const pass=document.getElementById('password').value;
-    const loginError=document.getElementById('loginError');
-    if(user==='ali'&&pass==='ali'){
-      document.getElementById('loginSection').classList.add('hidden');
-      document.getElementById('adminPanel').classList.remove('hidden');
-      loginError.classList.add('hidden');
-    } else {
-      loginError.classList.remove('hidden');
-    }
-  }
-  function logout(){
-    document.getElementById('adminPanel').classList.add('hidden');
-    document.getElementById('loginSection').classList.remove('hidden');
-  }
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Skill 1 -->
+                    <div class="p-5 rounded-2xl bg-slate-900/50 border border-white/5 hover:border-amber-500/40 transition">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="font-bold text-white flex items-center gap-2">
+                                <i class="fa-brands fa-js text-yellow-400 text-xl"></i> JavaScript (ES6+)
+                            </span>
+                            <span class="text-xs font-bold text-yellow-400 bg-yellow-400/10 px-2.5 py-1 rounded-full">پیشرفته</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-3">برنامه‌نویسی شی‌گرا، Async/Await، DOM Manipulation و متدولوژی‌های مدرن JS</p>
+                        <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                            <div class="bg-gradient-to-r from-amber-500 to-yellow-300 h-2.5 rounded-full" style="width: 90%"></div>
+                        </div>
+                    </div>
 
-  const chatHistory=document.getElementById('chatHistory');
-  const statusBox=document.getElementById('statusBox');
-  let conversation=[]; // {role, content}
+                    <!-- Skill 2 -->
+                    <div class="p-5 rounded-2xl bg-slate-900/50 border border-white/5 hover:border-orange-500/40 transition">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="font-bold text-white flex items-center gap-2">
+                                <i class="fa-brands fa-html5 text-orange-500 text-xl"></i> HTML5 & Semantic Web
+                            </span>
+                            <span class="text-xs font-bold text-orange-400 bg-orange-400/10 px-2.5 py-1 rounded-full">تخصص کامل</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-3">ساختاردهی استاندارد، رعایت اصول سئو (SEO) و دسترسی‌پذیری وب (Accessibility)</p>
+                        <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                            <div class="bg-gradient-to-r from-orange-500 to-amber-400 h-2.5 rounded-full" style="width: 95%"></div>
+                        </div>
+                    </div>
 
-  function scrollToBottom(){ chatHistory.scrollTop = chatHistory.scrollHeight; }
+                    <!-- Skill 3 -->
+                    <div class="p-5 rounded-2xl bg-slate-900/50 border border-white/5 hover:border-blue-500/40 transition">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="font-bold text-white flex items-center gap-2">
+                                <i class="fa-brands fa-css3-alt text-blue-400 text-xl"></i> CSS3 & Tailwind CSS
+                            </span>
+                            <span class="text-xs font-bold text-blue-400 bg-blue-400/10 px-2.5 py-1 rounded-full">تخصص کامل</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-3">طراحی واکنش‌گرا (Responsive)، Flexbox/Grid، انیمیشن‌های Keyframes و Flex UI</p>
+                        <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                            <div class="bg-gradient-to-r from-blue-500 to-cyan-400 h-2.5 rounded-full" style="width: 92%"></div>
+                        </div>
+                    </div>
 
-  function appendUserMessage(text){
-    const div=document.createElement('div');
-    div.className='msg-in flex items-start gap-3 flex-row-reverse';
-    div.innerHTML=`
-      <div class="w-8 h-8 shrink-0 rounded-full bg-slate-300 dark:bg-slate-700 flex items-center justify-center">
-        <i class="fa-solid fa-user text-slate-600 dark:text-slate-300 text-xs"></i>
-      </div>
-      <div class="bg-indigo-600 text-white rounded-2xl rounded-tl-sm px-4 py-3 text-sm leading-7 max-w-[85%]"></div>`;
-    div.querySelector('div:last-child').textContent=text;
-    chatHistory.appendChild(div); scrollToBottom();
-  }
+                    <!-- Skill 4 -->
+                    <div class="p-5 rounded-2xl bg-slate-900/50 border border-white/5 hover:border-cyan-500/40 transition">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-cube text-cyan-400 text-xl"></i> Three.js / WebGL سه‌بعدی
+                            </span>
+                            <span class="text-xs font-bold text-cyan-400 bg-cyan-400/10 px-2.5 py-1 rounded-full">تخصصی</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-3">رندر صحنه‌های سه‌بعدی، انیمیشن‌های تعاملی و متریال‌های نوآورانه در مرورگر</p>
+                        <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                            <div class="bg-gradient-to-r from-indigo-500 to-cyan-400 h-2.5 rounded-full" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  function appendThinking(){
-    const div=document.createElement('div');
-    div.id='thinkingBubble';
-    div.className='msg-in flex items-start gap-3';
-    div.innerHTML=`
-      <div class="w-8 h-8 shrink-0 rounded-full g-orb g-orb-spin flex items-center justify-center">
-        <i class="fa-solid fa-sparkles text-white text-xs"></i>
-      </div>
-      <div class="bg-slate-100 dark:bg-slate-800 rounded-2xl rounded-tr-sm px-4 py-3 flex items-center gap-1">
-        <span class="g-thinking-dot w-1.5 h-1.5 rounded-full bg-slate-400 inline-block"></span>
-        <span class="g-thinking-dot w-1.5 h-1.5 rounded-full bg-slate-400 inline-block"></span>
-        <span class="g-thinking-dot w-1.5 h-1.5 rounded-full bg-slate-400 inline-block"></span>
-      </div>`;
-    chatHistory.appendChild(div); scrollToBottom();
-    return div;
-  }
+        <section id="sec-styles" class="py-16 hidden">
+            <div class="glass-panel p-8 md:p-10 rounded-3xl max-w-5xl mx-auto">
+                <div class="text-center mb-10">
+                    <span class="text-xs font-bold uppercase tracking-widest text-cyan-400 bg-cyan-950/60 border border-cyan-500/30 px-3 py-1 rounded-full">مدل‌ها و استایل‌ها</span>
+                    <h2 class="text-3xl font-black text-white mt-3 mb-2">سبک‌های متنوع ساخت وب‌سایت</h2>
+                    <p class="text-gray-400 text-sm">من بر اساس نیاز پروژه، سبک‌های گرافیکی و ساختاری مختلفی ارائه می‌دهم</p>
+                </div>
 
-  function appendAssistantMessage(text){
-    const div=document.createElement('div');
-    div.className='msg-in flex items-start gap-3';
-    div.innerHTML=`
-      <div class="w-8 h-8 shrink-0 rounded-full g-orb flex items-center justify-center">
-        <i class="fa-solid fa-sparkles text-white text-xs"></i>
-      </div>
-      <div class="bg-slate-100 dark:bg-slate-800 rounded-2xl rounded-tr-sm px-4 py-3 text-sm leading-7 max-w-[85%] whitespace-pre-wrap"></div>`;
-    div.querySelector('div:last-child').textContent=text;
-    chatHistory.appendChild(div); scrollToBottom();
-  }
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Style 1: 3D Interactive -->
+                    <div class="rounded-2xl p-6 bg-gradient-to-b from-indigo-900/30 to-slate-900/80 border border-indigo-500/30 hover:border-cyan-400 transition-all transform hover:-translate-y-2 group">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-cubes"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">۱. وب‌سایت‌های ۳ بعدی (3D Interactive)</h3>
+                        <p class="text-xs text-gray-300 leading-relaxed mb-4">
+                            طراحی شده با Three.js و Canvas سه‌بعدی. مناسب پروژه‌های مدرن، رزومه‌های شخصی، محصولات خاص و معرفی شرکت‌های پیشرو که نیازمند جلوه‌های خیره‌کننده هستند.
+                        </p>
+                        <span class="inline-block text-xs font-semibold text-cyan-400">همین رزومه نمونه‌ای از این سبک است ↑</span>
+                    </div>
 
-  async function sendMessage(e){
-    e.preventDefault();
-    const input=document.getElementById('aiPrompt');
-    const sendBtn=document.getElementById('sendBtn');
-    const page=document.getElementById('targetPage').value;
-    const text=input.value.trim();
-    if(!text) return;
+                    <!-- Style 2: Glassmorphism / Modern Cyber -->
+                    <div class="rounded-2xl p-6 bg-gradient-to-b from-slate-900/80 to-purple-900/20 border border-purple-500/30 hover:border-purple-400 transition-all transform hover:-translate-y-2 group">
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">۲. گلاسمورفیسم و مدرن (Glassmorphic)</h3>
+                        <p class="text-xs text-gray-300 leading-relaxed mb-4">
+                            استفاده از پس‌زمینه‌های شیشه‌ای مات، افکت‌های نئونی، مرزهای شفاف و تایپوگرافی برجسته. ایده‌آل برای صرافی‌های دیجیتال، نرم‌افزارهای SaaS و Landing Pageها.
+                        </p>
+                        <span class="inline-block text-xs font-semibold text-purple-400">طراحی شیک، لوکس و کاربرپسند</span>
+                    </div>
 
-    appendUserMessage(text);
-    conversation.push({role:'user', content:text});
-    input.value='';
-    sendBtn.disabled=true;
-    const thinkingEl=appendThinking();
+                    <!-- Style 3: Minimalist Clean -->
+                    <div class="rounded-2xl p-6 bg-gradient-to-b from-slate-900/80 to-slate-800/50 border border-slate-700 hover:border-emerald-400 transition-all transform hover:-translate-y-2 group">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-feather"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">۳. سبک مینیمال و تمیز (Minimalist)</h3>
+                        <p class="text-xs text-gray-300 leading-relaxed mb-4">
+                            تمرکز روی محتوا، سرعت بارگذاری فوق‌العاده بالا، فضای خالی متوازن و فونت‌های خوانا. مناسب پورتفولیوهای شرکت‌ها، وبلاگ‌ها و فروشگاه‌های تخصصی.
+                        </p>
+                        <span class="inline-block text-xs font-semibold text-emerald-400">سریع، استاندارد و فوق‌العاده سبُک</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    try{
-      const response=await fetch("https://api.anthropic.com/v1/messages",{
-        method:"POST",
-        headers:{ "Content-Type":"application/json" },
-        body: JSON.stringify({
-          model:"claude-sonnet-4-6",
-          max_tokens:1000,
-          system:`تو دستیار هوش مصنوعی یک پنل مدیریت سایت آموزشی به نام «موسسه دادمان» هستی. کاربر مدیر سایت است و می‌خواهد صفحه «${page}» را تغییر دهد. با توجه به درخواست او، پیشنهاد متن، کد HTML/CSS یا توضیح مشخص و عملی به زبان فارسی بده. کوتاه، دقیق و کاربردی پاسخ بده.`,
-          messages: conversation
-        })
-      });
+        <section id="sec-projects" class="py-16 hidden">
+            <div class="glass-panel p-8 md:p-10 rounded-3xl max-w-5xl mx-auto">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-black text-white mb-2">نمونه کارهای برجسته</h2>
+                    <p class="text-gray-400 text-sm">چند نمونه از پروژه‌های فرانت‌اند و طراحی وب‌سایت</p>
+                </div>
 
-      if(!response.ok){
-        throw new Error('خطای شبکه: ' + response.status);
-      }
-      const data=await response.json();
-      const replyText=(data.content||[]).map(b=>b.text||'').join('\n').trim() || 'پاسخی دریافت نشد.';
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Project Item 1 -->
+                    <div class="glass-btn rounded-2xl overflow-hidden p-5 flex flex-col justify-between hover:border-indigo-500 transition">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-lg font-bold text-white">پلتفرم سه‌بعدی نمایش محصول</h3>
+                                <span class="px-2.5 py-1 rounded-md bg-indigo-500/20 text-indigo-300 text-xs font-semibold">Three.js + JS</span>
+                            </div>
+                            <p class="text-gray-300 text-xs leading-relaxed mb-4">
+                                شوکیس سه‌بعدی تعاملی برای مشاهده و سفارشی‌سازی رنگ و زاویه دید محصول به صورت ۳۶۰ درجه در مرورگر.
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-between pt-3 border-t border-white/10 text-xs">
+                            <span class="text-cyan-400 flex items-center gap-1"><i class="fa-solid fa-code"></i> HTML5 / CSS3 / JS</span>
+                            <span class="text-gray-400">1402</span>
+                        </div>
+                    </div>
 
-      thinkingEl.remove();
-      appendAssistantMessage(replyText);
-      conversation.push({role:'assistant', content:replyText});
+                    <!-- Project Item 2 -->
+                    <div class="glass-btn rounded-2xl overflow-hidden p-5 flex flex-col justify-between hover:border-cyan-500 transition">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-lg font-bold text-white">داشبورد مدیریتی گلاسمورفیک</h3>
+                                <span class="px-2.5 py-1 rounded-md bg-cyan-500/20 text-cyan-300 text-xs font-semibold">HTML5 + JS</span>
+                            </div>
+                            <p class="text-gray-300 text-xs leading-relaxed mb-4">
+                                پنل کاربری فوق‌العاده مدرن با تم تاریک، نمودارهای تعاملی و رابط کاربری کاملاً واکنش‌گرا برای تمامی دستگاه‌ها.
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-between pt-3 border-t border-white/10 text-xs">
+                            <span class="text-cyan-400 flex items-center gap-1"><i class="fa-solid fa-code"></i> HTML / Tailwind / Chart.js</span>
+                            <span class="text-gray-400">1402</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-      statusBox.classList.remove('hidden','bg-amber-50','text-amber-800','border-amber-200');
-      statusBox.classList.add('bg-emerald-50','text-emerald-800','border-emerald-200','dark:bg-emerald-950/30','dark:text-emerald-300','dark:border-emerald-900');
-      statusBox.innerHTML=`<i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> پاسخ دستیار برای صفحه <b>${page}</b> آماده شد.`;
+        <section id="sec-about" class="py-16 hidden">
+            <div class="glass-panel p-8 md:p-10 rounded-3xl max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8">
+                <!-- Avatar visual representation -->
+                <div class="relative w-48 h-48 md:w-56 md:h-56 shrink-0 rounded-2xl overflow-hidden border-2 border-indigo-500/50 shadow-2xl bg-slate-800 flex items-center justify-center group">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-indigo-900/80 via-transparent to-cyan-500/30"></div>
+                    <div class="text-center p-4 relative z-10">
+                        <div class="w-24 h-24 mx-auto rounded-full bg-indigo-600/40 border-2 border-cyan-400 flex items-center justify-center text-4xl text-white mb-2 shadow-lg">
+                            <i class="fa-solid fa-user-astronaut"></i>
+                        </div>
+                        <span class="text-xs font-bold text-cyan-300 block">سیدعلی حسینی</span>
+                        <span class="text-[10px] text-gray-400">Front-End & 3D Web Dev</span>
+                    </div>
+                </div>
 
-    }catch(err){
-      thinkingEl.remove();
-      appendAssistantMessage('متاسفم، مشکلی در ارتباط پیش آمد. لطفاً دوباره تلاش کنید.');
-      statusBox.classList.remove('hidden','bg-emerald-50','text-emerald-800','border-emerald-200');
-      statusBox.classList.add('bg-red-50','text-red-700','border-red-200');
-      statusBox.innerHTML=`<i class="fa-solid fa-triangle-exclamation mr-1"></i> خطا: ${err.message}`;
-    }finally{
-      sendBtn.disabled=false;
-      input.focus();
-    }
-  }
-</script>
+                <div class="space-y-4 text-gray-200">
+                    <h2 class="text-2xl font-black text-white">درباره سیدعلی حسینی</h2>
+                    <p class="text-sm leading-relaxed font-light text-gray-300">
+                        من برنامه‌نویس وب با اشتیاق بالا در حوزه توسعه فرانت‌اند و برنامه‌نویسی وب‌سایت‌های مدرن هستم. تسلط کامل بر مفاهیم پایه و پیشرفته <b class="text-yellow-300">JavaScript</b>، <b class="text-orange-400">HTML5</b> و <b class="text-blue-400">CSS3</b> به من این امکان را می‌دهد تا ایده‌های خلاقانه را به وب‌سایت‌های زنده، سریع و استاندارد تبدیل کنم.
+                    </p>
+                    <p class="text-sm leading-relaxed font-light text-gray-300">
+                        همچنین علاقه زیاد من به تجربه‌های بصری سه‌بعدی باعث شده تا با استفاده از کتابخانه‌های وب‌گل (WebGL) و Three.js، وب‌سایت‌هایی فراتر از حالت‌های دو‌بعدی سنتی خلق کنم.
+                    </p>
+                    
+                    <div class="pt-2 flex flex-wrap gap-4 text-xs font-medium">
+                        <div class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 flex items-center gap-2">
+                            <i class="fa-solid fa-check text-emerald-400"></i> کدنوسی تمیز و بهینه
+                        </div>
+                        <div class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 flex items-center gap-2">
+                            <i class="fa-solid fa-check text-emerald-400"></i> طراحی ۱۰۰٪ واکنش‌گرا (Responsive)
+                        </div>
+                        <div class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 flex items-center gap-2">
+                            <i class="fa-solid fa-check text-emerald-400"></i> افکت‌ها و رابط‌های ۳ بعدی
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-contact" class="py-16 hidden">
+            <div class="glass-panel p-8 md:p-10 rounded-3xl max-w-3xl mx-auto">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-black text-white mb-2">تماس با من</h2>
+                    <p class="text-gray-400 text-sm">برای سفارش پروژه یا مشاوره طراحی وب‌سایت با من در ارتباط باشید</p>
+                </div>
+
+                <form onsubmit="event.preventDefault(); showContactNotice();" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-300 mb-1">نام و نام خانوادگی</label>
+                            <input type="text" placeholder="مثلا: علی محمدی" required class="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-300 mb-1">ایمیل یا شماره تماس</label>
+                            <input type="text" placeholder="09123456789 یا email@example.com" required class="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition text-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-300 mb-1">توضیحات پروژه / پیام شما</label>
+                        <textarea rows="4" placeholder="جزئیات سفارش یا سبک سایت مد نظرتان را بنویسید..." required class="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition text-sm resize-none"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-500 hover:opacity-90 text-white font-bold text-sm shadow-lg transition">
+                        ارسال پیام سفارش
+                    </button>
+                </form>
+
+                <div id="contact-notice" class="hidden mt-4 p-4 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs text-center">
+                    <i class="fa-solid fa-circle-check ml-1"></i> پیام شما با موفقیت ثبت شد! به زودی با شما تماس خواهم گرفت.
+                </div>
+
+                <!-- Direct Social Links -->
+                <div class="mt-8 pt-6 border-t border-white/10 flex justify-center gap-6 text-xl text-gray-400">
+                    <a href="#" class="hover:text-cyan-400 transition"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="hover:text-cyan-400 transition"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="#" class="hover:text-cyan-400 transition"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" class="hover:text-cyan-400 transition"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom Footer Info -->
+        <footer class="mt-auto pt-10 text-center text-xs text-gray-400">
+            <p>طراحی و توسعه اختصاصی سه‌بعدی توسط <span class="text-cyan-400 font-bold">سیدعلی حسینی</span> © 1403</p>
+        </footer>
+    </main>
+
+    <script>
+        // Tab Navigation Functionality
+        function navigateTo(sectionId) {
+            const sections = ['home', 'skills', 'styles', 'projects', 'about', 'contact'];
+            sections.forEach(sec => {
+                const el = document.getElementById('sec-' + sec);
+                if (el) {
+                    if (sec === sectionId) {
+                        el.classList.remove('hidden');
+                        gsap.fromTo(el, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 });
+                    } else {
+                        el.classList.add('hidden');
+                    }
+                }
+            });
+
+            // Adjust 3D Camera view based on current section
+            if (window.moveCameraToSection) {
+                window.moveCameraToSection(sectionId);
+            }
+        }
+
+        function showContactNotice() {
+            const notice = document.getElementById('contact-notice');
+            if (notice) {
+                notice.classList.remove('hidden');
+                setTimeout(() => {
+                    notice.classList.add('hidden');
+                }, 5000);
+            }
+        }
+
+        window.addEventListener('load', () => {
+            const canvas = document.getElementById('webgl-canvas');
+            const scene = new THREE.Scene();
+            
+            // Add space fog for atmosphere
+            scene.fog = new THREE.FogExp2(0x0a0f1d, 0.03);
+
+            // Camera Setup
+            const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 1.5, 7);
+
+            // Renderer Setup
+            const renderer = new THREE.WebGLRenderer({
+                canvas: canvas,
+                antialias: true,
+                alpha: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+
+            // Lighting Setup
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+
+            // Glowing cyan point light
+            const cyanLight = new THREE.PointLight(0x06b6d4, 3, 15);
+            cyanLight.position.set(-3, 3, 2);
+            scene.add(cyanLight);
+
+            // Glowing purple point light
+            const purpleLight = new THREE.PointLight(0x8b5cf6, 3, 15);
+            purpleLight.position.set(3, 2, -1);
+            scene.add(purpleLight);
+
+            // -------------------------------------------------------------
+            // Create 3D Stylized Office Room (Desk, Laptop, Chair representation)
+            // -------------------------------------------------------------
+            const studioGroup = new THREE.Group();
+
+            // Desk Platform
+            const deskGeometry = new THREE.BoxGeometry(4.5, 0.15, 2);
+            const deskMaterial = new THREE.MeshStandardMaterial({
+                color: 0x1e293b,
+                roughness: 0.3,
+                metalness: 0.8
+            });
+            const desk = new THREE.Mesh(deskGeometry, deskMaterial);
+            desk.position.set(0, -0.8, -1);
+            studioGroup.add(desk);
+
+            // Desk Legs
+            const legGeo = new THREE.CylinderGeometry(0.05, 0.05, 2);
+            const legMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.9 });
+            const leg1 = new THREE.Mesh(legGeo, legMat); leg1.position.set(-2, -1.8, -1.8);
+            const leg2 = new THREE.Mesh(legGeo, legMat); leg2.position.set(2, -1.8, -1.8);
+            const leg3 = new THREE.Mesh(legGeo, legMat); leg3.position.set(-2, -1.8, -0.2);
+            const leg4 = new THREE.Mesh(legGeo, legMat); leg4.position.set(2, -1.8, -0.2);
+            studioGroup.add(leg1, leg2, leg3, leg4);
+
+            // Laptop Base
+            const laptopBaseGeo = new THREE.BoxGeometry(1.2, 0.04, 0.8);
+            const laptopBaseMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.9, roughness: 0.2 });
+            const laptopBase = new THREE.Mesh(laptopBaseGeo, laptopBaseMat);
+            laptopBase.position.set(0, -0.7, -1);
+            studioGroup.add(laptopBase);
+
+            // Laptop Screen
+            const laptopScreenGeo = new THREE.BoxGeometry(1.2, 0.75, 0.03);
+            const laptopScreenMat = new THREE.MeshStandardMaterial({
+                color: 0x06b6d4,
+                emissive: 0x0284c7,
+                emissiveIntensity: 0.8,
+                roughness: 0.1
+            });
+            const laptopScreen = new THREE.Mesh(laptopScreenGeo, laptopScreenMat);
+            laptopScreen.position.set(0, -0.32, -1.35);
+            laptopScreen.rotation.x = -0.1;
+            studioGroup.add(laptopScreen);
+
+            // -------------------------------------------------------------
+            // Stylized 3D Developer Chair & Crossed Arms Pose Concept Object
+            // -------------------------------------------------------------
+            const chairGroup = new THREE.Group();
+
+            // Chair Cushion (Sitting base)
+            const seatGeo = new THREE.BoxGeometry(1.3, 0.2, 1.2);
+            const chairMat = new THREE.MeshStandardMaterial({ color: 0x1e1b4b, roughness: 0.4 });
+            const seat = new THREE.Mesh(seatGeo, chairMat);
+            seat.position.set(0, -1.1, 0.8);
+
+            // Chair Backrest
+            const backrestGeo = new THREE.BoxGeometry(1.2, 1.4, 0.15);
+            const backrest = new THREE.Mesh(backrestGeo, chairMat);
+            backrest.position.set(0, -0.3, 1.35);
+
+            // Stylized Arms Crossed Dev Avatar / Sphere Hologram
+            const devHeadGeo = new THREE.SphereGeometry(0.35, 32, 32);
+            const devHeadMat = new THREE.MeshStandardMaterial({
+                color: 0x6366f1,
+                wireframe: true,
+                emissive: 0x4338ca
+            });
+            const devHead = new THREE.Mesh(devHeadGeo, devHeadMat);
+            devHead.position.set(0, 0.25, 0.8);
+
+            // Body / Torso with crossed arms structure
+            const bodyGeo = new THREE.CylinderGeometry(0.4, 0.45, 0.8, 16);
+            const bodyMat = new THREE.MeshStandardMaterial({ color: 0x312e81, roughness: 0.5 });
+            const devBody = new THREE.Mesh(bodyGeo, bodyMat);
+            devBody.position.set(0, -0.4, 0.8);
+
+            // Crossed Arms representation (Torus segment)
+            const armGeo = new THREE.TorusGeometry(0.3, 0.08, 16, 32, Math.PI);
+            const armMat = new THREE.MeshStandardMaterial({ color: 0x4f46e5, metalness: 0.5 });
+            const devArms = new THREE.Mesh(armGeo, armMat);
+            devArms.position.set(0, -0.4, 0.5);
+            devArms.rotation.x = Math.PI / 2;
+
+            chairGroup.add(seat, backrest, devHead, devBody, devArms);
+            studioGroup.add(chairGroup);
+
+            // -------------------------------------------------------------
+            // Floating 3D Skill Badges (HTML, CSS, JS cubes/polyhedra)
+            // -------------------------------------------------------------
+            const floatingBadges = [];
+
+            function createBadge(color, posX, posY, posZ) {
+                const geo = new THREE.IcosahedronGeometry(0.35, 0);
+                const mat = new THREE.MeshStandardMaterial({
+                    color: color,
+                    emissive: color,
+                    emissiveIntensity: 0.4,
+                    metalness: 0.8,
+                    roughness: 0.2
+                });
+                const badge = new THREE.Mesh(geo, mat);
+                badge.position.set(posX, posY, posZ);
+                badge.userData = {
+                    initialY: posY,
+                    speed: 0.008 + Math.random() * 0.005,
+                    rotSpeed: 0.01 + Math.random() * 0.01
+                };
+                studioGroup.add(badge);
+                floatingBadges.push(badge);
+            }
+
+            createBadge(0xf59e0b, -2.2, 0.3, -0.5); // JavaScript Yellow
+            createBadge(0xe11d48, 2.2, 0.5, -0.5);  // HTML Orange/Red
+            createBadge(0x0284c7, -1.8, 1.2, -1.5); // CSS Blue
+            createBadge(0x8b5cf6, 1.8, 1.1, -1.2);  // 3D Purple
+
+            scene.add(studioGroup);
+
+            // -------------------------------------------------------------
+            // Background Particle Starfield / Floating Code Particles
+            // -------------------------------------------------------------
+            const particleCount = 250;
+            const particleGeo = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 20;
+                positions[i + 1] = (Math.random() - 0.5) * 20;
+                positions[i + 2] = (Math.random() - 0.5) * 20;
+            }
+
+            particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const particleMat = new THREE.PointsMaterial({
+                color: 0x38bdf8,
+                size: 0.05,
+                transparent: true,
+                opacity: 0.6
+            });
+            const particles = new THREE.Points(particleGeo, particleMat);
+            scene.add(particles);
+
+            // -------------------------------------------------------------
+            // Interactive Mouse Parallax & Camera Controls
+            // -------------------------------------------------------------
+            let mouseX = 0;
+            let mouseY = 0;
+            let targetCameraX = 0;
+            let targetCameraY = 1.5;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth - 0.5) * 2;
+                mouseY = -(event.clientY / window.innerHeight - 0.5) * 2;
+            });
+
+            // Camera movement according to section selection
+            window.moveCameraToSection = function(sectionId) {
+                switch(sectionId) {
+                    case 'home':
+                        gsap.to(camera.position, { x: 0, y: 1.5, z: 7, duration: 1.5, ease: 'power2.inOut' });
+                        gsap.to(studioGroup.rotation, { y: 0, duration: 1.5 });
+                        break;
+                    case 'skills':
+                        gsap.to(camera.position, { x: -2, y: 1, z: 4.5, duration: 1.5, ease: 'power2.inOut' });
+                        gsap.to(studioGroup.rotation, { y: 0.5, duration: 1.5 });
+                        break;
+                    case 'styles':
+                        gsap.to(camera.position, { x: 2, y: 1.2, z: 4.5, duration: 1.5, ease: 'power2.inOut' });
+                        gsap.to(studioGroup.rotation, { y: -0.5, duration: 1.5 });
+                        break;
+                    case 'projects':
+                        gsap.to(camera.position, { x: 0, y: 0.2, z: 3.5, duration: 1.5, ease: 'power2.inOut' });
+                        gsap.to(studioGroup.rotation, { y: 0, duration: 1.5 });
+                        break;
+                    case 'about':
+                        gsap.to(camera.position, { x: 0, y: 0.8, z: 5, duration: 1.5, ease: 'power2.inOut' });
+                        gsap.to(studioGroup.rotation, { y: 0.3, duration: 1.5 });
+                        break;
+                    case 'contact':
+                        gsap.to(camera.position, { x: 0, y: 2, z: 8, duration: 1.5, ease: 'power2.inOut' });
+                        gsap.to(studioGroup.rotation, { y: 0, duration: 1.5 });
+                        break;
+                }
+            };
+
+            // Responsive Window Resize Handler
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            // -------------------------------------------------------------
+            // Animation Loop
+            // -------------------------------------------------------------
+            const clock = new THREE.Clock();
+
+            function animate() {
+                requestAnimationFrame(animate);
+
+                const elapsedTime = clock.getElapsedTime();
+
+                // Float badges up and down
+                floatingBadges.forEach(badge => {
+                    badge.rotation.x += badge.userData.rotSpeed;
+                    badge.rotation.y += badge.userData.rotSpeed;
+                    badge.position.y = badge.userData.initialY + Math.sin(elapsedTime * 2 + badge.position.x) * 0.15;
+                });
+
+                // Gently rotate particle starfield
+                particles.rotation.y = elapsedTime * 0.02;
+
+                // Subtle dev head float
+                devHead.rotation.y = Math.sin(elapsedTime * 0.8) * 0.2;
+
+                // Smooth Parallax camera follow
+                camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.03;
+                camera.position.y += (mouseY * 0.3 + 1.5 - camera.position.y) * 0.03;
+                camera.lookAt(0, 0, 0);
+
+                renderer.render(scene, camera);
+            }
+
+            // Start animation loop
+            animate();
+        });
+    </script>
 </body>
 </html>
+

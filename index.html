@@ -330,6 +330,219 @@
         .dark .lang-flag {
             background: rgba(255,255,255,0.06);
         }
+
+        /* ===================== مودال و کارت‌های تم گیمری ===================== */
+        #gamerThemeModal {
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .gamer-option {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border-radius: 1rem;
+            border: 1px solid transparent;
+            background: rgba(15, 23, 42, 0.04);
+            cursor: pointer;
+            transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            text-align: inherit;
+            overflow: hidden;
+        }
+        .dark .gamer-option {
+            background: rgba(255,255,255,0.04);
+        }
+        .gamer-option:hover {
+            transform: translateY(-1px);
+        }
+        .gamer-option.lang-active {
+            border-color: rgba(255,255,255,0.5);
+        }
+        .gamer-swatch {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.85rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 14px rgba(0,0,0,0.25);
+        }
+        .gamer-option-name {
+            font-weight: 800;
+            font-size: 0.85rem;
+        }
+        .gamer-option-desc {
+            font-size: 0.68rem;
+            opacity: 0.7;
+        }
+
+        /* ---- تم ۱: سایبرپانک نئون ---- */
+        html[data-gamer-theme="cyberpunk"] {
+            --g-primary: #ff2bd6;
+            --g-secondary: #00fff2;
+            --g-bg1: #05010f; --g-bg2: #1a0b2e; --g-bg3: #001a1a; --g-bg4: #10002b;
+            --g-header-bg: rgba(10,4,20,0.5);
+            --g-card-bg: rgba(15,6,30,0.32);
+            --g-border: rgba(0,255,242,0.4);
+            --g-glow: 0 0 25px rgba(255,43,214,0.35), 0 0 45px rgba(0,255,242,0.18);
+            --g-text: #f5d0ff;
+        }
+
+        /* ---- تم ۲: پروتکل ماتریکس ---- */
+        html[data-gamer-theme="matrix"] {
+            --g-primary: #00ff66;
+            --g-secondary: #39ff14;
+            --g-bg1: #000500; --g-bg2: #001a08; --g-bg3: #000000; --g-bg4: #002200;
+            --g-header-bg: rgba(0,10,3,0.55);
+            --g-card-bg: rgba(0,15,5,0.3);
+            --g-border: rgba(0,255,102,0.4);
+            --g-glow: 0 0 25px rgba(0,255,102,0.4);
+            --g-text: #b6ffcf;
+        }
+
+        /* ---- تم ۳: اینفرنو / دوزخ ---- */
+        html[data-gamer-theme="inferno"] {
+            --g-primary: #ff1f3d;
+            --g-secondary: #ff7a00;
+            --g-bg1: #0a0000; --g-bg2: #1a0000; --g-bg3: #2b0a00; --g-bg4: #000000;
+            --g-header-bg: rgba(15,0,0,0.55);
+            --g-card-bg: rgba(20,0,0,0.32);
+            --g-border: rgba(255,31,61,0.45);
+            --g-glow: 0 0 25px rgba(255,31,61,0.4), 0 0 45px rgba(255,122,0,0.2);
+            --g-text: #ffd6d6;
+        }
+
+        /* ---- تم ۴: سینت‌ویو ---- */
+        html[data-gamer-theme="synthwave"] {
+            --g-primary: #ff00e5;
+            --g-secondary: #00d4ff;
+            --g-bg1: #0d0221; --g-bg2: #240046; --g-bg3: #3c096c; --g-bg4: #10002b;
+            --g-header-bg: rgba(20,2,40,0.5);
+            --g-card-bg: rgba(30,5,60,0.32);
+            --g-border: rgba(0,212,255,0.4);
+            --g-glow: 0 0 25px rgba(255,0,229,0.35), 0 0 45px rgba(0,212,255,0.2);
+            --g-text: #f3d9ff;
+        }
+
+        /* ---- تم ۵: آر‌جی‌بی اوردرایو (رنگ‌های متغیر مثل لوازم گیمینگ) ---- */
+        html[data-gamer-theme="rgb"] {
+            --g-primary: #ffffff;
+            --g-secondary: #00e5ff;
+            --g-bg1: #050505; --g-bg2: #111111; --g-bg3: #000000; --g-bg4: #0a0a0a;
+            --g-header-bg: rgba(10,10,10,0.5);
+            --g-card-bg: rgba(10,10,10,0.32);
+            --g-border: rgba(255,255,255,0.45);
+            --g-glow: 0 0 30px rgba(255,255,255,0.5);
+            --g-text: #ffffff;
+        }
+        html[data-gamer-theme="rgb"] body {
+            animation: rgbHueShift 8s linear infinite !important;
+        }
+        @keyframes rgbHueShift {
+            from { filter: hue-rotate(0deg); }
+            to { filter: hue-rotate(360deg); }
+        }
+
+        /* ---- قوانین عمومی مشترک بین همه تم‌های گیمری ---- */
+        html[data-gamer-theme] body::before {
+            background: linear-gradient(-45deg, var(--g-bg1), var(--g-bg2), var(--g-bg3), var(--g-bg4)) !important;
+            background-size: 400% 400% !important;
+            opacity: 1 !important;
+        }
+        html[data-gamer-theme] body {
+            color: var(--g-text) !important;
+        }
+        html[data-gamer-theme] header,
+        html[data-gamer-theme] .bg-emerald-900,
+        html[data-gamer-theme] .bg-white\/95,
+        html[data-gamer-theme] .bg-white\/90 {
+            background: var(--g-header-bg) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border-color: var(--g-border) !important;
+            color: var(--g-text) !important;
+        }
+        html[data-gamer-theme] section.bg-gradient-to-br,
+        html[data-gamer-theme] .bg-white\/70,
+        html[data-gamer-theme] .bg-slate-100\/70 {
+            background: var(--g-card-bg) !important;
+            backdrop-filter: blur(18px) !important;
+            -webkit-backdrop-filter: blur(18px) !important;
+        }
+        html[data-gamer-theme] .bg-white,
+        html[data-gamer-theme] #contact-form,
+        html[data-gamer-theme] .bg-slate-950,
+        html[data-gamer-theme] #customModal > div,
+        html[data-gamer-theme] #comingSoonModal > div,
+        html[data-gamer-theme] #languageModal > div,
+        html[data-gamer-theme] #gamerThemeModal > div {
+            background: var(--g-card-bg) !important;
+            backdrop-filter: blur(16px) !important;
+            -webkit-backdrop-filter: blur(16px) !important;
+            border-color: var(--g-border) !important;
+            box-shadow: var(--g-glow) !important;
+            color: var(--g-text) !important;
+        }
+        html[data-gamer-theme] .border-slate-200,
+        html[data-gamer-theme] .border-slate-700,
+        html[data-gamer-theme] .border-emerald-500\/50,
+        html[data-gamer-theme] .ring-emerald-600\/20,
+        html[data-gamer-theme] .border-emerald-950\/40,
+        html[data-gamer-theme] .border-slate-800,
+        html[data-gamer-theme] .border-slate-900 {
+            border-color: var(--g-border) !important;
+        }
+        html[data-gamer-theme] .bg-emerald-700,
+        html[data-gamer-theme] .bg-emerald-800,
+        html[data-gamer-theme] .bg-emerald-950,
+        html[data-gamer-theme] .bg-slate-900 {
+            background: linear-gradient(135deg, var(--g-primary), var(--g-secondary)) !important;
+            border: none !important;
+            box-shadow: var(--g-glow) !important;
+            color: #05010a !important;
+        }
+        html[data-gamer-theme] .hover\:bg-emerald-800:hover,
+        html[data-gamer-theme] .hover\:bg-emerald-100:hover,
+        html[data-gamer-theme] .hover\:bg-slate-700:hover,
+        html[data-gamer-theme] .hover\:bg-emerald-50:hover {
+            filter: brightness(1.2) !important;
+        }
+        html[data-gamer-theme] .text-emerald-700,
+        html[data-gamer-theme] .text-emerald-400,
+        html[data-gamer-theme] .text-emerald-300,
+        html[data-gamer-theme] .text-emerald-200,
+        html[data-gamer-theme] .text-emerald-500,
+        html[data-gamer-theme] .text-emerald-800 {
+            color: var(--g-secondary) !important;
+        }
+        html[data-gamer-theme] .text-slate-700,
+        html[data-gamer-theme] .text-slate-600,
+        html[data-gamer-theme] .text-slate-900,
+        html[data-gamer-theme] .text-slate-500,
+        html[data-gamer-theme] .text-slate-400,
+        html[data-gamer-theme] .text-slate-300,
+        html[data-gamer-theme] .text-white {
+            color: var(--g-text) !important;
+        }
+        html[data-gamer-theme] .bg-emerald-100,
+        html[data-gamer-theme] .bg-emerald-50,
+        html[data-gamer-theme] .bg-emerald-500\/20 {
+            background: rgba(255,255,255,0.07) !important;
+            color: var(--g-primary) !important;
+            border: 1px solid var(--g-border) !important;
+        }
+        html[data-gamer-theme] footer {
+            background: var(--g-header-bg) !important;
+            border-top: 1px solid var(--g-border) !important;
+        }
+        html[data-gamer-theme] h1, html[data-gamer-theme] h2, html[data-gamer-theme] h3, html[data-gamer-theme] h4 {
+            text-shadow: var(--g-glow);
+        }
+        html[data-gamer-theme] .hero-blob {
+            background: radial-gradient(circle at 30% 30%, var(--g-primary), transparent 70%) !important;
+            opacity: 0.5 !important;
+        }
     </style>
 </head>
 <body class="bg-transparent text-slate-700 dark:text-slate-100 flex flex-col min-h-screen transition-colors duration-300">
@@ -392,6 +605,10 @@
             <div class="flex items-center space-x-3 space-x-reverse">
                 <button onclick="openLanguageModal()" aria-label="تغییر زبان" title="تغییر زبان" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
                     <i class="fa-solid fa-globe text-lg"></i>
+                </button>
+
+                <button onclick="openGamerModal()" aria-label="تم گیمری" title="تم گیمری" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
+                    <i class="fa-solid fa-gamepad text-lg"></i>
                 </button>
 
                 <button onclick="toggleTheme()" aria-label="تغییر تم" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
@@ -728,6 +945,65 @@
         </div>
     </div>
 
+    <!-- ===================== مودال انتخاب تم گیمری ===================== -->
+    <div id="gamerThemeModal" class="fixed inset-0 bg-slate-950/60 hidden items-center justify-center z-[60] p-4">
+        <div class="bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl border border-slate-200 dark:border-slate-800 transition-colors">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-gamepad text-emerald-600 dark:text-emerald-400"></i>
+                    <span data-i18n="gamerModalTitle">تم‌های ویژه گیمرها</span>
+                </h3>
+                <button onclick="closeGamerModal()" aria-label="بستن" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-xs mb-5" data-i18n="gamerModalDesc">یکی از تم‌های نئونی و شیشه‌ای زیر رو انتخاب کن</p>
+            <div class="space-y-2">
+                <button type="button" class="gamer-option" data-gamer="cyberpunk" onclick="applyGamerTheme('cyberpunk')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #ff2bd6, #00fff2);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white">Cyberpunk Neon</span>
+                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamerTheme1Desc">صورتی و فیروزه‌ای نئون، شیشه‌ای تیره</span>
+                    </span>
+                </button>
+                <button type="button" class="gamer-option" data-gamer="matrix" onclick="applyGamerTheme('matrix')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #00ff66, #003b16);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white">Matrix Protocol</span>
+                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamerTheme2Desc">سبز هکری روی مشکی محض</span>
+                    </span>
+                </button>
+                <button type="button" class="gamer-option" data-gamer="inferno" onclick="applyGamerTheme('inferno')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #ff1f3d, #ff7a00);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white">Inferno Doom</span>
+                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamerTheme3Desc">قرمز و نارنجی آتشین</span>
+                    </span>
+                </button>
+                <button type="button" class="gamer-option" data-gamer="synthwave" onclick="applyGamerTheme('synthwave')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #ff00e5, #00d4ff);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white">Synthwave Retro</span>
+                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamerTheme4Desc">بنفش و صورتی رترو</span>
+                    </span>
+                </button>
+                <button type="button" class="gamer-option" data-gamer="rgb" onclick="applyGamerTheme('rgb')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, red, orange, yellow, green, blue, violet);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white">RGB Overdrive</span>
+                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamerTheme5Desc">رنگ‌های متغیر مثل لوازم گیمینگ</span>
+                    </span>
+                </button>
+                <button type="button" class="gamer-option" data-gamer="none" onclick="applyGamerTheme('none')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #cbd5e1, #64748b);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white" data-i18n="gamerResetOption">بازگشت به حالت عادی</span>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const themeIcon = document.getElementById('themeIcon');
 
@@ -937,7 +1213,15 @@
                 successTitle: "درخواست شما با موفقیت ثبت شد!",
                 gotItBtn: "متوجه شدم",
                 comingSoonDesc: "به زودی فعال خواهد شد.",
-                langModalTitle: "انتخاب زبان سایت"
+                langModalTitle: "انتخاب زبان سایت",
+                gamerModalTitle: "تم‌های ویژه گیمرها",
+                gamerModalDesc: "یکی از تم‌های نئونی و شیشه‌ای زیر رو انتخاب کن",
+                gamerTheme1Desc: "صورتی و فیروزه‌ای نئون، شیشه‌ای تیره",
+                gamerTheme2Desc: "سبز هکری روی مشکی محض",
+                gamerTheme3Desc: "قرمز و نارنجی آتشین",
+                gamerTheme4Desc: "بنفش و صورتی رترو",
+                gamerTheme5Desc: "رنگ‌های متغیر مثل لوازم گیمینگ",
+                gamerResetOption: "بازگشت به حالت عادی"
             },
             en: {
                 subnavStudents: "DTS Students",
@@ -1010,7 +1294,15 @@
                 successTitle: "Your Request Was Submitted Successfully!",
                 gotItBtn: "Got It",
                 comingSoonDesc: "This section will be available soon.",
-                langModalTitle: "Choose Site Language"
+                langModalTitle: "Choose Site Language",
+                gamerModalTitle: "Gamer Themes",
+                gamerModalDesc: "Pick one of the neon, glass-style themes below",
+                gamerTheme1Desc: "Neon pink & cyan on dark glass",
+                gamerTheme2Desc: "Hacker green on pure black",
+                gamerTheme3Desc: "Fiery red & orange",
+                gamerTheme4Desc: "Retro purple & pink",
+                gamerTheme5Desc: "Shifting colors like RGB gaming gear",
+                gamerResetOption: "Back to Normal Theme"
             },
             ar: {
                 subnavStudents: "طلاب DTS",
@@ -1083,7 +1375,15 @@
                 successTitle: "تم إرسال طلبك بنجاح!",
                 gotItBtn: "حسناً",
                 comingSoonDesc: "سيتم تفعيل هذا القسم قريباً.",
-                langModalTitle: "اختر لغة الموقع"
+                langModalTitle: "اختر لغة الموقع",
+                gamerModalTitle: "تصاميم خاصة باللاعبين",
+                gamerModalDesc: "اختر أحد التصاميم النيونية الزجاجية أدناه",
+                gamerTheme1Desc: "وردي وسماوي نيون على زجاج داكن",
+                gamerTheme2Desc: "أخضر هاكر على أسود خالص",
+                gamerTheme3Desc: "أحمر وبرتقالي ناري",
+                gamerTheme4Desc: "بنفسجي ووردي بأسلوب ريترو",
+                gamerTheme5Desc: "ألوان متغيرة كأدوات الألعاب RGB",
+                gamerResetOption: "العودة إلى الوضع العادي"
             },
             ko: {
                 subnavStudents: "DTS 학생",
@@ -1156,7 +1456,15 @@
                 successTitle: "신청이 성공적으로 접수되었습니다!",
                 gotItBtn: "확인",
                 comingSoonDesc: "이 섹션은 곧 제공될 예정입니다.",
-                langModalTitle: "사이트 언어 선택"
+                langModalTitle: "사이트 언어 선택",
+                gamerModalTitle: "게이머 전용 테마",
+                gamerModalDesc: "아래 네온 글래스 테마 중 하나를 선택하세요",
+                gamerTheme1Desc: "어두운 글래스 위 네온 핑크·시안",
+                gamerTheme2Desc: "순수 검정 위 해커 그린",
+                gamerTheme3Desc: "불타는 듯한 빨강·주황",
+                gamerTheme4Desc: "레트로 보라·핑크",
+                gamerTheme5Desc: "RGB 게이밍 기기처럼 변하는 색상",
+                gamerResetOption: "기본 테마로 돌아가기"
             },
             de: {
                 subnavStudents: "DTS-Schüler",
@@ -1229,7 +1537,15 @@
                 successTitle: "Ihre Anfrage wurde erfolgreich übermittelt!",
                 gotItBtn: "Verstanden",
                 comingSoonDesc: "Dieser Bereich wird bald verfügbar sein.",
-                langModalTitle: "Sprache der Website wählen"
+                langModalTitle: "Sprache der Website wählen",
+                gamerModalTitle: "Gamer-Themes",
+                gamerModalDesc: "Wählen Sie eines der Neon-Glas-Themes unten",
+                gamerTheme1Desc: "Neon-Pink & Cyan auf dunklem Glas",
+                gamerTheme2Desc: "Hacker-Grün auf reinem Schwarz",
+                gamerTheme3Desc: "Feuriges Rot & Orange",
+                gamerTheme4Desc: "Retro Lila & Pink",
+                gamerTheme5Desc: "Wechselnde Farben wie bei RGB-Gaming-Hardware",
+                gamerResetOption: "Zurück zum normalen Theme"
             }
         };
 
@@ -1290,6 +1606,58 @@
                 }
             } catch (e) {}
             applyTranslations(savedLang);
+        })();
+
+        /* ===================== سیستم تم‌های گیمری ===================== */
+        const gamerThemes = ['cyberpunk', 'matrix', 'inferno', 'synthwave', 'rgb'];
+
+        function openGamerModal() {
+            const modal = document.getElementById('gamerThemeModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeGamerModal() {
+            const modal = document.getElementById('gamerThemeModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        function updateGamerActiveState() {
+            const current = document.documentElement.getAttribute('data-gamer-theme') || 'none';
+            document.querySelectorAll('.gamer-option').forEach(function (btn) {
+                btn.classList.toggle('lang-active', btn.getAttribute('data-gamer') === current);
+            });
+        }
+
+        function applyGamerTheme(theme) {
+            if (theme === 'none' || !gamerThemes.includes(theme)) {
+                document.documentElement.removeAttribute('data-gamer-theme');
+            } else {
+                document.documentElement.setAttribute('data-gamer-theme', theme);
+            }
+            try { localStorage.gamerTheme = theme; } catch (e) {}
+            updateGamerActiveState();
+            closeGamerModal();
+        }
+
+        document.getElementById('gamerThemeModal').addEventListener('click', function (event) {
+            if (event.target === this) {
+                closeGamerModal();
+            }
+        });
+
+        (function initGamerTheme() {
+            let savedTheme = 'none';
+            try {
+                if (localStorage.gamerTheme && (gamerThemes.includes(localStorage.gamerTheme) || localStorage.gamerTheme === 'none')) {
+                    savedTheme = localStorage.gamerTheme;
+                }
+            } catch (e) {}
+            if (savedTheme !== 'none') {
+                document.documentElement.setAttribute('data-gamer-theme', savedTheme);
+            }
+            updateGamerActiveState();
         })();
     </script>
 </body>

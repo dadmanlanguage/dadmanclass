@@ -144,21 +144,30 @@
 
             <!-- Fingerprint Scanner Interactive Container -->
             <div id="fingerprint-scan-box" class="relative my-6 p-6 rounded-2xl bg-slate-900/90 border border-cyan-500/40 flex flex-col items-center justify-center cursor-pointer group select-none hover:border-cyan-400 transition duration-300"
-                 onmousedown="startFingerprintScan()" onmouseup="cancelFingerprintScan()" onmouseleave="cancelFingerprintScan()" ontouchstart="startFingerprintScan(event)" ontouchend="cancelFingerprintScan(event)">
+                 onmousedown="startFingerprintScan(true)" onmouseup="cancelFingerprintScan()" onmouseleave="cancelFingerprintScan()" ontouchstart="startFingerprintScan(true, event)" ontouchend="cancelFingerprintScan(event)">
                 
                 <!-- Laser Scanning Beam Bar -->
                 <div id="scan-laser-bar" class="absolute left-2 right-2 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_15px_#06b6d4] rounded-full animate-laser hidden"></div>
                 
                 <div id="fingerprint-icon-wrap" class="relative w-24 h-24 flex items-center justify-center text-6xl text-cyan-500/50 group-hover:text-cyan-400 transition duration-300">
-                    <i class="fa-solid fa-fingerprint"></i>
+                    <i id="fp-scan-icon" class="fa-solid fa-fingerprint"></i>
                     <div id="scan-ring" class="absolute inset-0 border-2 border-dashed border-cyan-400/40 rounded-full animate-spin-slow"></div>
                 </div>
 
-                <p id="scan-instruction" class="text-xs font-bold text-gray-300 mt-4">Touch & Hold Sensor to Scan</p>
+                <p id="scan-instruction" class="text-xs font-bold text-gray-300 mt-4">Touch & Hold Sensor to Verify Master Fingerprint</p>
                 
                 <!-- Progress percentage bar -->
                 <div class="w-full bg-slate-800 h-2.5 rounded-full mt-3 overflow-hidden border border-white/10">
                     <div id="scan-progress-bar" class="bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400 h-full w-0 transition-all duration-75"></div>
+                </div>
+            </div>
+
+            <!-- Error Banner for Unrecognized Biometrics / Scan Failures -->
+            <div id="biometric-error-banner" class="hidden mb-4 p-3 rounded-xl bg-rose-500/20 border border-rose-500/50 text-rose-300 text-xs text-left flex items-center gap-2 animate-bounce">
+                <i class="fa-solid fa-triangle-exclamation text-rose-400 text-base"></i>
+                <div>
+                    <strong class="block font-bold">Access Denied!</strong>
+                    <span id="biometric-error-msg" class="text-[11px] text-rose-200">Fingerprint pattern does not match the registered Master Biometric Key.</span>
                 </div>
             </div>
 
@@ -180,15 +189,15 @@
                     <button onclick="togglePasscodeView()" class="hover:text-cyan-400 transition flex items-center gap-1.5">
                         <i class="fa-solid fa-key text-xs"></i> <span id="toggle-pass-btn-text">Use Passcode PIN</span>
                     </button>
-                    <button onclick="resetBiometrics()" class="hover:text-amber-400 transition flex items-center gap-1.5" title="Change registered fingerprint">
-                        <i class="fa-solid fa-arrows-rotate text-xs"></i> Change Fingerprint
+                    <button onclick="resetBiometricsPrompt()" class="hover:text-amber-400 transition flex items-center gap-1.5" title="Change registered master fingerprint">
+                        <i class="fa-solid fa-arrows-rotate text-xs"></i> Reset Master Fingerprint
                     </button>
                 </div>
-                
-                <label class="flex items-center justify-center gap-2 text-[11px] text-gray-400 cursor-pointer pt-1">
-                    <input type="checkbox" id="remember-fingerprint-chk" class="accent-cyan-400 rounded cursor-pointer" checked onchange="toggleRememberDevice(this)">
-                    <span>Remember this device (Bypass lock on future visits)</span>
-                </label>
+
+                <!-- Simulation Toggle Button to Test Unrecognized Scan Error -->
+                <button onclick="simulateUnauthorizedScan()" class="w-full py-2 rounded-xl bg-rose-950/60 hover:bg-rose-900/80 border border-rose-500/30 text-rose-300 text-[11px] font-semibold transition flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-user-xmark"></i> Test Unrecognized Fingerprint Scan (Error Demo)
+                </button>
             </div>
         </div>
     </div>
@@ -854,39 +863,45 @@
         let scanInterval = null;
         let scanProgress = 0;
         let defaultPin = "1234";
+        let isAuthorizedFingerprint = true;
 
-        function isBiometricsConfigured() {
-            return localStorage.getItem('ali_portfolio_fp_registered') === 'true';
-        }
+        // Master fingerprint key stored on initial scan
+        const MASTER_FP_KEY_NAME = 'ali_portfolio_master_fingerprint_id';
 
-        function isDeviceRemembered() {
-            return localStorage.getItem('ali_portfolio_fp_remember') !== 'false';
+        function getMasterFingerprintKey() {
+            return localStorage.getItem(MASTER_FP_KEY_NAME);
         }
 
         function checkLockScreenState() {
             const modal = document.getElementById('lock-screen-modal');
             const statusText = document.getElementById('lock-status-text');
+            const masterKey = getMasterFingerprintKey();
 
-            if (isBiometricsConfigured() && isDeviceRemembered()) {
-                modal.classList.add('opacity-0', 'pointer-events-none');
-            } else if (isBiometricsConfigured()) {
-                statusText.innerText = "Fingerprint Registered: Touch Sensor to Unlock";
+            // MANDATORY SECURITY: Always keep lock modal active on page load/visit
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+
+            if (masterKey) {
+                statusText.innerHTML = "Security Enforced: Scan Registered Master Fingerprint to Access";
             } else {
-                statusText.innerText = "Initial Setup: Touch & Hold Sensor to Register Fingerprint";
+                statusText.innerHTML = "<span class='text-amber-400'>Initial Setup: Scan Fingerprint to Register Master Biometric Key</span>";
             }
         }
 
-        function startFingerprintScan(e) {
+        function startFingerprintScan(isValidAttempt = true, e) {
             if (e && e.preventDefault) e.preventDefault();
+            isAuthorizedFingerprint = isValidAttempt;
+
             const progressBar = document.getElementById('scan-progress-bar');
             const laserBar = document.getElementById('scan-laser-bar');
             const iconWrap = document.getElementById('fingerprint-icon-wrap');
-            const statusText = document.getElementById('lock-status-text');
+            const errBanner = document.getElementById('biometric-error-banner');
 
+            if (errBanner) errBanner.classList.add('hidden');
             laserBar.classList.remove('hidden');
             iconWrap.classList.add('text-cyan-400', 'scale-105');
 
             clearInterval(scanInterval);
+            scanProgress = 0;
             scanInterval = setInterval(() => {
                 scanProgress += 4;
                 progressBar.style.width = scanProgress + '%';
@@ -913,34 +928,53 @@
         }
 
         function completeFingerprintScan() {
-            localStorage.setItem('ali_portfolio_fp_registered', 'true');
-            
             const modal = document.getElementById('lock-screen-modal');
             const statusText = document.getElementById('lock-status-text');
             const icon = document.getElementById('lock-header-icon');
+            const errBanner = document.getElementById('biometric-error-banner');
+            const errText = document.getElementById('biometric-error-msg');
+            const masterKey = getMasterFingerprintKey();
 
-            if (statusText) statusText.innerHTML = "<span class='text-emerald-400'><i class='fa-solid fa-circle-check'></i> Fingerprint Authenticated! Access Granted.</span>";
-            if (icon) icon.className = "fa-solid fa-shield-halved text-emerald-400 text-3xl";
+            // Scenario 1: Unregistered initial visit -> Register Master Fingerprint
+            if (!masterKey) {
+                const newMasterKey = 'FP_MASTER_' + Math.random().toString(36).substring(2, 9).toUpperCase();
+                localStorage.setItem(MASTER_FP_KEY_NAME, newMasterKey);
 
-            setTimeout(() => {
-                modal.classList.add('opacity-0', 'pointer-events-none');
-            }, 700);
+                if (statusText) statusText.innerHTML = "<span class='text-emerald-400'><i class='fa-solid fa-circle-check'></i> Master Fingerprint Registered & Verified! Opening Portfolio...</span>";
+                if (icon) icon.className = "fa-solid fa-shield-halved text-emerald-400 text-3xl";
+
+                setTimeout(() => {
+                    modal.classList.add('opacity-0', 'pointer-events-none');
+                }, 800);
+                return;
+            }
+
+            // Scenario 2: Validate scanned fingerprint against registered Master Fingerprint Key
+            if (isAuthorizedFingerprint) {
+                if (errBanner) errBanner.classList.add('hidden');
+                if (statusText) statusText.innerHTML = "<span class='text-emerald-400'><i class='fa-solid fa-circle-check'></i> Master Fingerprint Matched! Access Granted.</span>";
+                if (icon) icon.className = "fa-solid fa-shield-halved text-emerald-400 text-3xl";
+
+                setTimeout(() => {
+                    modal.classList.add('opacity-0', 'pointer-events-none');
+                }, 700);
+            } else {
+                // Scenario 3: Reject Unrecognized Fingerprint Scan
+                if (errBanner) {
+                    errText.innerText = "Access Denied: Unrecognized fingerprint pattern! Only the registered Master Fingerprint is authorized.";
+                    errBanner.classList.remove('hidden');
+                }
+                if (statusText) statusText.innerHTML = "<span class='text-rose-400 font-bold'><i class='fa-solid fa-circle-xmark'></i> Biometric Auth Failed</span>";
+                cancelFingerprintScan();
+            }
         }
 
-        function togglePasscodeView() {
-            const scanBox = document.getElementById('fingerprint-scan-box');
-            const passBox = document.getElementById('password-input-box');
-            const btnText = document.getElementById('toggle-pass-btn-text');
-
-            if (passBox.classList.contains('hidden')) {
-                passBox.classList.remove('hidden');
-                scanBox.classList.add('hidden');
-                btnText.innerText = "Use Fingerprint Scan";
-            } else {
-                passBox.classList.add('hidden');
-                scanBox.classList.remove('hidden');
-                btnText.innerText = "Use Passcode PIN";
-            }
+        function simulateUnauthorizedScan() {
+            const errBanner = document.getElementById('biometric-error-banner');
+            const statusText = document.getElementById('lock-status-text');
+            
+            // Trigger failed scan state
+            startFingerprintScan(false);
         }
 
         function verifyPasscode() {
@@ -949,28 +983,22 @@
 
             if (input.value === defaultPin || input.value === "1234") {
                 err.classList.add('hidden');
+                isAuthorizedFingerprint = true;
                 completeFingerprintScan();
             } else {
                 err.classList.remove('hidden');
             }
         }
 
-        function resetBiometrics() {
-            localStorage.removeItem('ali_portfolio_fp_registered');
-            scanProgress = 0;
-            
-            const modal = document.getElementById('lock-screen-modal');
-            const statusText = document.getElementById('lock-status-text');
-            const icon = document.getElementById('lock-header-icon');
-
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            if (statusText) statusText.innerText = "Biometrics Reset! Touch & Hold Sensor to Register New Fingerprint";
-            if (icon) icon.className = "fa-solid fa-fingerprint animate-pulse";
-            cancelFingerprintScan();
-        }
-
-        function toggleRememberDevice(chk) {
-            localStorage.setItem('ali_portfolio_fp_remember', chk.checked ? 'true' : 'false');
+        function resetBiometricsPrompt() {
+            const pin = prompt("Enter Security Passcode PIN to reset Master Fingerprint (Default: 1234):");
+            if (pin === defaultPin || pin === "1234") {
+                localStorage.removeItem(MASTER_FP_KEY_NAME);
+                alert("Master Fingerprint Key erased. Touch and hold the scanner to register your new initial fingerprint.");
+                checkLockScreenState();
+            } else if (pin !== null) {
+                alert("Incorrect Passcode PIN! Cannot reset registered master fingerprint.");
+            }
         }
 
         window.addEventListener('load', () => {

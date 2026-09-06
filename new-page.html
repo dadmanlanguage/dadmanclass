@@ -110,9 +110,88 @@
             transform: rotate(-90deg);
             transform-origin: 50% 50%;
         }
+
+        @keyframes laserScan {
+            0% { top: 10%; opacity: 0.2; }
+            50% { top: 85%; opacity: 1; }
+            100% { top: 10%; opacity: 0.2; }
+        }
+
+        .animate-laser {
+            animation: laserScan 1.5s infinite linear;
+        }
+
+        .animate-spin-slow {
+            animation: spin 8s linear infinite;
+        }
     </style>
 </head>
 <body class="bg-darkbg text-gray-100 min-h-screen overflow-y-auto antialiased">
+
+    <!-- Biometric Fingerprint & Passcode Security Lock Overlay -->
+    <div id="lock-screen-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-darkbg/95 backdrop-blur-2xl transition-all duration-500">
+        <div class="glass-panel p-8 md:p-10 rounded-3xl max-w-md w-full mx-4 border border-cyan-500/40 text-center shadow-2xl relative overflow-hidden">
+            <!-- Ambient glowing background lights -->
+            <div class="absolute -top-12 -left-12 w-48 h-48 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-12 -right-12 w-48 h-48 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-indigo-500/30 text-white text-2xl">
+                <i id="lock-header-icon" class="fa-solid fa-fingerprint animate-pulse"></i>
+            </div>
+
+            <h2 class="text-2xl font-black text-white mb-1">Developer Security Access</h2>
+            <p id="lock-status-text" class="text-xs text-cyan-400 font-semibold mb-6">Initial Entry: Hold Fingerprint Sensor to Authenticate</p>
+
+            <!-- Fingerprint Scanner Interactive Container -->
+            <div id="fingerprint-scan-box" class="relative my-6 p-6 rounded-2xl bg-slate-900/90 border border-cyan-500/40 flex flex-col items-center justify-center cursor-pointer group select-none hover:border-cyan-400 transition duration-300"
+                 onmousedown="startFingerprintScan()" onmouseup="cancelFingerprintScan()" onmouseleave="cancelFingerprintScan()" ontouchstart="startFingerprintScan(event)" ontouchend="cancelFingerprintScan(event)">
+                
+                <!-- Laser Scanning Beam Bar -->
+                <div id="scan-laser-bar" class="absolute left-2 right-2 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_15px_#06b6d4] rounded-full animate-laser hidden"></div>
+                
+                <div id="fingerprint-icon-wrap" class="relative w-24 h-24 flex items-center justify-center text-6xl text-cyan-500/50 group-hover:text-cyan-400 transition duration-300">
+                    <i class="fa-solid fa-fingerprint"></i>
+                    <div id="scan-ring" class="absolute inset-0 border-2 border-dashed border-cyan-400/40 rounded-full animate-spin-slow"></div>
+                </div>
+
+                <p id="scan-instruction" class="text-xs font-bold text-gray-300 mt-4">Touch & Hold Sensor to Scan</p>
+                
+                <!-- Progress percentage bar -->
+                <div class="w-full bg-slate-800 h-2.5 rounded-full mt-3 overflow-hidden border border-white/10">
+                    <div id="scan-progress-bar" class="bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400 h-full w-0 transition-all duration-75"></div>
+                </div>
+            </div>
+
+            <!-- Passcode Input Fallback -->
+            <div id="password-input-box" class="space-y-3 mb-6 hidden">
+                <label class="block text-xs font-medium text-gray-300 text-left">Enter Developer Passcode:</label>
+                <div class="flex gap-2">
+                    <input type="password" id="access-passcode-input" placeholder="Default PIN: 1234" class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-white/10 text-white placeholder-gray-500 text-center tracking-widest text-lg font-bold focus:outline-none focus:border-cyan-400 transition">
+                    <button onclick="verifyPasscode()" class="px-5 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-bold text-xs shadow-lg transition">
+                        Unlock
+                    </button>
+                </div>
+                <p id="passcode-error" class="text-[11px] text-rose-400 hidden"><i class="fa-solid fa-circle-exclamation mr-1"></i> Incorrect passcode. Try 1234.</p>
+            </div>
+
+            <!-- Security Options & Controls -->
+            <div class="flex flex-col gap-3 pt-3 border-t border-white/10 text-xs">
+                <div class="flex justify-between items-center text-gray-400">
+                    <button onclick="togglePasscodeView()" class="hover:text-cyan-400 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-key text-xs"></i> <span id="toggle-pass-btn-text">Use Passcode PIN</span>
+                    </button>
+                    <button onclick="resetBiometrics()" class="hover:text-amber-400 transition flex items-center gap-1.5" title="Change registered fingerprint">
+                        <i class="fa-solid fa-arrows-rotate text-xs"></i> Change Fingerprint
+                    </button>
+                </div>
+                
+                <label class="flex items-center justify-center gap-2 text-[11px] text-gray-400 cursor-pointer pt-1">
+                    <input type="checkbox" id="remember-fingerprint-chk" class="accent-cyan-400 rounded cursor-pointer" checked onchange="toggleRememberDevice(this)">
+                    <span>Remember this device (Bypass lock on future visits)</span>
+                </label>
+            </div>
+        </div>
+    </div>
 
     <!-- 3D Three.js Background Canvas -->
     <canvas id="webgl-canvas"></canvas>
@@ -772,7 +851,131 @@
             }
         }
 
+        let scanInterval = null;
+        let scanProgress = 0;
+        let defaultPin = "1234";
+
+        function isBiometricsConfigured() {
+            return localStorage.getItem('ali_portfolio_fp_registered') === 'true';
+        }
+
+        function isDeviceRemembered() {
+            return localStorage.getItem('ali_portfolio_fp_remember') !== 'false';
+        }
+
+        function checkLockScreenState() {
+            const modal = document.getElementById('lock-screen-modal');
+            const statusText = document.getElementById('lock-status-text');
+
+            if (isBiometricsConfigured() && isDeviceRemembered()) {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            } else if (isBiometricsConfigured()) {
+                statusText.innerText = "Fingerprint Registered: Touch Sensor to Unlock";
+            } else {
+                statusText.innerText = "Initial Setup: Touch & Hold Sensor to Register Fingerprint";
+            }
+        }
+
+        function startFingerprintScan(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            const progressBar = document.getElementById('scan-progress-bar');
+            const laserBar = document.getElementById('scan-laser-bar');
+            const iconWrap = document.getElementById('fingerprint-icon-wrap');
+            const statusText = document.getElementById('lock-status-text');
+
+            laserBar.classList.remove('hidden');
+            iconWrap.classList.add('text-cyan-400', 'scale-105');
+
+            clearInterval(scanInterval);
+            scanInterval = setInterval(() => {
+                scanProgress += 4;
+                progressBar.style.width = scanProgress + '%';
+
+                if (scanProgress >= 100) {
+                    clearInterval(scanInterval);
+                    completeFingerprintScan();
+                }
+            }, 30);
+        }
+
+        function cancelFingerprintScan(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            clearInterval(scanInterval);
+            scanProgress = 0;
+            
+            const progressBar = document.getElementById('scan-progress-bar');
+            const laserBar = document.getElementById('scan-laser-bar');
+            const iconWrap = document.getElementById('fingerprint-icon-wrap');
+
+            if (progressBar) progressBar.style.width = '0%';
+            if (laserBar) laserBar.classList.add('hidden');
+            if (iconWrap) iconWrap.classList.remove('text-cyan-400', 'scale-105');
+        }
+
+        function completeFingerprintScan() {
+            localStorage.setItem('ali_portfolio_fp_registered', 'true');
+            
+            const modal = document.getElementById('lock-screen-modal');
+            const statusText = document.getElementById('lock-status-text');
+            const icon = document.getElementById('lock-header-icon');
+
+            if (statusText) statusText.innerHTML = "<span class='text-emerald-400'><i class='fa-solid fa-circle-check'></i> Fingerprint Authenticated! Access Granted.</span>";
+            if (icon) icon.className = "fa-solid fa-shield-halved text-emerald-400 text-3xl";
+
+            setTimeout(() => {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            }, 700);
+        }
+
+        function togglePasscodeView() {
+            const scanBox = document.getElementById('fingerprint-scan-box');
+            const passBox = document.getElementById('password-input-box');
+            const btnText = document.getElementById('toggle-pass-btn-text');
+
+            if (passBox.classList.contains('hidden')) {
+                passBox.classList.remove('hidden');
+                scanBox.classList.add('hidden');
+                btnText.innerText = "Use Fingerprint Scan";
+            } else {
+                passBox.classList.add('hidden');
+                scanBox.classList.remove('hidden');
+                btnText.innerText = "Use Passcode PIN";
+            }
+        }
+
+        function verifyPasscode() {
+            const input = document.getElementById('access-passcode-input');
+            const err = document.getElementById('passcode-error');
+
+            if (input.value === defaultPin || input.value === "1234") {
+                err.classList.add('hidden');
+                completeFingerprintScan();
+            } else {
+                err.classList.remove('hidden');
+            }
+        }
+
+        function resetBiometrics() {
+            localStorage.removeItem('ali_portfolio_fp_registered');
+            scanProgress = 0;
+            
+            const modal = document.getElementById('lock-screen-modal');
+            const statusText = document.getElementById('lock-status-text');
+            const icon = document.getElementById('lock-header-icon');
+
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            if (statusText) statusText.innerText = "Biometrics Reset! Touch & Hold Sensor to Register New Fingerprint";
+            if (icon) icon.className = "fa-solid fa-fingerprint animate-pulse";
+            cancelFingerprintScan();
+        }
+
+        function toggleRememberDevice(chk) {
+            localStorage.setItem('ali_portfolio_fp_remember', chk.checked ? 'true' : 'false');
+        }
+
         window.addEventListener('load', () => {
+            checkLockScreenState();
+
             const canvas = document.getElementById('webgl-canvas');
             const scene = new THREE.Scene();
             
@@ -1002,3 +1205,4 @@
     </script>
 </body>
 </html>
+

@@ -210,9 +210,295 @@
         .dark .book-cover .book-placeholder-icon {
             color: #34d399;
         }
+
+        /* ===================== مودال انتخاب زبان ===================== */
+        #languageModal {
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border-radius: 1rem;
+            border: 1px solid transparent;
+            background: transparent;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+            text-align: inherit;
+        }
+
+        .lang-option:hover {
+            background: rgba(16, 185, 129, 0.08);
+            border-color: rgba(16, 185, 129, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .lang-option.lang-active {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        .lang-flag {
+            font-size: 1.5rem;
+            width: 2.25rem;
+            height: 2.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            background: rgba(15, 23, 42, 0.05);
+            flex-shrink: 0;
+        }
+        .dark .lang-flag {
+            background: rgba(255,255,255,0.06);
+        }
+
+        /* ===================== مودال و کارت‌های تم گیمری ===================== */
+        #gamerThemeModal {
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .gamer-option {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border-radius: 1rem;
+            border: 1px solid transparent;
+            background: rgba(15, 23, 42, 0.04);
+            cursor: pointer;
+            transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            text-align: inherit;
+            overflow: hidden;
+        }
+        .dark .gamer-option {
+            background: rgba(255,255,255,0.04);
+        }
+        .gamer-option:hover {
+            transform: translateY(-1px);
+        }
+        .gamer-option.lang-active {
+            border-color: rgba(255,255,255,0.5);
+        }
+        .gamer-swatch {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.85rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 14px rgba(0,0,0,0.25);
+        }
+        .gamer-option-name {
+            font-weight: 800;
+            font-size: 0.85rem;
+        }
+        .gamer-option-desc {
+            font-size: 0.68rem;
+            opacity: 0.7;
+        }
+
+        /* ---- تم ۱: سایبرپانک نئون ---- */
+        html[data-gamer-theme="cyberpunk"] {
+            --g-primary: #ff2bd6;
+            --g-secondary: #00fff2;
+            --g-bg1: #05010f; --g-bg2: #1a0b2e; --g-bg3: #001a1a; --g-bg4: #10002b;
+            --g-header-bg: rgba(10,4,20,0.5);
+            --g-card-bg: rgba(15,6,30,0.32);
+            --g-border: rgba(0,255,242,0.4);
+            --g-glow: 0 0 25px rgba(255,43,214,0.35), 0 0 45px rgba(0,255,242,0.18);
+            --g-text: #f5d0ff;
+        }
+
+        /* ---- تم ۲: پروتکل ماتریکس ---- */
+        html[data-gamer-theme="matrix"] {
+            --g-primary: #00ff66;
+            --g-secondary: #39ff14;
+            --g-bg1: #000500; --g-bg2: #001a08; --g-bg3: #000000; --g-bg4: #002200;
+            --g-header-bg: rgba(0,10,3,0.55);
+            --g-card-bg: rgba(0,15,5,0.3);
+            --g-border: rgba(0,255,102,0.4);
+            --g-glow: 0 0 25px rgba(0,255,102,0.4);
+            --g-text: #b6ffcf;
+        }
+
+        /* ---- تم ۳: اینفرنو / دوزخ ---- */
+        html[data-gamer-theme="inferno"] {
+            --g-primary: #ff1f3d;
+            --g-secondary: #ff7a00;
+            --g-bg1: #0a0000; --g-bg2: #1a0000; --g-bg3: #2b0a00; --g-bg4: #000000;
+            --g-header-bg: rgba(15,0,0,0.55);
+            --g-card-bg: rgba(20,0,0,0.32);
+            --g-border: rgba(255,31,61,0.45);
+            --g-glow: 0 0 25px rgba(255,31,61,0.4), 0 0 45px rgba(255,122,0,0.2);
+            --g-text: #ffd6d6;
+        }
+
+        /* ---- تم ۴: سینت‌ویو ---- */
+        html[data-gamer-theme="synthwave"] {
+            --g-primary: #ff00e5;
+            --g-secondary: #00d4ff;
+            --g-bg1: #0d0221; --g-bg2: #240046; --g-bg3: #3c096c; --g-bg4: #10002b;
+            --g-header-bg: rgba(20,2,40,0.5);
+            --g-card-bg: rgba(30,5,60,0.32);
+            --g-border: rgba(0,212,255,0.4);
+            --g-glow: 0 0 25px rgba(255,0,229,0.35), 0 0 45px rgba(0,212,255,0.2);
+            --g-text: #f3d9ff;
+        }
+
+        /* ---- تم ۵: آر‌جی‌بی اوردرایو ---- */
+        html[data-gamer-theme="rgb"] {
+            --g-primary: #ffffff;
+            --g-secondary: #00e5ff;
+            --g-bg1: #050505; --g-bg2: #111111; --g-bg3: #000000; --g-bg4: #0a0a0a;
+            --g-header-bg: rgba(10,10,10,0.5);
+            --g-card-bg: rgba(10,10,10,0.32);
+            --g-border: rgba(255,255,255,0.45);
+            --g-glow: 0 0 30px rgba(255,255,255,0.5);
+            --g-text: #ffffff;
+        }
+        html[data-gamer-theme="rgb"] #siteContent {
+            animation: rgbHueShift 10s linear infinite;
+            will-change: filter;
+            transform: translateZ(0);
+        }
+        @keyframes rgbHueShift {
+            from { filter: hue-rotate(0deg); }
+            to { filter: hue-rotate(360deg); }
+        }
+
+        html[data-gamer-theme] header,
+        html[data-gamer-theme] .bg-emerald-700,
+        html[data-gamer-theme] .bg-emerald-800,
+        html[data-gamer-theme] .bg-emerald-950,
+        html[data-gamer-theme] .bg-slate-900,
+        html[data-gamer-theme] .bg-white,
+        html[data-gamer-theme] #contact-form {
+            animation: gamerGlowPulse 3.2s ease-in-out infinite;
+            will-change: box-shadow;
+        }
+        @keyframes gamerGlowPulse {
+            0%, 100% { box-shadow: var(--g-glow); }
+            50% { box-shadow: var(--g-glow), 0 0 12px 2px var(--g-secondary); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html[data-gamer-theme] #siteContent,
+            html[data-gamer-theme] header,
+            html[data-gamer-theme] .bg-emerald-700,
+            html[data-gamer-theme] .bg-emerald-800,
+            html[data-gamer-theme] .bg-emerald-950,
+            html[data-gamer-theme] .bg-slate-900,
+            html[data-gamer-theme] .bg-white,
+            html[data-gamer-theme] #contact-form {
+                animation: none !important;
+            }
+        }
+
+        html[data-gamer-theme] body::before {
+            background: linear-gradient(-45deg, var(--g-bg1), var(--g-bg2), var(--g-bg3), var(--g-bg4)) !important;
+            background-size: 200% 200% !important;
+            opacity: 1 !important;
+            animation: none !important;
+        }
+        html[data-gamer-theme] body {
+            color: var(--g-text) !important;
+        }
+        html[data-gamer-theme] header,
+        html[data-gamer-theme] .bg-emerald-900,
+        html[data-gamer-theme] .bg-white\/95,
+        html[data-gamer-theme] .bg-white\/90 {
+            background: var(--g-header-bg) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            border-color: var(--g-border) !important;
+            color: var(--g-text) !important;
+        }
+        html[data-gamer-theme] section.bg-gradient-to-br,
+        html[data-gamer-theme] .bg-white\/70,
+        html[data-gamer-theme] .bg-slate-100\/70 {
+            background: var(--g-card-bg) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+        }
+        html[data-gamer-theme] .bg-white,
+        html[data-gamer-theme] #contact-form,
+        html[data-gamer-theme] .bg-slate-950,
+        html[data-gamer-theme] #customModal > div,
+        html[data-gamer-theme] #comingSoonModal > div,
+        html[data-gamer-theme] #languageModal > div,
+        html[data-gamer-theme] #gamerThemeModal > div {
+            background: var(--g-card-bg) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+            border-color: var(--g-border) !important;
+            box-shadow: var(--g-glow) !important;
+            color: var(--g-text) !important;
+        }
+        html[data-gamer-theme] .border-slate-200,
+        html[data-gamer-theme] .border-slate-700,
+        html[data-gamer-theme] .border-emerald-500\/50,
+        html[data-gamer-theme] .ring-emerald-600\/20,
+        html[data-gamer-theme] .border-emerald-950\/40,
+        html[data-gamer-theme] .border-slate-800,
+        html[data-gamer-theme] .border-slate-900 {
+            border-color: var(--g-border) !important;
+        }
+        html[data-gamer-theme] .bg-emerald-700,
+        html[data-gamer-theme] .bg-emerald-800,
+        html[data-gamer-theme] .bg-emerald-950,
+        html[data-gamer-theme] .bg-slate-900 {
+            background: linear-gradient(135deg, var(--g-primary), var(--g-secondary)) !important;
+            border: none !important;
+            box-shadow: var(--g-glow) !important;
+            color: #05010a !important;
+        }
+        html[data-gamer-theme] .hover\:bg-emerald-800:hover,
+        html[data-gamer-theme] .hover\:bg-emerald-100:hover,
+        html[data-gamer-theme] .hover\:bg-slate-700:hover,
+        html[data-gamer-theme] .hover\:bg-emerald-50:hover {
+            filter: brightness(1.2) !important;
+        }
+        html[data-gamer-theme] .text-emerald-700,
+        html[data-gamer-theme] .text-emerald-400,
+        html[data-gamer-theme] .text-emerald-300,
+        html[data-gamer-theme] .text-emerald-200,
+        html[data-gamer-theme] .text-emerald-500,
+        html[data-gamer-theme] .text-emerald-800 {
+            color: var(--g-secondary) !important;
+        }
+        html[data-gamer-theme] .text-slate-700,
+        html[data-gamer-theme] .text-slate-600,
+        html[data-gamer-theme] .text-slate-900,
+        html[data-gamer-theme] .text-slate-500,
+        html[data-gamer-theme] .text-slate-400,
+        html[data-gamer-theme] .text-slate-300,
+        html[data-gamer-theme] .text-white {
+            color: var(--g-text) !important;
+        }
+        html[data-gamer-theme] .bg-emerald-100,
+        html[data-gamer-theme] .bg-emerald-50,
+        html[data-gamer-theme] .bg-emerald-500\/20 {
+            background: rgba(255,255,255,0.07) !important;
+            color: var(--g-primary) !important;
+            border: 1px solid var(--g-border) !important;
+        }
+        html[data-gamer-theme] footer {
+            background: var(--g-header-bg) !important;
+            border-top: 1px solid var(--g-border) !important;
+        }
+        html[data-gamer-theme] h1, html[data-gamer-theme] h2, html[data-gamer-theme] h3, html[data-gamer-theme] h4 {
+            text-shadow: var(--g-glow);
+        }
     </style>
 </head>
 <body class="bg-transparent text-slate-700 dark:text-slate-100 flex flex-col min-h-screen transition-colors duration-300">
+    <div id="siteContent" class="flex flex-col min-h-screen">
 
     <!-- نوار اطلاعات تماس (بالاترین بخش سایت) -->
     <div class="bg-emerald-900 dark:bg-slate-950 text-emerald-50 dark:text-emerald-300 text-xs transition-colors duration-300 border-b border-emerald-950/40 dark:border-slate-800">
@@ -233,44 +519,67 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-center sm:justify-start gap-x-6 gap-y-1 flex-wrap">
             <button onclick="showComingSoon(event, 'دانش‌آموزان DTS')" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
                 <i class="fa-solid fa-graduation-cap"></i>
-                <span>دانش‌آموزان DTS</span>
+                <span data-i18n="subnavStudents">دانش‌آموزان DTS</span>
             </button>
             <a href="teaching-method.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
                 <i class="fa-solid fa-chalkboard"></i>
-                <span>نحوه‌ی تدریس</span>
+                <span data-i18n="subnavMethod">نحوه‌ی تدریس</span>
             </a>
             <a href="books.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-900 dark:text-emerald-300 transition">
                 <i class="fa-solid fa-book"></i>
-                <span>کتاب‌هایی که ما تدریس می‌کنیم</span>
+                <span data-i18n="subnavBooks">کتاب‌هایی که ما تدریس می‌کنیم</span>
             </a>
         </div>
     </div>
 
     <!-- هدر سایت -->
     <header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-sm sticky top-0 z-50 transition-colors duration-300 border-b border-slate-200 dark:border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <a href="index.html" class="flex items-center space-x-3 space-x-reverse">
-                <div class="w-12 h-12 bg-emerald-700 text-white rounded-full overflow-hidden flex items-center justify-center shadow-md border-2 border-emerald-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[5rem] py-3 flex items-center justify-between flex-wrap gap-y-3 gap-x-4">
+            <a href="index.html" class="flex items-center gap-3 min-w-0">
+                <div class="w-12 h-12 bg-emerald-700 text-white rounded-full overflow-hidden flex items-center justify-center shadow-md border-2 border-emerald-500 shrink-0">
                     <img src="logo.jpg" alt="لوگو موسسه زبان دادمان" class="w-full h-full object-cover">
                 </div>
-                <div>
-                    <h1 class="font-extrabold text-xl text-slate-900 dark:text-white">موسسه زبان دادمان</h1>
-                    <span class="text-xs text-emerald-700 dark:text-emerald-400 font-medium">آموزش تخصصی زبان‌های خارجی</span>
+                <div class="min-w-0">
+                    <h1 class="font-extrabold text-lg sm:text-xl text-slate-900 dark:text-white leading-tight" data-i18n="brandName">موسسه زبان دادمان</h1>
+                    <span class="block text-xs text-emerald-700 dark:text-emerald-400 font-medium leading-snug" data-i18n="brandTagline">آموزش تخصصی زبان‌های خارجی</span>
                 </div>
             </a>
 
-            <nav class="hidden md:flex items-center space-x-8 space-x-reverse text-sm font-medium text-slate-600 dark:text-slate-300">
-                <a href="index.html" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">خانه</a>
-                <a href="index.html#benefits" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">مزایای دادمان</a>
-                <a href="index.html#courses" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">انواع دوره‌ها و جلسات</a>
-                <a href="index.html#contact-form" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">مشاوره رایگان</a>
+            <nav class="hidden md:flex items-center flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-slate-600 dark:text-slate-300">
+                <a href="index.html" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navHome">خانه</a>
+                <a href="index.html#benefits" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navBenefits">مزایای دادمان</a>
+                <a href="index.html#courses" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navCourses">انواع دوره‌ها و جلسات</a>
+                <a href="index.html#contact-form" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navContact">مشاوره رایگان</a>
             </nav>
 
-            <div class="flex items-center space-x-3 space-x-reverse">
+            <div class="flex items-center flex-wrap justify-end gap-2 sm:gap-3">
+                <a href="tel:02133479054" aria-label="تماس مستقیم" title="تماس مستقیم" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
+                    <i class="fa-solid fa-phone text-lg"></i>
+                </a>
+
+                <div class="flex items-center rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+                    <button onclick="changeFontSize(-1)" aria-label="کوچک کردن متن" title="کوچک کردن متن" class="w-9 h-10 flex items-center justify-center text-slate-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-slate-700 transition font-extrabold text-sm">
+                        A-
+                    </button>
+                    <span class="w-px h-5 bg-slate-300 dark:bg-slate-600"></span>
+                    <button onclick="changeFontSize(1)" aria-label="بزرگ کردن متن" title="بزرگ کردن متن" class="w-9 h-10 flex items-center justify-center text-slate-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-slate-700 transition font-extrabold text-sm">
+                        A+
+                    </button>
+                </div>
+
+                <button onclick="openLanguageModal()" aria-label="تغییر زبان" title="تغییر زبان" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
+                    <i class="fa-solid fa-globe text-lg"></i>
+                </button>
+
+                <button onclick="openGamerModal()" aria-label="تم گیمری" title="تم گیمری" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
+                    <i class="fa-solid fa-gamepad text-lg"></i>
+                </button>
+
                 <button onclick="toggleTheme()" aria-label="تغییر تم" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
                     <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
                 </button>
-                <a href="index.html#contact-form" class="hidden sm:inline-block bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-md">
+
+                <a href="index.html#contact-form" class="hidden sm:inline-block bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-md whitespace-nowrap" data-i18n="navQuickSignup">
                     ثبت نام سریع
                 </a>
             </div>
@@ -504,6 +813,8 @@
         </div>
     </footer>
 
+    </div>
+
     <!-- دکمه شناور ارتباط سریع -->
     <div class="float-actions" aria-label="ارتباط سریع">
         <button type="button" onclick="showComingSoon(event, 'روبیکا'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:3; background: linear-gradient(145deg, #9333ea, #581c87);">
@@ -540,6 +851,99 @@
         </div>
     </div>
 
+    <!-- ===================== مودال انتخاب زبان ===================== -->
+    <div id="languageModal" class="fixed inset-0 bg-slate-950/50 hidden items-center justify-center z-[60] p-4">
+        <div class="bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl border border-slate-200 dark:border-slate-800 transition-colors">
+            <div class="flex items-center justify-between mb-5">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white" data-i18n="langModalTitle">انتخاب زبان سایت</h3>
+                <button onclick="closeLanguageModal()" aria-label="بستن" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="space-y-2">
+                <button type="button" class="lang-option" data-lang="fa" onclick="switchLanguage('fa')">
+                    <span class="lang-flag">🇮🇷</span>
+                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">فارسی</span>
+                </button>
+                <button type="button" class="lang-option" data-lang="en" onclick="switchLanguage('en')">
+                    <span class="lang-flag">🇬🇧</span>
+                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">English</span>
+                </button>
+                <button type="button" class="lang-option" data-lang="ar" onclick="switchLanguage('ar')">
+                    <span class="lang-flag">🇸🇦</span>
+                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">العربية</span>
+                </button>
+                <button type="button" class="lang-option" data-lang="ko" onclick="switchLanguage('ko')">
+                    <span class="lang-flag">🇰🇷</span>
+                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">한국어</span>
+                </button>
+                <button type="button" class="lang-option" data-lang="de" onclick="switchLanguage('de')">
+                    <span class="lang-flag">🇩🇪</span>
+                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">Deutsch</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== مودال انتخاب تم گیمری ===================== -->
+    <div id="gamerThemeModal" class="fixed inset-0 bg-slate-950/60 hidden items-center justify-center z-[60] p-4">
+        <div class="bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl border border-slate-200 dark:border-slate-800 transition-colors">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-gamepad text-emerald-600 dark:text-emerald-400"></i>
+                    <span data-i18n="gamerModalTitle">تم‌های ویژه گیمرها</span>
+                </h3>
+                <button onclick="closeGamerModal()" aria-label="بستن" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-xs mb-5" data-i18n="gamerModalDesc">یکی از تم‌های نئونی و شیشه‌ای زیر رو انتخاب کن</p>
+            <div class="space-y-2">
+                <button type="button" class="gamer-option" data-gamer="cyberpunk" onclick="applyGamerTheme('cyberpunk')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #ff2bd6, #00fff2);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white">Cyberpunk Neon</span>
+                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamerTheme1Desc">صورتی و فیروزه‌ای نئون، شیشه‌ای تیره</span>
+                    </span>
+                </button>
+                <button type="button" class="gamer-option" data-gamer="matrix" onclick="applyGamerTheme('matrix')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #00ff66, #003b16);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white">Matrix Protocol</span>
+                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamerTheme2Desc">سبز هکری روی مشکی محض</span>
+                    </span>
+                </button>
+                <button type="button" class="gamer-option" data-gamer="inferno" onclick="applyGamerTheme('inferno')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #ff1f3d, #ff7a00);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white">Inferno Doom</span>
+                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamerTheme3Desc">قرمز و نارنجی آتشین</span>
+                    </span>
+                </button>
+                <button type="button" class="gamer-option" data-gamer="synthwave" onclick="applyGamerTheme('synthwave')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #ff00e5, #00d4ff);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white">Synthwave Retro</span>
+                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamerTheme4Desc">بنفش و صورتی رترو</span>
+                    </span>
+                </button>
+                <button type="button" class="gamer-option" data-gamer="rgb" onclick="applyGamerTheme('rgb')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, red, orange, yellow, green, blue, violet);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white">RGB Overdrive</span>
+                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamerTheme5Desc">رنگ‌های متغیر مثل لوازم گیمینگ</span>
+                    </span>
+                </button>
+                <button type="button" class="gamer-option" data-gamer="none" onclick="applyGamerTheme('none')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #cbd5e1, #64748b);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white" data-i18n="gamerResetOption">بازگشت به حالت عادی</span>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const themeIcon = document.getElementById('themeIcon');
 
@@ -566,6 +970,30 @@
         }
 
         initTheme();
+
+        /* ===================== دکمه اندازه متن (دسترسی‌پذیری) ===================== */
+        const fontSizeScales = ['87.5%', '100%', '112%', '125%', '137.5%'];
+        const fontSizeDefaultIndex = 1;
+        let fontSizeIndex = fontSizeDefaultIndex;
+
+        function applyFontSize(index) {
+            fontSizeIndex = Math.min(Math.max(index, 0), fontSizeScales.length - 1);
+            document.documentElement.style.fontSize = fontSizeScales[fontSizeIndex];
+        }
+
+        function changeFontSize(direction) {
+            applyFontSize(fontSizeIndex + direction);
+            try { localStorage.fontSizeIndex = String(fontSizeIndex); } catch (e) {}
+        }
+
+        (function initFontSize() {
+            let idx = fontSizeDefaultIndex;
+            try {
+                const saved = parseInt(localStorage.fontSizeIndex, 10);
+                if (!isNaN(saved) && saved >= 0 && saved < fontSizeScales.length) idx = saved;
+            } catch (e) {}
+            applyFontSize(idx);
+        })();
 
         function showComingSoon(event, title) {
             if (event) event.preventDefault();
@@ -617,6 +1045,220 @@
 
             revealElements.forEach(el => observer.observe(el));
         });
+
+        /* ===================== سیستم چند زبانه سایت ===================== */
+        const translations = {
+            fa: {
+                subnavStudents: "دانش‌آموزان DTS",
+                subnavMethod: "نحوه‌ی تدریس",
+                subnavBooks: "کتاب‌هایی که ما تدریس می‌کنیم",
+                brandName: "موسسه زبان دادمان",
+                brandTagline: "آموزش تخصصی زبان‌های خارجی",
+                navHome: "خانه",
+                navBenefits: "مزایای دادمان",
+                navCourses: "انواع دوره‌ها و جلسات",
+                navContact: "مشاوره رایگان",
+                navQuickSignup: "ثبت نام سریع",
+                langModalTitle: "انتخاب زبان سایت",
+                gamerModalTitle: "تم‌های ویژه گیمرها",
+                gamerModalDesc: "یکی از تم‌های نئونی و شیشه‌ای زیر رو انتخاب کن",
+                gamerTheme1Desc: "صورتی و فیروزه‌ای نئون، شیشه‌ای تیره",
+                gamerTheme2Desc: "سبز هکری روی مشکی محض",
+                gamerTheme3Desc: "قرمز و نارنجی آتشین",
+                gamerTheme4Desc: "بنفش و صورتی رترو",
+                gamerTheme5Desc: "رنگ‌های متغیر مثل لوازم گیمینگ",
+                gamerResetOption: "بازگشت به حالت عادی"
+            },
+            en: {
+                subnavStudents: "DTS Students",
+                subnavMethod: "Teaching Method",
+                subnavBooks: "Books We Teach",
+                brandName: "Dadman Language Institute",
+                brandTagline: "Specialized Foreign Language Education",
+                navHome: "Home",
+                navBenefits: "Why Dadman",
+                navCourses: "Courses & Sessions",
+                navContact: "Free Consultation",
+                navQuickSignup: "Quick Sign-up",
+                langModalTitle: "Choose Site Language",
+                gamerModalTitle: "Gamer Themes",
+                gamerModalDesc: "Pick one of the neon, glass-style themes below",
+                gamerTheme1Desc: "Neon pink & cyan on dark glass",
+                gamerTheme2Desc: "Hacker green on pure black",
+                gamerTheme3Desc: "Fiery red & orange",
+                gamerTheme4Desc: "Retro purple & pink",
+                gamerTheme5Desc: "Shifting colors like RGB gaming gear",
+                gamerResetOption: "Back to Normal Theme"
+            },
+            ar: {
+                subnavStudents: "طلاب DTS",
+                subnavMethod: "طريقة التدريس",
+                subnavBooks: "الكتب التي ندرّسها",
+                brandName: "معهد دادمان للغات",
+                brandTagline: "تعليم متخصص للغات الأجنبية",
+                navHome: "الرئيسية",
+                navBenefits: "مزايا دادمان",
+                navCourses: "الدورات والجلسات",
+                navContact: "استشارة مجانية",
+                navQuickSignup: "تسجيل سريع",
+                langModalTitle: "اختر لغة الموقع",
+                gamerModalTitle: "تصاميم خاصة باللاعبين",
+                gamerModalDesc: "اختر أحد التصاميم النيونية الزجاجية أدناه",
+                gamerTheme1Desc: "وردي وسماوي نيون على زجاج داكن",
+                gamerTheme2Desc: "أخضر هاكر على أسود خالص",
+                gamerTheme3Desc: "أحمر وبرتقالي ناري",
+                gamerTheme4Desc: "بنفسجي ووردي بأسلوب ريترو",
+                gamerTheme5Desc: "ألوان متغيرة كأدوات الألعاب RGB",
+                gamerResetOption: "العودة إلى الوضع العادي"
+            },
+            ko: {
+                subnavStudents: "DTS 학생",
+                subnavMethod: "교육 방식",
+                subnavBooks: "저희가 가르치는 교재",
+                brandName: "다드만 어학원",
+                brandTagline: "전문 외국어 교육",
+                navHome: "홈",
+                navBenefits: "다드만의 장점",
+                navCourses: "과정 및 수업 종류",
+                navContact: "무료 상담",
+                navQuickSignup: "빠른 등록",
+                langModalTitle: "사이트 언어 선택",
+                gamerModalTitle: "게이머 전용 테마",
+                gamerModalDesc: "아래 네온 글래스 테마 중 하나를 선택하세요",
+                gamerTheme1Desc: "어두운 글래스 위 네온 핑크·시안",
+                gamerTheme2Desc: "순수 검정 위 해커 그린",
+                gamerTheme3Desc: "불타는 듯한 빨강·주황",
+                gamerTheme4Desc: "레트로 보라·핑크",
+                gamerTheme5Desc: "RGB 게이밍 기기처럼 변하는 색상",
+                gamerResetOption: "기본 테마로 돌아가기"
+            },
+            de: {
+                subnavStudents: "DTS-Schüler",
+                subnavMethod: "Unterrichtsmethode",
+                subnavBooks: "Bücher, die wir unterrichten",
+                brandName: "Dadman Sprachinstitut",
+                brandTagline: "Spezialisierte Fremdsprachenausbildung",
+                navHome: "Startseite",
+                navBenefits: "Vorteile von Dadman",
+                navCourses: "Kurse & Sitzungen",
+                navContact: "Kostenlose Beratung",
+                navQuickSignup: "Schnellanmeldung",
+                langModalTitle: "Sprache der Website wählen",
+                gamerModalTitle: "Gamer-Themes",
+                gamerModalDesc: "Wählen Sie eines der Neon-Glas-Themes unten",
+                gamerTheme1Desc: "Neon-Pink & Cyan auf dunklem Glas",
+                gamerTheme2Desc: "Hacker-Grün auf reinem Schwarz",
+                gamerTheme3Desc: "Feuriges Rot & Orange",
+                gamerTheme4Desc: "Retro Lila & Pink",
+                gamerTheme5Desc: "Wechselnde Farben wie bei RGB-Gaming-Hardware",
+                gamerResetOption: "Zurück zum normalen Theme"
+            }
+        };
+
+        const rtlLangs = ['fa', 'ar'];
+
+        function applyTranslations(lang) {
+            const dict = translations[lang] || translations.fa;
+            document.querySelectorAll('[data-i18n]').forEach(function (el) {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key] !== undefined) {
+                    el.textContent = dict[key];
+                }
+            });
+
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', rtlLangs.includes(lang) ? 'rtl' : 'ltr');
+
+            document.querySelectorAll('.lang-option').forEach(function (btn) {
+                btn.classList.toggle('lang-active', btn.getAttribute('data-lang') === lang);
+            });
+        }
+
+        function switchLanguage(lang) {
+            applyTranslations(lang);
+            try { localStorage.siteLang = lang; } catch (e) {}
+            closeLanguageModal();
+        }
+
+        function openLanguageModal() {
+            const modal = document.getElementById('languageModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeLanguageModal() {
+            const modal = document.getElementById('languageModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        document.getElementById('languageModal').addEventListener('click', function (event) {
+            if (event.target === this) {
+                closeLanguageModal();
+            }
+        });
+
+        (function initLanguage() {
+            let savedLang = 'fa';
+            try {
+                if (localStorage.siteLang && translations[localStorage.siteLang]) {
+                    savedLang = localStorage.siteLang;
+                }
+            } catch (e) {}
+            applyTranslations(savedLang);
+        })();
+
+        /* ===================== سیستم تم‌های گیمری ===================== */
+        const gamerThemes = ['cyberpunk', 'matrix', 'inferno', 'synthwave', 'rgb'];
+
+        function openGamerModal() {
+            const modal = document.getElementById('gamerThemeModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeGamerModal() {
+            const modal = document.getElementById('gamerThemeModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        function updateGamerActiveState() {
+            const current = document.documentElement.getAttribute('data-gamer-theme') || 'none';
+            document.querySelectorAll('.gamer-option').forEach(function (btn) {
+                btn.classList.toggle('lang-active', btn.getAttribute('data-gamer') === current);
+            });
+        }
+
+        function applyGamerTheme(theme) {
+            if (theme === 'none' || !gamerThemes.includes(theme)) {
+                document.documentElement.removeAttribute('data-gamer-theme');
+            } else {
+                document.documentElement.setAttribute('data-gamer-theme', theme);
+            }
+            try { localStorage.gamerTheme = theme; } catch (e) {}
+            updateGamerActiveState();
+            closeGamerModal();
+        }
+
+        document.getElementById('gamerThemeModal').addEventListener('click', function (event) {
+            if (event.target === this) {
+                closeGamerModal();
+            }
+        });
+
+        (function initGamerTheme() {
+            let savedTheme = 'none';
+            try {
+                if (localStorage.gamerTheme && (gamerThemes.includes(localStorage.gamerTheme) || localStorage.gamerTheme === 'none')) {
+                    savedTheme = localStorage.gamerTheme;
+                }
+            } catch (e) {}
+            if (savedTheme !== 'none') {
+                document.documentElement.setAttribute('data-gamer-theme', savedTheme);
+            }
+            updateGamerActiveState();
+        })();
     </script>
 </body>
 </html>

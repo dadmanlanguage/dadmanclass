@@ -436,7 +436,7 @@
             --g-glow: 0 0 30px rgba(255,255,255,0.5);
             --g-text: #ffffff;
         }
-        html[data-gamer-theme="rgb"] body {
+        html[data-gamer-theme="rgb"] #siteContent {
             animation: rgbHueShift 8s linear infinite !important;
         }
         @keyframes rgbHueShift {
@@ -447,8 +447,9 @@
         /* ---- قوانین عمومی مشترک بین همه تم‌های گیمری ---- */
         html[data-gamer-theme] body::before {
             background: linear-gradient(-45deg, var(--g-bg1), var(--g-bg2), var(--g-bg3), var(--g-bg4)) !important;
-            background-size: 400% 400% !important;
+            background-size: 200% 200% !important;
             opacity: 1 !important;
+            animation: none !important;
         }
         html[data-gamer-theme] body {
             color: var(--g-text) !important;
@@ -458,8 +459,8 @@
         html[data-gamer-theme] .bg-white\/95,
         html[data-gamer-theme] .bg-white\/90 {
             background: var(--g-header-bg) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
             border-color: var(--g-border) !important;
             color: var(--g-text) !important;
         }
@@ -467,8 +468,8 @@
         html[data-gamer-theme] .bg-white\/70,
         html[data-gamer-theme] .bg-slate-100\/70 {
             background: var(--g-card-bg) !important;
-            backdrop-filter: blur(18px) !important;
-            -webkit-backdrop-filter: blur(18px) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
         }
         html[data-gamer-theme] .bg-white,
         html[data-gamer-theme] #contact-form,
@@ -478,8 +479,8 @@
         html[data-gamer-theme] #languageModal > div,
         html[data-gamer-theme] #gamerThemeModal > div {
             background: var(--g-card-bg) !important;
-            backdrop-filter: blur(16px) !important;
-            -webkit-backdrop-filter: blur(16px) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
             border-color: var(--g-border) !important;
             box-shadow: var(--g-glow) !important;
             color: var(--g-text) !important;
@@ -545,7 +546,8 @@
         }
     </style>
 </head>
-<body class="bg-transparent text-slate-700 dark:text-slate-100 flex flex-col min-h-screen transition-colors duration-300">
+<body class="bg-transparent text-slate-700 dark:text-slate-100 transition-colors duration-300">
+    <div id="siteContent" class="flex flex-col min-h-screen">
 
     <div class="bg-emerald-900 dark:bg-slate-950 text-emerald-50 dark:text-emerald-300 text-xs transition-colors duration-300 border-b border-emerald-950/40 dark:border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-row flex-wrap items-center justify-center sm:justify-between gap-x-4 gap-y-1">
@@ -861,6 +863,8 @@
             </div>
         </div>
     </footer>
+
+    </div>
 
     <div class="float-actions" aria-label="ارتباط سریع">
         <button type="button" onclick="showComingSoon(event, 'روبیکا'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:3; background: linear-gradient(145deg, #9333ea, #581c87);">

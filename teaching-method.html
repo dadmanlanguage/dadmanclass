@@ -174,9 +174,295 @@
         .float-sub .float-tooltip {
             font-size: 0.65rem;
         }
+
+        /* ===================== مودال انتخاب زبان ===================== */
+        #languageModal {
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border-radius: 1rem;
+            border: 1px solid transparent;
+            background: transparent;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+            text-align: inherit;
+        }
+
+        .lang-option:hover {
+            background: rgba(16, 185, 129, 0.08);
+            border-color: rgba(16, 185, 129, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .lang-option.lang-active {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        .lang-flag {
+            font-size: 1.5rem;
+            width: 2.25rem;
+            height: 2.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            background: rgba(15, 23, 42, 0.05);
+            flex-shrink: 0;
+        }
+        .dark .lang-flag {
+            background: rgba(255,255,255,0.06);
+        }
+
+        /* ===================== مودال و کارت‌های تم گیمری ===================== */
+        #gamerThemeModal {
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .gamer-option {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border-radius: 1rem;
+            border: 1px solid transparent;
+            background: rgba(15, 23, 42, 0.04);
+            cursor: pointer;
+            transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            text-align: inherit;
+            overflow: hidden;
+        }
+        .dark .gamer-option {
+            background: rgba(255,255,255,0.04);
+        }
+        .gamer-option:hover {
+            transform: translateY(-1px);
+        }
+        .gamer-option.lang-active {
+            border-color: rgba(255,255,255,0.5);
+        }
+        .gamer-swatch {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.85rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 14px rgba(0,0,0,0.25);
+        }
+        .gamer-option-name {
+            font-weight: 800;
+            font-size: 0.85rem;
+        }
+        .gamer-option-desc {
+            font-size: 0.68rem;
+            opacity: 0.7;
+        }
+
+        /* ---- تم ۱: سایبرپانک نئون ---- */
+        html[data-gamer-theme="cyberpunk"] {
+            --g-primary: #ff2bd6;
+            --g-secondary: #00fff2;
+            --g-bg1: #05010f; --g-bg2: #1a0b2e; --g-bg3: #001a1a; --g-bg4: #10002b;
+            --g-header-bg: rgba(10,4,20,0.5);
+            --g-card-bg: rgba(15,6,30,0.32);
+            --g-border: rgba(0,255,242,0.4);
+            --g-glow: 0 0 25px rgba(255,43,214,0.35), 0 0 45px rgba(0,255,242,0.18);
+            --g-text: #f5d0ff;
+        }
+
+        /* ---- تم ۲: پروتکل ماتریکس ---- */
+        html[data-gamer-theme="matrix"] {
+            --g-primary: #00ff66;
+            --g-secondary: #39ff14;
+            --g-bg1: #000500; --g-bg2: #001a08; --g-bg3: #000000; --g-bg4: #002200;
+            --g-header-bg: rgba(0,10,3,0.55);
+            --g-card-bg: rgba(0,15,5,0.3);
+            --g-border: rgba(0,255,102,0.4);
+            --g-glow: 0 0 25px rgba(0,255,102,0.4);
+            --g-text: #b6ffcf;
+        }
+
+        /* ---- تم ۳: اینفرنو / دوزخ ---- */
+        html[data-gamer-theme="inferno"] {
+            --g-primary: #ff1f3d;
+            --g-secondary: #ff7a00;
+            --g-bg1: #0a0000; --g-bg2: #1a0000; --g-bg3: #2b0a00; --g-bg4: #000000;
+            --g-header-bg: rgba(15,0,0,0.55);
+            --g-card-bg: rgba(20,0,0,0.32);
+            --g-border: rgba(255,31,61,0.45);
+            --g-glow: 0 0 25px rgba(255,31,61,0.4), 0 0 45px rgba(255,122,0,0.2);
+            --g-text: #ffd6d6;
+        }
+
+        /* ---- تم ۴: سینت‌ویو ---- */
+        html[data-gamer-theme="synthwave"] {
+            --g-primary: #ff00e5;
+            --g-secondary: #00d4ff;
+            --g-bg1: #0d0221; --g-bg2: #240046; --g-bg3: #3c096c; --g-bg4: #10002b;
+            --g-header-bg: rgba(20,2,40,0.5);
+            --g-card-bg: rgba(30,5,60,0.32);
+            --g-border: rgba(0,212,255,0.4);
+            --g-glow: 0 0 25px rgba(255,0,229,0.35), 0 0 45px rgba(0,212,255,0.2);
+            --g-text: #f3d9ff;
+        }
+
+        /* ---- تم ۵: آر‌جی‌بی اوردرایو ---- */
+        html[data-gamer-theme="rgb"] {
+            --g-primary: #ffffff;
+            --g-secondary: #00e5ff;
+            --g-bg1: #050505; --g-bg2: #111111; --g-bg3: #000000; --g-bg4: #0a0a0a;
+            --g-header-bg: rgba(10,10,10,0.5);
+            --g-card-bg: rgba(10,10,10,0.32);
+            --g-border: rgba(255,255,255,0.45);
+            --g-glow: 0 0 30px rgba(255,255,255,0.5);
+            --g-text: #ffffff;
+        }
+        html[data-gamer-theme="rgb"] #siteContent {
+            animation: rgbHueShift 10s linear infinite;
+            will-change: filter;
+            transform: translateZ(0);
+        }
+        @keyframes rgbHueShift {
+            from { filter: hue-rotate(0deg); }
+            to { filter: hue-rotate(360deg); }
+        }
+
+        html[data-gamer-theme] header,
+        html[data-gamer-theme] .bg-emerald-700,
+        html[data-gamer-theme] .bg-emerald-800,
+        html[data-gamer-theme] .bg-emerald-950,
+        html[data-gamer-theme] .bg-slate-900,
+        html[data-gamer-theme] .bg-white,
+        html[data-gamer-theme] #contact-form {
+            animation: gamerGlowPulse 3.2s ease-in-out infinite;
+            will-change: box-shadow;
+        }
+        @keyframes gamerGlowPulse {
+            0%, 100% { box-shadow: var(--g-glow); }
+            50% { box-shadow: var(--g-glow), 0 0 12px 2px var(--g-secondary); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html[data-gamer-theme] #siteContent,
+            html[data-gamer-theme] header,
+            html[data-gamer-theme] .bg-emerald-700,
+            html[data-gamer-theme] .bg-emerald-800,
+            html[data-gamer-theme] .bg-emerald-950,
+            html[data-gamer-theme] .bg-slate-900,
+            html[data-gamer-theme] .bg-white,
+            html[data-gamer-theme] #contact-form {
+                animation: none !important;
+            }
+        }
+
+        html[data-gamer-theme] body::before {
+            background: linear-gradient(-45deg, var(--g-bg1), var(--g-bg2), var(--g-bg3), var(--g-bg4)) !important;
+            background-size: 200% 200% !important;
+            opacity: 1 !important;
+            animation: none !important;
+        }
+        html[data-gamer-theme] body {
+            color: var(--g-text) !important;
+        }
+        html[data-gamer-theme] header,
+        html[data-gamer-theme] .bg-emerald-900,
+        html[data-gamer-theme] .bg-white\/95,
+        html[data-gamer-theme] .bg-white\/90 {
+            background: var(--g-header-bg) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            border-color: var(--g-border) !important;
+            color: var(--g-text) !important;
+        }
+        html[data-gamer-theme] section.bg-gradient-to-br,
+        html[data-gamer-theme] .bg-white\/70,
+        html[data-gamer-theme] .bg-slate-100\/70 {
+            background: var(--g-card-bg) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+        }
+        html[data-gamer-theme] .bg-white,
+        html[data-gamer-theme] #contact-form,
+        html[data-gamer-theme] .bg-slate-950,
+        html[data-gamer-theme] #customModal > div,
+        html[data-gamer-theme] #comingSoonModal > div,
+        html[data-gamer-theme] #languageModal > div,
+        html[data-gamer-theme] #gamerThemeModal > div {
+            background: var(--g-card-bg) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+            border-color: var(--g-border) !important;
+            box-shadow: var(--g-glow) !important;
+            color: var(--g-text) !important;
+        }
+        html[data-gamer-theme] .border-slate-200,
+        html[data-gamer-theme] .border-slate-700,
+        html[data-gamer-theme] .border-emerald-500\/50,
+        html[data-gamer-theme] .ring-emerald-600\/20,
+        html[data-gamer-theme] .border-emerald-950\/40,
+        html[data-gamer-theme] .border-slate-800,
+        html[data-gamer-theme] .border-slate-900 {
+            border-color: var(--g-border) !important;
+        }
+        html[data-gamer-theme] .bg-emerald-700,
+        html[data-gamer-theme] .bg-emerald-800,
+        html[data-gamer-theme] .bg-emerald-950,
+        html[data-gamer-theme] .bg-slate-900 {
+            background: linear-gradient(135deg, var(--g-primary), var(--g-secondary)) !important;
+            border: none !important;
+            box-shadow: var(--g-glow) !important;
+            color: #05010a !important;
+        }
+        html[data-gamer-theme] .hover\:bg-emerald-800:hover,
+        html[data-gamer-theme] .hover\:bg-emerald-100:hover,
+        html[data-gamer-theme] .hover\:bg-slate-700:hover,
+        html[data-gamer-theme] .hover\:bg-emerald-50:hover {
+            filter: brightness(1.2) !important;
+        }
+        html[data-gamer-theme] .text-emerald-700,
+        html[data-gamer-theme] .text-emerald-400,
+        html[data-gamer-theme] .text-emerald-300,
+        html[data-gamer-theme] .text-emerald-200,
+        html[data-gamer-theme] .text-emerald-500,
+        html[data-gamer-theme] .text-emerald-800 {
+            color: var(--g-secondary) !important;
+        }
+        html[data-gamer-theme] .text-slate-700,
+        html[data-gamer-theme] .text-slate-600,
+        html[data-gamer-theme] .text-slate-900,
+        html[data-gamer-theme] .text-slate-500,
+        html[data-gamer-theme] .text-slate-400,
+        html[data-gamer-theme] .text-slate-300,
+        html[data-gamer-theme] .text-white {
+            color: var(--g-text) !important;
+        }
+        html[data-gamer-theme] .bg-emerald-100,
+        html[data-gamer-theme] .bg-emerald-50,
+        html[data-gamer-theme] .bg-emerald-500\/20 {
+            background: rgba(255,255,255,0.07) !important;
+            color: var(--g-primary) !important;
+            border: 1px solid var(--g-border) !important;
+        }
+        html[data-gamer-theme] footer {
+            background: var(--g-header-bg) !important;
+            border-top: 1px solid var(--g-border) !important;
+        }
+        html[data-gamer-theme] h1, html[data-gamer-theme] h2, html[data-gamer-theme] h3, html[data-gamer-theme] h4 {
+            text-shadow: var(--g-glow);
+        }
     </style>
 </head>
 <body class="bg-transparent text-slate-700 dark:text-slate-100 flex flex-col min-h-screen transition-colors duration-300">
+    <div id="siteContent" class="flex flex-col min-h-screen">
 
     <!-- نوار اطلاعات تماس (بالاترین بخش سایت) -->
     <div class="bg-emerald-900 dark:bg-slate-950 text-emerald-50 dark:text-emerald-300 text-xs transition-colors duration-300 border-b border-emerald-950/40 dark:border-slate-800">
@@ -195,17 +481,17 @@
     <!-- نوار منوی ثانویه -->
     <div class="bg-white/95 dark:bg-slate-900/95 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-center sm:justify-start gap-x-6 gap-y-1 flex-wrap">
-            <button onclick="showComingSoon(event, 'دانش‌آموزان DTS')" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
+            <button onclick="showComingSoon(event, translations[currentLang].nav_students)" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
                 <i class="fa-solid fa-graduation-cap"></i>
-                <span>دانش‌آموزان DTS</span>
+                <span data-i18n="nav_students">دانش‌آموزان DTS</span>
             </button>
             <a href="teaching-method.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-900 dark:text-emerald-300 transition">
                 <i class="fa-solid fa-chalkboard"></i>
-                <span>نحوه‌ی تدریس</span>
+                <span data-i18n="nav_method">نحوه‌ی تدریس</span>
             </a>
-            <button onclick="showComingSoon(event, 'کتاب‌هایی که ما تدریس می‌کنیم')" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
+            <button onclick="showComingSoon(event, translations[currentLang].nav_books)" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
                 <i class="fa-solid fa-book"></i>
-                <span>کتاب‌هایی که ما تدریس می‌کنیم</span>
+                <span data-i18n="nav_books">کتاب‌هایی که ما تدریس می‌کنیم</span>
             </button>
         </div>
     </div>
@@ -219,22 +505,40 @@
                 </div>
                 <div>
                     <h1 class="font-extrabold text-xl text-slate-900 dark:text-white">موسسه زبان دادمان</h1>
-                    <span class="text-xs text-emerald-700 dark:text-emerald-400 font-medium">آموزش تخصصی زبان‌های خارجی</span>
+                    <span class="text-xs text-emerald-700 dark:text-emerald-400 font-medium" data-i18n="brand_tagline">آموزش تخصصی زبان‌های خارجی</span>
                 </div>
             </a>
 
             <nav class="hidden md:flex items-center space-x-8 space-x-reverse text-sm font-medium text-slate-600 dark:text-slate-300">
-                <a href="index.html" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">خانه</a>
-                <a href="index.html#benefits" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">مزایای دادمان</a>
-                <a href="index.html#courses" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">انواع دوره‌ها و جلسات</a>
-                <a href="index.html#contact-form" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">مشاوره رایگان</a>
+                <a href="index.html" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition" data-i18n="nav_home">خانه</a>
+                <a href="index.html#benefits" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition" data-i18n="nav_benefits">مزایای دادمان</a>
+                <a href="index.html#courses" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition" data-i18n="nav_courses">انواع دوره‌ها و جلسات</a>
+                <a href="index.html#contact-form" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition" data-i18n="nav_contact">مشاوره رایگان</a>
             </nav>
 
             <div class="flex items-center space-x-3 space-x-reverse">
-                <button onclick="toggleTheme()" aria-label="تغییر تم" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
+                <div class="flex items-center rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+                    <button onclick="changeFontSize(-1)" aria-label="کوچک کردن متن" title="کوچک کردن متن" data-i18n-title="a11y_smaller" data-i18n-aria="a11y_smaller" class="w-9 h-10 flex items-center justify-center text-slate-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-slate-700 transition font-extrabold text-sm">
+                        A-
+                    </button>
+                    <span class="w-px h-5 bg-slate-300 dark:bg-slate-600"></span>
+                    <button onclick="changeFontSize(1)" aria-label="بزرگ کردن متن" title="بزرگ کردن متن" data-i18n-title="a11y_bigger" data-i18n-aria="a11y_bigger" class="w-9 h-10 flex items-center justify-center text-slate-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-slate-700 transition font-extrabold text-sm">
+                        A+
+                    </button>
+                </div>
+
+                <button onclick="openLanguageModal()" aria-label="تغییر زبان" title="تغییر زبان" data-i18n-title="a11y_lang" data-i18n-aria="a11y_lang" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
+                    <i class="fa-solid fa-globe text-lg"></i>
+                </button>
+
+                <button onclick="openGamerModal()" aria-label="تم گیمری" title="تم گیمری" data-i18n-title="a11y_gamer" data-i18n-aria="a11y_gamer" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
+                    <i class="fa-solid fa-gamepad text-lg"></i>
+                </button>
+
+                <button onclick="toggleTheme()" aria-label="تغییر تم" data-i18n-aria="a11y_theme" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
                     <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
                 </button>
-                <a href="index.html#contact-form" class="hidden sm:inline-block bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-md">
+                <a href="index.html#contact-form" class="hidden sm:inline-block bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-md" data-i18n="btn_quick_signup">
                     ثبت نام سریع
                 </a>
             </div>
@@ -246,7 +550,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center">
             <a href="index.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 transition">
                 <i class="fa-solid fa-arrow-right"></i>
-                <span>بازگشت به صفحه اصلی</span>
+                <span data-i18n="btn_back_home">بازگشت به صفحه اصلی</span>
             </a>
         </div>
     </div>
@@ -255,11 +559,11 @@
     <section class="bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-950 text-white py-14 lg:py-20 relative overflow-hidden transition-colors duration-300">
         <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#4ade80_1px,transparent_1px)] [background-size:16px_16px]"></div>
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4">
-            <span class="bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider border border-emerald-400/30">
+            <span class="bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider border border-emerald-400/30" data-i18n="hero_badge">
                 متد آموزشی دادمان
             </span>
-            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight">نحوه‌ی تدریس در موسسه زبان دادمان</h1>
-            <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight" data-i18n="hero_title">نحوه‌ی تدریس در موسسه زبان دادمان</h1>
+            <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto" data-i18n="hero_desc">
                 آشنایی با روش، ساختار جلسات و اصول آموزشی که مسیر یادگیری شما را کوتاه‌تر و مؤثرتر می‌کند.
             </p>
         </div>
@@ -274,61 +578,61 @@
                     <div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
                         <i class="fa-solid fa-comments"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">متد مکالمه‌محور</h3>
-                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">از همان جلسه اول، تمرکز اصلی بر تمرین گفتار و شنیدار در موقعیت‌های واقعی است، نه صرفاً حفظ گرامر و لغت.</p>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3" data-i18n="feature1_title">متد مکالمه‌محور</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="feature1_desc">از همان جلسه اول، تمرکز اصلی بر تمرین گفتار و شنیدار در موقعیت‌های واقعی است، نه صرفاً حفظ گرامر و لغت.</p>
                 </div>
                 <div class="p-8 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
                     <div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
                         <i class="fa-solid fa-user-check"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">تعیین سطح دقیق</h3>
-                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">پیش از شروع دوره، سطح واقعی زبان‌آموز مشخص می‌شود تا مسیر آموزشی متناسب با نیاز او طراحی شود.</p>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3" data-i18n="feature2_title">تعیین سطح دقیق</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="feature2_desc">پیش از شروع دوره، سطح واقعی زبان‌آموز مشخص می‌شود تا مسیر آموزشی متناسب با نیاز او طراحی شود.</p>
                 </div>
                 <div class="p-8 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
                     <div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
                         <i class="fa-solid fa-chart-line"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">پیگیری پیشرفت</h3>
-                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">در طول دوره، پیشرفت هر زبان‌آموز به‌صورت مستمر بررسی و به او و خانواده گزارش داده می‌شود.</p>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3" data-i18n="feature3_title">پیگیری پیشرفت</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="feature3_desc">در طول دوره، پیشرفت هر زبان‌آموز به‌صورت مستمر بررسی و به او و خانواده گزارش داده می‌شود.</p>
                 </div>
             </div>
 
             <div class="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm p-8 sm:p-10">
-                <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white mb-6">مراحل یک دوره‌ی آموزشی در دادمان</h2>
+                <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white mb-6" data-i18n="steps_title">مراحل یک دوره‌ی آموزشی در دادمان</h2>
                 <ol class="space-y-6">
                     <li class="flex items-start gap-4">
                         <span class="flex-shrink-0 w-9 h-9 bg-emerald-700 text-white rounded-full flex items-center justify-center font-bold">۱</span>
                         <div>
-                            <h4 class="font-bold text-slate-900 dark:text-white mb-1">مشاوره و تعیین سطح رایگان</h4>
-                            <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">در جلسه اول، هدف زبان‌آموز، سطح فعلی و برنامه پیشنهادی بررسی می‌شود.</p>
+                            <h4 class="font-bold text-slate-900 dark:text-white mb-1" data-i18n="step1_title">مشاوره و تعیین سطح رایگان</h4>
+                            <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="step1_desc">در جلسه اول، هدف زبان‌آموز، سطح فعلی و برنامه پیشنهادی بررسی می‌شود.</p>
                         </div>
                     </li>
                     <li class="flex items-start gap-4">
                         <span class="flex-shrink-0 w-9 h-9 bg-emerald-700 text-white rounded-full flex items-center justify-center font-bold">۲</span>
                         <div>
-                            <h4 class="font-bold text-slate-900 dark:text-white mb-1">قرارگیری در کلاس متناسب</h4>
-                            <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">زبان‌آموز بر اساس سن، سطح و هدف (مکالمه، آیلتس، کودکان) در گروه مناسب قرار می‌گیرد.</p>
+                            <h4 class="font-bold text-slate-900 dark:text-white mb-1" data-i18n="step2_title">قرارگیری در کلاس متناسب</h4>
+                            <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="step2_desc">زبان‌آموز بر اساس سن، سطح و هدف (مکالمه، آیلتس، کودکان) در گروه مناسب قرار می‌گیرد.</p>
                         </div>
                     </li>
                     <li class="flex items-start gap-4">
                         <span class="flex-shrink-0 w-9 h-9 bg-emerald-700 text-white rounded-full flex items-center justify-center font-bold">۳</span>
                         <div>
-                            <h4 class="font-bold text-slate-900 dark:text-white mb-1">جلسات تعاملی و کاربردی</h4>
-                            <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">هر جلسه ترکیبی از آموزش، تمرین گروهی و بازخورد فردی است.</p>
+                            <h4 class="font-bold text-slate-900 dark:text-white mb-1" data-i18n="step3_title">جلسات تعاملی و کاربردی</h4>
+                            <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="step3_desc">هر جلسه ترکیبی از آموزش، تمرین گروهی و بازخورد فردی است.</p>
                         </div>
                     </li>
                     <li class="flex items-start gap-4">
                         <span class="flex-shrink-0 w-9 h-9 bg-emerald-700 text-white rounded-full flex items-center justify-center font-bold">۴</span>
                         <div>
-                            <h4 class="font-bold text-slate-900 dark:text-white mb-1">ارزیابی دوره‌ای</h4>
-                            <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">در پایان هر دوره، آزمون و بازخورد کتبی برای سنجش پیشرفت ارائه می‌شود.</p>
+                            <h4 class="font-bold text-slate-900 dark:text-white mb-1" data-i18n="step4_title">ارزیابی دوره‌ای</h4>
+                            <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="step4_desc">در پایان هر دوره، آزمون و بازخورد کتبی برای سنجش پیشرفت ارائه می‌شود.</p>
                         </div>
                     </li>
                 </ol>
             </div>
 
             <div class="text-center mt-14">
-                <a href="index.html#contact-form" class="inline-block bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-8 py-3.5 rounded-xl transition shadow-lg">
+                <a href="index.html#contact-form" class="inline-block bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-8 py-3.5 rounded-xl transition shadow-lg" data-i18n="cta_button">
                     درخواست مشاوره رایگان
                 </a>
             </div>
@@ -347,19 +651,19 @@
                         </div>
                         <span class="font-bold text-base">موسسه زبان دادمان</span>
                     </div>
-                    <p class="text-slate-400 text-xs leading-relaxed">
+                    <p class="text-slate-400 text-xs leading-relaxed" data-i18n="footer_about">
                         مرجع تخصصی آموزش زبان‌های خارجی با بهره‌گیری از برترین متدهای روز دنیا و اساتید مجرب.
                     </p>
                 </div>
                 <div class="space-y-3">
-                    <h4 class="font-bold text-sm text-emerald-400">آدرس موسسه</h4>
+                    <h4 class="font-bold text-sm text-emerald-400" data-i18n="footer_address_title">آدرس موسسه</h4>
                     <p class="text-slate-300 text-xs leading-relaxed flex items-start space-x-2 space-x-reverse">
                         <i class="fa-solid fa-location-dot text-emerald-500 mt-1"></i>
-                        <span>تهران، مشیریه، خیابان سازمان آب</span>
+                        <span data-i18n="footer_address">تهران، مشیریه، خیابان سازمان آب</span>
                     </p>
                 </div>
                 <div class="space-y-3">
-                    <h4 class="font-bold text-sm text-emerald-400">تماس با ما</h4>
+                    <h4 class="font-bold text-sm text-emerald-400" data-i18n="footer_contact_title">تماس با ما</h4>
                     <p class="text-slate-300 text-xs flex items-center space-x-2 space-x-reverse">
                         <i class="fa-solid fa-phone text-emerald-500"></i>
                         <span dir="ltr">021-33479054</span>
@@ -372,28 +676,30 @@
                 </div>
             </div>
             <div class="pt-6 text-center text-slate-500 text-xs">
-                <p>© تمامی حقوق مادی و معنوی برای موسسه زبان دادمان محفوظ است.</p>
+                <p data-i18n="footer_copyright">© تمامی حقوق مادی و معنوی برای موسسه زبان دادمان محفوظ است.</p>
             </div>
         </div>
     </footer>
 
+    </div>
+
     <!-- دکمه شناور ارتباط سریع (مطابق تم سبز سایت، با برق ملیح هر ۱ ثانیه) -->
     <!-- با هاور یا لمس، سه گزینه روبیکا، ایتا و بله باز می‌شوند -->
     <div class="float-actions" aria-label="ارتباط سریع">
-        <button type="button" onclick="showComingSoon(event, 'روبیکا'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:3; background: linear-gradient(145deg, #9333ea, #581c87);">
-            <span class="float-tooltip">روبیکا</span>
+        <button type="button" onclick="showComingSoon(event, translations[currentLang].social_rubika); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:3; background: linear-gradient(145deg, #9333ea, #581c87);">
+            <span class="float-tooltip" data-i18n="social_rubika">روبیکا</span>
             <span>ر</span>
         </button>
-        <button type="button" onclick="showComingSoon(event, 'ایتا'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:2; background: #ffffff; padding: 8px;">
-            <span class="float-tooltip">ایتا</span>
+        <button type="button" onclick="showComingSoon(event, translations[currentLang].social_eitaa); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:2; background: #ffffff; padding: 8px;">
+            <span class="float-tooltip" data-i18n="social_eitaa">ایتا</span>
             <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/eitaa.svg" alt="ایتا" class="w-full h-full object-contain">
         </button>
-        <button type="button" onclick="showComingSoon(event, 'بله'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:1; background: #ffffff; padding: 8px;">
-            <span class="float-tooltip">بله</span>
+        <button type="button" onclick="showComingSoon(event, translations[currentLang].social_bale); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:1; background: #ffffff; padding: 8px;">
+            <span class="float-tooltip" data-i18n="social_bale">بله</span>
             <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/bale.svg" alt="بله" class="w-full h-full object-contain">
         </button>
         <button type="button" onclick="toggleFloatMenu(event)" class="float-btn float-main">
-            <span class="float-tooltip">ارتباط سریع</span>
+            <span class="float-tooltip" data-i18n="social_quick">ارتباط سریع</span>
             <i class="fa-solid fa-comment-dots"></i>
         </button>
     </div>
@@ -404,13 +710,106 @@
             <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto text-2xl">
                 <i class="fa-solid fa-hourglass-half"></i>
             </div>
-            <h3 id="comingSoonTitle" class="text-xl font-bold text-slate-900 dark:text-white">این بخش</h3>
-            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            <h3 id="comingSoonTitle" class="text-xl font-bold text-slate-900 dark:text-white" data-i18n="coming_soon_default">این بخش</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed" data-i18n="coming_soon_body">
                 به زودی فعال خواهد شد.
             </p>
-            <button onclick="closeComingSoonModal()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition">
+            <button onclick="closeComingSoonModal()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition" data-i18n="coming_soon_ok">
                 متوجه شدم
             </button>
+        </div>
+    </div>
+
+    <!-- ===================== مودال انتخاب زبان ===================== -->
+    <div id="languageModal" class="fixed inset-0 bg-slate-950/50 hidden items-center justify-center z-[60] p-4">
+        <div class="bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl border border-slate-200 dark:border-slate-800 transition-colors">
+            <div class="flex items-center justify-between mb-5">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white" data-i18n="lang_modal_title">انتخاب زبان سایت</h3>
+                <button onclick="closeLanguageModal()" aria-label="بستن" data-i18n-aria="a11y_close" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="space-y-2">
+                <button type="button" class="lang-option" data-lang="fa" onclick="switchLanguage('fa')">
+                    <span class="lang-flag">🇮🇷</span>
+                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">فارسی</span>
+                </button>
+                <button type="button" class="lang-option" data-lang="en" onclick="switchLanguage('en')">
+                    <span class="lang-flag">🇬🇧</span>
+                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">English</span>
+                </button>
+                <button type="button" class="lang-option" data-lang="ar" onclick="switchLanguage('ar')">
+                    <span class="lang-flag">🇸🇦</span>
+                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">العربية</span>
+                </button>
+                <button type="button" class="lang-option" data-lang="ko" onclick="switchLanguage('ko')">
+                    <span class="lang-flag">🇰🇷</span>
+                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">한국어</span>
+                </button>
+                <button type="button" class="lang-option" data-lang="de" onclick="switchLanguage('de')">
+                    <span class="lang-flag">🇩🇪</span>
+                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">Deutsch</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== مودال انتخاب تم گیمری ===================== -->
+    <div id="gamerThemeModal" class="fixed inset-0 bg-slate-950/60 hidden items-center justify-center z-[60] p-4">
+        <div class="bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl border border-slate-200 dark:border-slate-800 transition-colors">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-gamepad text-emerald-600 dark:text-emerald-400"></i>
+                    <span data-i18n="gamer_modal_title">تم‌های ویژه گیمرها</span>
+                </h3>
+                <button onclick="closeGamerModal()" aria-label="بستن" data-i18n-aria="a11y_close" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-xs mb-5" data-i18n="gamer_modal_desc">یکی از تم‌های نئونی و شیشه‌ای زیر رو انتخاب کن</p>
+            <div class="space-y-2">
+                <button type="button" class="gamer-option" data-gamer="cyberpunk" onclick="applyGamerTheme('cyberpunk')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #ff2bd6, #00fff2);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white">Cyberpunk Neon</span>
+                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamer_cyberpunk_desc">صورتی و فیروزه‌ای نئون، شیشه‌ای تیره</span>
+                    </span>
+                </button>
+                <button type="button" class="gamer-option" data-gamer="matrix" onclick="applyGamerTheme('matrix')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #00ff66, #003b16);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white">Matrix Protocol</span>
+                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamer_matrix_desc">سبز هکری روی مشکی محض</span>
+                    </span>
+                </button>
+                <button type="button" class="gamer-option" data-gamer="inferno" onclick="applyGamerTheme('inferno')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #ff1f3d, #ff7a00);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white">Inferno Doom</span>
+                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamer_inferno_desc">قرمز و نارنجی آتشین</span>
+                    </span>
+                </button>
+                <button type="button" class="gamer-option" data-gamer="synthwave" onclick="applyGamerTheme('synthwave')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #ff00e5, #00d4ff);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white">Synthwave Retro</span>
+                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamer_synthwave_desc">بنفش و صورتی رترو</span>
+                    </span>
+                </button>
+                <button type="button" class="gamer-option" data-gamer="rgb" onclick="applyGamerTheme('rgb')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, red, orange, yellow, green, blue, violet);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white">RGB Overdrive</span>
+                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamer_rgb_desc">رنگ‌های متغیر مثل لوازم گیمینگ</span>
+                    </span>
+                </button>
+                <button type="button" class="gamer-option" data-gamer="none" onclick="applyGamerTheme('none')">
+                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #cbd5e1, #64748b);"></span>
+                    <span>
+                        <span class="gamer-option-name block text-slate-800 dark:text-white" data-i18n="gamer_none">بازگشت به حالت عادی</span>
+                    </span>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -441,11 +840,458 @@
 
         initTheme();
 
+        /* ===================== دکمه اندازه متن (دسترسی‌پذیری) ===================== */
+        const fontSizeScales = ['87.5%', '100%', '112%', '125%', '137.5%'];
+        const fontSizeDefaultIndex = 1;
+        let fontSizeIndex = fontSizeDefaultIndex;
+
+        function applyFontSize(index) {
+            fontSizeIndex = Math.min(Math.max(index, 0), fontSizeScales.length - 1);
+            document.documentElement.style.fontSize = fontSizeScales[fontSizeIndex];
+        }
+
+        function changeFontSize(direction) {
+            applyFontSize(fontSizeIndex + direction);
+            try { localStorage.fontSizeIndex = String(fontSizeIndex); } catch (e) {}
+        }
+
+        (function initFontSize() {
+            let idx = fontSizeDefaultIndex;
+            try {
+                const saved = parseInt(localStorage.fontSizeIndex, 10);
+                if (!isNaN(saved) && saved >= 0 && saved < fontSizeScales.length) idx = saved;
+            } catch (e) {}
+            applyFontSize(idx);
+        })();
+
+        /* ===================== سیستم چند زبانه سایت ===================== */
+        const translations = {
+            fa: {
+                nav_students: "دانش‌آموزان DTS",
+                nav_method: "نحوه‌ی تدریس",
+                nav_books: "کتاب‌هایی که ما تدریس می‌کنیم",
+                brand_tagline: "آموزش تخصصی زبان‌های خارجی",
+                nav_home: "خانه",
+                nav_benefits: "مزایای دادمان",
+                nav_courses: "انواع دوره‌ها و جلسات",
+                nav_contact: "مشاوره رایگان",
+                btn_quick_signup: "ثبت نام سریع",
+                btn_back_home: "بازگشت به صفحه اصلی",
+                a11y_smaller: "کوچک کردن متن",
+                a11y_bigger: "بزرگ کردن متن",
+                a11y_lang: "تغییر زبان",
+                a11y_gamer: "تم گیمری",
+                a11y_theme: "تغییر تم",
+                a11y_close: "بستن",
+                hero_badge: "متد آموزشی دادمان",
+                hero_title: "نحوه‌ی تدریس در موسسه زبان دادمان",
+                hero_desc: "آشنایی با روش، ساختار جلسات و اصول آموزشی که مسیر یادگیری شما را کوتاه‌تر و مؤثرتر می‌کند.",
+                feature1_title: "متد مکالمه‌محور",
+                feature1_desc: "از همان جلسه اول، تمرکز اصلی بر تمرین گفتار و شنیدار در موقعیت‌های واقعی است، نه صرفاً حفظ گرامر و لغت.",
+                feature2_title: "تعیین سطح دقیق",
+                feature2_desc: "پیش از شروع دوره، سطح واقعی زبان‌آموز مشخص می‌شود تا مسیر آموزشی متناسب با نیاز او طراحی شود.",
+                feature3_title: "پیگیری پیشرفت",
+                feature3_desc: "در طول دوره، پیشرفت هر زبان‌آموز به‌صورت مستمر بررسی و به او و خانواده گزارش داده می‌شود.",
+                steps_title: "مراحل یک دوره‌ی آموزشی در دادمان",
+                step1_title: "مشاوره و تعیین سطح رایگان",
+                step1_desc: "در جلسه اول، هدف زبان‌آموز، سطح فعلی و برنامه پیشنهادی بررسی می‌شود.",
+                step2_title: "قرارگیری در کلاس متناسب",
+                step2_desc: "زبان‌آموز بر اساس سن، سطح و هدف (مکالمه، آیلتس، کودکان) در گروه مناسب قرار می‌گیرد.",
+                step3_title: "جلسات تعاملی و کاربردی",
+                step3_desc: "هر جلسه ترکیبی از آموزش، تمرین گروهی و بازخورد فردی است.",
+                step4_title: "ارزیابی دوره‌ای",
+                step4_desc: "در پایان هر دوره، آزمون و بازخورد کتبی برای سنجش پیشرفت ارائه می‌شود.",
+                cta_button: "درخواست مشاوره رایگان",
+                footer_about: "مرجع تخصصی آموزش زبان‌های خارجی با بهره‌گیری از برترین متدهای روز دنیا و اساتید مجرب.",
+                footer_address_title: "آدرس موسسه",
+                footer_address: "تهران، مشیریه، خیابان سازمان آب",
+                footer_contact_title: "تماس با ما",
+                footer_copyright: "© تمامی حقوق مادی و معنوی برای موسسه زبان دادمان محفوظ است.",
+                social_rubika: "روبیکا",
+                social_eitaa: "ایتا",
+                social_bale: "بله",
+                social_quick: "ارتباط سریع",
+                coming_soon_default: "این بخش",
+                coming_soon_body: "به زودی فعال خواهد شد.",
+                coming_soon_ok: "متوجه شدم",
+                lang_modal_title: "انتخاب زبان سایت",
+                gamer_modal_title: "تم‌های ویژه گیمرها",
+                gamer_modal_desc: "یکی از تم‌های نئونی و شیشه‌ای زیر رو انتخاب کن",
+                gamer_cyberpunk_desc: "صورتی و فیروزه‌ای نئون، شیشه‌ای تیره",
+                gamer_matrix_desc: "سبز هکری روی مشکی محض",
+                gamer_inferno_desc: "قرمز و نارنجی آتشین",
+                gamer_synthwave_desc: "بنفش و صورتی رترو",
+                gamer_rgb_desc: "رنگ‌های متغیر مثل لوازم گیمینگ",
+                gamer_none: "بازگشت به حالت عادی"
+            },
+            en: {
+                nav_students: "DTS Students",
+                nav_method: "Teaching Method",
+                nav_books: "Books We Teach",
+                brand_tagline: "Specialized Foreign Language Education",
+                nav_home: "Home",
+                nav_benefits: "Why Dadman",
+                nav_courses: "Courses & Sessions",
+                nav_contact: "Free Consultation",
+                btn_quick_signup: "Quick Sign-Up",
+                btn_back_home: "Back to Home",
+                a11y_smaller: "Decrease text size",
+                a11y_bigger: "Increase text size",
+                a11y_lang: "Change language",
+                a11y_gamer: "Gamer theme",
+                a11y_theme: "Toggle theme",
+                a11y_close: "Close",
+                hero_badge: "Dadman Teaching Method",
+                hero_title: "How Teaching Works at Dadman Language Institute",
+                hero_desc: "Learn about the method, session structure and educational principles that make your learning path shorter and more effective.",
+                feature1_title: "Conversation-Focused Method",
+                feature1_desc: "From the very first session, the main focus is on speaking and listening practice in real situations, not just memorizing grammar and vocabulary.",
+                feature2_title: "Precise Level Placement",
+                feature2_desc: "Before the course begins, the learner's real level is determined so the learning path is designed to match their needs.",
+                feature3_title: "Progress Tracking",
+                feature3_desc: "Throughout the course, each learner's progress is continuously monitored and reported to them and their family.",
+                steps_title: "Stages of a Dadman Course",
+                step1_title: "Free Consultation & Level Test",
+                step1_desc: "In the first session, the learner's goal, current level and suggested plan are reviewed.",
+                step2_title: "Placement in a Suitable Class",
+                step2_desc: "The learner is placed in the right group based on age, level and goal (conversation, IELTS, kids).",
+                step3_title: "Interactive, Practical Sessions",
+                step3_desc: "Every session combines instruction, group practice and individual feedback.",
+                step4_title: "Periodic Assessment",
+                step4_desc: "At the end of each course, an exam and written feedback are provided to measure progress.",
+                cta_button: "Request a Free Consultation",
+                footer_about: "A specialized reference for foreign language education using the world's leading methods and experienced teachers.",
+                footer_address_title: "Institute Address",
+                footer_address: "Tehran, Moshirieh, Sazman-e Ab Street",
+                footer_contact_title: "Contact Us",
+                footer_copyright: "© All rights reserved for Dadman Language Institute.",
+                social_rubika: "Rubika",
+                social_eitaa: "Eitaa",
+                social_bale: "Bale",
+                social_quick: "Quick Contact",
+                coming_soon_default: "This section",
+                coming_soon_body: "Will be available soon.",
+                coming_soon_ok: "Got it",
+                lang_modal_title: "Choose Site Language",
+                gamer_modal_title: "Special Gamer Themes",
+                gamer_modal_desc: "Pick one of the neon glass themes below",
+                gamer_cyberpunk_desc: "Neon pink and cyan, dark glass",
+                gamer_matrix_desc: "Hacker green on pure black",
+                gamer_inferno_desc: "Fiery red and orange",
+                gamer_synthwave_desc: "Retro purple and pink",
+                gamer_rgb_desc: "Shifting colors like gaming gear",
+                gamer_none: "Back to normal mode"
+            },
+            ar: {
+                nav_students: "طلاب DTS",
+                nav_method: "طريقة التدريس",
+                nav_books: "الكتب التي ندرّسها",
+                brand_tagline: "تعليم متخصص للغات الأجنبية",
+                nav_home: "الرئيسية",
+                nav_benefits: "مزايا دادمان",
+                nav_courses: "أنواع الدورات والجلسات",
+                nav_contact: "استشارة مجانية",
+                btn_quick_signup: "تسجيل سريع",
+                btn_back_home: "العودة إلى الصفحة الرئيسية",
+                a11y_smaller: "تصغير النص",
+                a11y_bigger: "تكبير النص",
+                a11y_lang: "تغيير اللغة",
+                a11y_gamer: "سمة الألعاب",
+                a11y_theme: "تبديل السمة",
+                a11y_close: "إغلاق",
+                hero_badge: "منهج دادمان التعليمي",
+                hero_title: "كيفية التدريس في معهد دادمان لتعليم اللغات",
+                hero_desc: "تعرّف على الأسلوب وهيكل الجلسات والمبادئ التعليمية التي تجعل مسار تعلمك أقصر وأكثر فعالية.",
+                feature1_title: "منهج قائم على المحادثة",
+                feature1_desc: "منذ الجلسة الأولى، يكون التركيز الأساسي على التحدث والاستماع في مواقف حقيقية، وليس مجرد حفظ القواعد والمفردات.",
+                feature2_title: "تحديد مستوى دقيق",
+                feature2_desc: "قبل بدء الدورة، يتم تحديد المستوى الحقيقي للمتعلم لتصميم مسار تعليمي يناسب احتياجاته.",
+                feature3_title: "متابعة التقدم",
+                feature3_desc: "طوال الدورة، يتم متابعة تقدم كل متعلم باستمرار وإبلاغه هو وأسرته بذلك.",
+                steps_title: "مراحل الدورة التعليمية في دادمان",
+                step1_title: "استشارة وتحديد مستوى مجاني",
+                step1_desc: "في الجلسة الأولى، تتم مراجعة هدف المتعلم ومستواه الحالي والخطة المقترحة.",
+                step2_title: "الالتحاق بالصف المناسب",
+                step2_desc: "يتم وضع المتعلم في المجموعة المناسبة بناءً على العمر والمستوى والهدف (محادثة، آيلتس، أطفال).",
+                step3_title: "جلسات تفاعلية وعملية",
+                step3_desc: "تجمع كل جلسة بين التعليم والتمرين الجماعي والتغذية الراجعة الفردية.",
+                step4_title: "تقييم دوري",
+                step4_desc: "في نهاية كل دورة، يُقدَّم اختبار وتغذية راجعة مكتوبة لقياس التقدم.",
+                cta_button: "طلب استشارة مجانية",
+                footer_about: "مرجع متخصص لتعليم اللغات الأجنبية باستخدام أفضل الأساليب العالمية ومدرّسين ذوي خبرة.",
+                footer_address_title: "عنوان المعهد",
+                footer_address: "طهران، مشيرية، شارع سازمان آب",
+                footer_contact_title: "تواصل معنا",
+                footer_copyright: "© جميع الحقوق محفوظة لمعهد دادمان لتعليم اللغات.",
+                social_rubika: "روبيكا",
+                social_eitaa: "إيتا",
+                social_bale: "بله",
+                social_quick: "تواصل سريع",
+                coming_soon_default: "هذا القسم",
+                coming_soon_body: "سيتم تفعيله قريباً.",
+                coming_soon_ok: "حسناً",
+                lang_modal_title: "اختر لغة الموقع",
+                gamer_modal_title: "سمات خاصة باللاعبين",
+                gamer_modal_desc: "اختر إحدى السمات النيونية الزجاجية أدناه",
+                gamer_cyberpunk_desc: "وردي وسماوي نيون، زجاج داكن",
+                gamer_matrix_desc: "أخضر هاكر على أسود خالص",
+                gamer_inferno_desc: "أحمر وبرتقالي ناري",
+                gamer_synthwave_desc: "بنفسجي ووردي كلاسيكي",
+                gamer_rgb_desc: "ألوان متغيرة كأجهزة الألعاب",
+                gamer_none: "العودة إلى الوضع العادي"
+            },
+            ko: {
+                nav_students: "DTS 학생",
+                nav_method: "교육 방식",
+                nav_books: "교재 안내",
+                brand_tagline: "전문 외국어 교육",
+                nav_home: "홈",
+                nav_benefits: "다드만의 장점",
+                nav_courses: "과정 및 수업 종류",
+                nav_contact: "무료 상담",
+                btn_quick_signup: "빠른 등록",
+                btn_back_home: "홈으로 돌아가기",
+                a11y_smaller: "글자 작게",
+                a11y_bigger: "글자 크게",
+                a11y_lang: "언어 변경",
+                a11y_gamer: "게이머 테마",
+                a11y_theme: "테마 전환",
+                a11y_close: "닫기",
+                hero_badge: "다드만 교육 방식",
+                hero_title: "다드만 어학원의 교육 방식",
+                hero_desc: "학습 경로를 더 짧고 효과적으로 만드는 방법, 수업 구조, 교육 원칙을 소개합니다.",
+                feature1_title: "회화 중심 교육법",
+                feature1_desc: "첫 수업부터 문법과 어휘 암기가 아닌 실제 상황에서의 말하기와 듣기 연습에 중점을 둡니다.",
+                feature2_title: "정확한 레벨 테스트",
+                feature2_desc: "과정 시작 전, 학습자의 실제 수준을 파악하여 그에 맞는 학습 경로를 설계합니다.",
+                feature3_title: "학습 진도 관리",
+                feature3_desc: "과정 내내 각 학습자의 진행 상황을 지속적으로 점검하고 본인과 가족에게 보고합니다.",
+                steps_title: "다드만 교육 과정 단계",
+                step1_title: "무료 상담 및 레벨 테스트",
+                step1_desc: "첫 상담에서 학습자의 목표, 현재 수준, 추천 계획을 검토합니다.",
+                step2_title: "적절한 반 배정",
+                step2_desc: "나이, 수준, 목표(회화, IELTS, 어린이)에 따라 적합한 그룹에 배정됩니다.",
+                step3_title: "실전 참여형 수업",
+                step3_desc: "매 수업은 강의, 그룹 연습, 개별 피드백으로 구성됩니다.",
+                step4_title: "정기 평가",
+                step4_desc: "각 과정이 끝날 때마다 시험과 서면 피드백으로 진도를 측정합니다.",
+                cta_button: "무료 상담 신청하기",
+                footer_about: "세계 최고의 교육법과 숙련된 강사진을 갖춘 외국어 전문 교육기관입니다.",
+                footer_address_title: "학원 주소",
+                footer_address: "테헤란, 모쉬리예, 사즈만에 아브 거리",
+                footer_contact_title: "문의하기",
+                footer_copyright: "© Dadman 어학원. All rights reserved.",
+                social_rubika: "Rubika",
+                social_eitaa: "Eitaa",
+                social_bale: "Bale",
+                social_quick: "빠른 문의",
+                coming_soon_default: "이 섹션은",
+                coming_soon_body: "곧 제공될 예정입니다.",
+                coming_soon_ok: "확인",
+                lang_modal_title: "사이트 언어 선택",
+                gamer_modal_title: "게이머 전용 테마",
+                gamer_modal_desc: "아래 네온 글래스 테마 중 하나를 선택하세요",
+                gamer_cyberpunk_desc: "네온 핑크와 시안, 어두운 글래스",
+                gamer_matrix_desc: "순수한 검은 배경의 해커 그린",
+                gamer_inferno_desc: "불타는 듯한 빨강과 주황",
+                gamer_synthwave_desc: "레트로한 보라와 핑크",
+                gamer_rgb_desc: "게이밍 기기처럼 변하는 색상",
+                gamer_none: "일반 모드로 돌아가기"
+            },
+            de: {
+                nav_students: "DTS-Schüler",
+                nav_method: "Unterrichtsmethode",
+                nav_books: "Von uns unterrichtete Bücher",
+                brand_tagline: "Spezialisierte Fremdsprachenausbildung",
+                nav_home: "Startseite",
+                nav_benefits: "Vorteile von Dadman",
+                nav_courses: "Kurs- und Unterrichtsarten",
+                nav_contact: "Kostenlose Beratung",
+                btn_quick_signup: "Schnellanmeldung",
+                btn_back_home: "Zurück zur Startseite",
+                a11y_smaller: "Text verkleinern",
+                a11y_bigger: "Text vergrößern",
+                a11y_lang: "Sprache ändern",
+                a11y_gamer: "Gamer-Design",
+                a11y_theme: "Design wechseln",
+                a11y_close: "Schließen",
+                hero_badge: "Dadman-Unterrichtsmethode",
+                hero_title: "Wie der Unterricht am Dadman Sprachinstitut funktioniert",
+                hero_desc: "Erfahren Sie mehr über die Methode, den Aufbau der Sitzungen und die Lehrprinzipien, die Ihren Lernweg kürzer und effektiver machen.",
+                feature1_title: "Gesprächsorientierte Methode",
+                feature1_desc: "Schon ab der ersten Sitzung liegt der Fokus auf Sprech- und Hörübungen in realen Situationen, nicht nur auf dem Auswendiglernen von Grammatik und Wortschatz.",
+                feature2_title: "Präzise Einstufung",
+                feature2_desc: "Vor Kursbeginn wird das tatsächliche Niveau des Lernenden ermittelt, damit der Lernweg auf seine Bedürfnisse zugeschnitten wird.",
+                feature3_title: "Fortschrittsverfolgung",
+                feature3_desc: "Während des Kurses wird der Fortschritt jedes Lernenden fortlaufend überprüft und ihm sowie seiner Familie mitgeteilt.",
+                steps_title: "Phasen eines Dadman-Kurses",
+                step1_title: "Kostenlose Beratung und Einstufungstest",
+                step1_desc: "In der ersten Sitzung werden Ziel, aktuelles Niveau und vorgeschlagener Plan des Lernenden besprochen.",
+                step2_title: "Einteilung in die passende Klasse",
+                step2_desc: "Der Lernende wird je nach Alter, Niveau und Ziel (Konversation, IELTS, Kinder) der passenden Gruppe zugeteilt.",
+                step3_title: "Interaktive, praxisnahe Sitzungen",
+                step3_desc: "Jede Sitzung kombiniert Unterricht, Gruppenübungen und individuelles Feedback.",
+                step4_title: "Regelmäßige Bewertung",
+                step4_desc: "Am Ende jedes Kurses werden eine Prüfung und schriftliches Feedback zur Fortschrittsmessung angeboten.",
+                cta_button: "Kostenlose Beratung anfordern",
+                footer_about: "Eine spezialisierte Anlaufstelle für Fremdsprachenausbildung mit weltweit führenden Methoden und erfahrenen Lehrkräften.",
+                footer_address_title: "Adresse des Instituts",
+                footer_address: "Teheran, Moshirieh, Sazman-e-Ab-Straße",
+                footer_contact_title: "Kontaktieren Sie uns",
+                footer_copyright: "© Alle Rechte vorbehalten für das Dadman Sprachinstitut.",
+                social_rubika: "Rubika",
+                social_eitaa: "Eitaa",
+                social_bale: "Bale",
+                social_quick: "Schnellkontakt",
+                coming_soon_default: "Dieser Bereich",
+                coming_soon_body: "wird bald verfügbar sein.",
+                coming_soon_ok: "Verstanden",
+                lang_modal_title: "Seitensprache wählen",
+                gamer_modal_title: "Spezielle Gamer-Designs",
+                gamer_modal_desc: "Wählen Sie eines der Neon-Glas-Designs unten",
+                gamer_cyberpunk_desc: "Neonrosa und Türkis, dunkles Glas",
+                gamer_matrix_desc: "Hacker-Grün auf reinem Schwarz",
+                gamer_inferno_desc: "Feuriges Rot und Orange",
+                gamer_synthwave_desc: "Retro Lila und Pink",
+                gamer_rgb_desc: "Wechselnde Farben wie Gaming-Hardware",
+                gamer_none: "Zurück zum Normalmodus"
+            }
+        };
+
+        const rtlLangs = ['fa', 'ar'];
+        let currentLang = 'fa';
+
+        function applyTranslations(lang) {
+            const dict = translations[lang] || translations.fa;
+            currentLang = translations[lang] ? lang : 'fa';
+
+            document.querySelectorAll('[data-i18n]').forEach(function (el) {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key] !== undefined) {
+                    el.textContent = dict[key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (dict[key] !== undefined) {
+                    el.setAttribute('placeholder', dict[key]);
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-title]').forEach(function (el) {
+                const key = el.getAttribute('data-i18n-title');
+                if (dict[key] !== undefined) {
+                    el.setAttribute('title', dict[key]);
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
+                const key = el.getAttribute('data-i18n-aria');
+                if (dict[key] !== undefined) {
+                    el.setAttribute('aria-label', dict[key]);
+                }
+            });
+
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', rtlLangs.includes(lang) ? 'rtl' : 'ltr');
+
+            document.querySelectorAll('.lang-option').forEach(function (btn) {
+                btn.classList.toggle('lang-active', btn.getAttribute('data-lang') === lang);
+            });
+        }
+
+        function switchLanguage(lang) {
+            applyTranslations(lang);
+            try { localStorage.siteLang = lang; } catch (e) {}
+            closeLanguageModal();
+        }
+
+        function openLanguageModal() {
+            const modal = document.getElementById('languageModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeLanguageModal() {
+            const modal = document.getElementById('languageModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        document.getElementById('languageModal').addEventListener('click', function (event) {
+            if (event.target === this) {
+                closeLanguageModal();
+            }
+        });
+
+        (function initLanguage() {
+            let savedLang = 'fa';
+            try {
+                if (localStorage.siteLang && translations[localStorage.siteLang]) {
+                    savedLang = localStorage.siteLang;
+                }
+            } catch (e) {}
+            applyTranslations(savedLang);
+        })();
+
+        /* ===================== سیستم تم‌های گیمری ===================== */
+        const gamerThemes = ['cyberpunk', 'matrix', 'inferno', 'synthwave', 'rgb'];
+
+        function openGamerModal() {
+            const modal = document.getElementById('gamerThemeModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeGamerModal() {
+            const modal = document.getElementById('gamerThemeModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        function updateGamerActiveState() {
+            const current = document.documentElement.getAttribute('data-gamer-theme') || 'none';
+            document.querySelectorAll('.gamer-option').forEach(function (btn) {
+                btn.classList.toggle('lang-active', btn.getAttribute('data-gamer') === current);
+            });
+        }
+
+        function applyGamerTheme(theme) {
+            if (theme === 'none' || !gamerThemes.includes(theme)) {
+                document.documentElement.removeAttribute('data-gamer-theme');
+            } else {
+                document.documentElement.setAttribute('data-gamer-theme', theme);
+            }
+            try { localStorage.gamerTheme = theme; } catch (e) {}
+            updateGamerActiveState();
+            closeGamerModal();
+        }
+
+        document.getElementById('gamerThemeModal').addEventListener('click', function (event) {
+            if (event.target === this) {
+                closeGamerModal();
+            }
+        });
+
+        (function initGamerTheme() {
+            let savedTheme = 'none';
+            try {
+                if (localStorage.gamerTheme && (gamerThemes.includes(localStorage.gamerTheme) || localStorage.gamerTheme === 'none')) {
+                    savedTheme = localStorage.gamerTheme;
+                }
+            } catch (e) {}
+            if (savedTheme !== 'none') {
+                document.documentElement.setAttribute('data-gamer-theme', savedTheme);
+            }
+            updateGamerActiveState();
+        })();
+
         function showComingSoon(event, title) {
             if (event) event.preventDefault();
             const modal = document.getElementById('comingSoonModal');
             const titleEl = document.getElementById('comingSoonTitle');
-            if (titleEl) titleEl.innerText = title || 'این بخش';
+            if (titleEl) titleEl.innerText = title || (translations[currentLang].coming_soon_default || 'این بخش');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
         }

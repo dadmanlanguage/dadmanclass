@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">موسسه زبان دادمان - مرجع تخصصی آموزش زبان</title>
+    <title>موسسه زبان دادمان - مرجع تخصصی آموزش زبان</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,100 +11,8 @@
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Vazirmatn', sans-serif;
             position: relative;
-        }
-        /* فونت مناسب برای حالت انگلیسی */
-        [dir="ltr"] body {
-            font-family: 'Inter', sans-serif;
-        }
-    </style>
-</head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
-
-    <!-- هدر سایت -->
-    <header class="w-full bg-white dark:bg-gray-800 shadow-md py-4 px-6 flex justify-between items-center">
-        <h1 class="text-xl font-bold" data-i18n="title">موسسه زبان دادمان</h1>
-        
-        <!-- بخش دکمه‌های کنترل (تم و زبان) -->
-        <div class="flex items-center space-x-3 space-x-reverse">
-            
-            <!-- دکمه تغییر زبان -->
-            <button id="lang-toggle" onclick="toggleLanguage()" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition flex items-center space-x-1 space-x-reverse text-sm font-semibold">
-                <i class="fa-solid font-bold text-base fa-globe"></i>
-                <span id="lang-text">EN</span>
-            </button>
-
-            <!-- دکمه تغییر تم -->
-            <button id="theme-toggle" onclick="toggleTheme()" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition">
-                <i class="fa-solid fa-moon dark:hidden"></i>
-                <i class="fa-solid fa-sun hidden dark:inline"></i>
-            </button>
-
-        </div>
-    </header>
-
-    <!-- نمونه محتوا برای تست -->
-    <main class="p-8 text-center">
-        <h2 class="text-2xl font-bold mb-4" data-i18n="welcome">به موسسه زبان دادمان خوش آمدید</h2>
-        <p class="text-gray-600 dark:text-gray-300" data-i18n="description">مرجع تخصصی آموزش زبان‌های خارجی با متدهای روز دنیا.</p>
-    </main>
-
-    <!-- اسکریپت تغییر تم و تغییر زبان -->
-    <script>
-        // دیکشنری متون سایت
-        const translations = {
-            fa: {
-                pageTitle: "موسسه زبان دادمان - مرجع تخصصی آموزش زبان",
-                title: "موسسه زبان دادمان",
-                welcome: "به موسسه زبان دادمان خوش آمدید",
-                description: "مرجع تخصصی آموزش زبان‌های خارجی با متدهای روز دنیا."
-            },
-            en: {
-                pageTitle: "Dadman Language Institute - Foreign Language Center",
-                title: "Dadman Language Institute",
-                welcome: "Welcome to Dadman Language Institute",
-                description: "Specialized foreign language learning center with modern methods."
-            }
-        };
-
-        // متغیر زبان فعلی
-        let currentLang = 'fa';
-
-        // تابع تغییر زبان
-        function toggleLanguage() {
-            currentLang = currentLang === 'fa' ? 'en' : 'fa';
-            
-            const htmlTag = document.documentElement;
-            const langText = document.getElementById('lang-text');
-            const pageTitle = document.getElementById('page-title');
-
-            // تغییر ویژگی‌های html
-            htmlTag.setAttribute('lang', currentLang);
-            htmlTag.setAttribute('dir', currentLang === 'fa' ? 'rtl' : 'ltr');
-
-            // تغییر متن دکمه
-            langText.textContent = currentLang === 'fa' ? 'EN' : 'FA';
-
-            // تغییر عنوان صفحه
-            pageTitle.textContent = translations[currentLang].pageTitle;
-
-            // به‌روزرسانی تمام متون بر اساس data-i18n
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                if (translations[currentLang][key]) {
-                    element.textContent = translations[currentLang][key];
-                }
-            });
-        }
-
-        // تابع تغییر تم (تیره / روشن)
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-        }
-    </script>
-</body>
-</html>

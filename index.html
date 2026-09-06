@@ -639,9 +639,15 @@
                     <i class="fa-solid fa-phone text-lg"></i>
                 </a>
 
-                <button onclick="cycleFontSize()" aria-label="اندازه متن" title="اندازه متن" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700 font-extrabold text-sm">
-                    <span id="fontSizeIcon">A+</span>
-                </button>
+                <div class="flex items-center rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+                    <button onclick="changeFontSize(-1)" aria-label="کوچک کردن متن" title="کوچک کردن متن" class="w-9 h-10 flex items-center justify-center text-slate-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-slate-700 transition font-extrabold text-sm">
+                        A-
+                    </button>
+                    <span class="w-px h-5 bg-slate-300 dark:bg-slate-600"></span>
+                    <button onclick="changeFontSize(1)" aria-label="بزرگ کردن متن" title="بزرگ کردن متن" class="w-9 h-10 flex items-center justify-center text-slate-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-slate-700 transition font-extrabold text-sm">
+                        A+
+                    </button>
+                </div>
 
                 <button onclick="openLanguageModal()" aria-label="تغییر زبان" title="تغییر زبان" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
                     <i class="fa-solid fa-globe text-lg"></i>
@@ -1078,30 +1084,25 @@
         initTheme();
 
         /* ===================== دکمه اندازه متن (دسترسی‌پذیری) ===================== */
-        const fontSizeSteps = [
-            { label: 'A+', scale: '100%' },
-            { label: 'A++', scale: '112%' },
-            { label: 'A+++', scale: '125%' }
-        ];
-        let fontSizeIndex = 0;
+        const fontSizeScales = ['87.5%', '100%', '112%', '125%', '137.5%'];
+        const fontSizeDefaultIndex = 1;
+        let fontSizeIndex = fontSizeDefaultIndex;
 
         function applyFontSize(index) {
-            fontSizeIndex = index % fontSizeSteps.length;
-            document.documentElement.style.fontSize = fontSizeSteps[fontSizeIndex].scale;
-            const icon = document.getElementById('fontSizeIcon');
-            if (icon) icon.textContent = 'A+';
+            fontSizeIndex = Math.min(Math.max(index, 0), fontSizeScales.length - 1);
+            document.documentElement.style.fontSize = fontSizeScales[fontSizeIndex];
         }
 
-        function cycleFontSize() {
-            applyFontSize(fontSizeIndex + 1);
+        function changeFontSize(direction) {
+            applyFontSize(fontSizeIndex + direction);
             try { localStorage.fontSizeIndex = String(fontSizeIndex); } catch (e) {}
         }
 
         (function initFontSize() {
-            let idx = 0;
+            let idx = fontSizeDefaultIndex;
             try {
                 const saved = parseInt(localStorage.fontSizeIndex, 10);
-                if (!isNaN(saved) && saved >= 0 && saved < fontSizeSteps.length) idx = saved;
+                if (!isNaN(saved) && saved >= 0 && saved < fontSizeScales.length) idx = saved;
             } catch (e) {}
             applyFontSize(idx);
         })();

@@ -284,6 +284,52 @@
         @media (prefers-reduced-motion: reduce) {
             .float-btn::after { animation: none; }
         }
+
+        /* ===================== مودال انتخاب زبان ===================== */
+        #languageModal {
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border-radius: 1rem;
+            border: 1px solid transparent;
+            background: transparent;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+            text-align: inherit;
+        }
+
+        .lang-option:hover {
+            background: rgba(16, 185, 129, 0.08);
+            border-color: rgba(16, 185, 129, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .lang-option.lang-active {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        .lang-flag {
+            font-size: 1.5rem;
+            width: 2.25rem;
+            height: 2.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            background: rgba(15, 23, 42, 0.05);
+            flex-shrink: 0;
+        }
+        .dark .lang-flag {
+            background: rgba(255,255,255,0.06);
+        }
     </style>
 </head>
 <body class="bg-transparent text-slate-700 dark:text-slate-100 flex flex-col min-h-screen transition-colors duration-300">
@@ -305,15 +351,15 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-center sm:justify-start gap-x-6 gap-y-1 flex-wrap">
             <a href="students.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
                 <i class="fa-solid fa-graduation-cap"></i>
-                <span>دانش‌آموزان DTS</span>
+                <span data-i18n="subnavStudents">دانش‌آموزان DTS</span>
             </a>
             <a href="teaching-method.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
                 <i class="fa-solid fa-chalkboard"></i>
-                <span>نحوه‌ی تدریس</span>
+                <span data-i18n="subnavMethod">نحوه‌ی تدریس</span>
             </a>
             <a href="books.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
                 <i class="fa-solid fa-book"></i>
-                <span>کتاب‌هایی که ما تدریس می‌کنیم</span>
+                <span data-i18n="subnavBooks">کتاب‌هایی که ما تدریس می‌کنیم</span>
             </a>
             <a href="new-page.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition">
                 <i class="fa-solid fa-file-lines"></i>
@@ -329,26 +375,30 @@
                     <img src="logo.jpg" alt="لوگو موسسه زبان دادمان" class="w-full h-full object-cover">
                 </div>
                 <div>
-                    <h1 class="font-extrabold text-xl text-slate-900 dark:text-white">موسسه زبان دادمان</h1>
-                    <span class="text-xs text-emerald-700 dark:text-emerald-400 font-medium">آموزش تخصصی زبان‌های خارجی</span>
+                    <h1 class="font-extrabold text-xl text-slate-900 dark:text-white" data-i18n="brandName">موسسه زبان دادمان</h1>
+                    <span class="text-xs text-emerald-700 dark:text-emerald-400 font-medium" data-i18n="brandTagline">آموزش تخصصی زبان‌های خارجی</span>
                 </div>
             </div>
             
             <nav class="hidden md:flex items-center space-x-8 space-x-reverse text-sm font-medium text-slate-600 dark:text-slate-300">
-                <a href="#" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">خانه</a>
-                <a href="students.html" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">دانش‌آموزان DTS</a>
+                <a href="#" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition" data-i18n="navHome">خانه</a>
+                <a href="students.html" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition" data-i18n="navStudents">دانش‌آموزان DTS</a>
                 <a href="new-page.html" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition invisible">.</a>
-                <a href="#benefits" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">مزایای دادمان</a>
-                <a href="#courses" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">انواع دوره‌ها و جلسات</a>
-                <a href="#contact-form" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition">مشاوره رایگان</a>
+                <a href="#benefits" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition" data-i18n="navBenefits">مزایای دادمان</a>
+                <a href="#courses" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition" data-i18n="navCourses">انواع دوره‌ها و جلسات</a>
+                <a href="#contact-form" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition" data-i18n="navContact">مشاوره رایگان</a>
             </nav>
 
             <div class="flex items-center space-x-3 space-x-reverse">
+                <button onclick="openLanguageModal()" aria-label="تغییر زبان" title="تغییر زبان" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
+                    <i class="fa-solid fa-globe text-lg"></i>
+                </button>
+
                 <button onclick="toggleTheme()" aria-label="تغییر تم" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
                     <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
                 </button>
 
-                <a href="#contact-form" class="hidden sm:inline-block bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-md">
+                <a href="#contact-form" class="hidden sm:inline-block bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-md" data-i18n="navQuickSignup">
                     ثبت نام سریع
                 </a>
             </div>
@@ -366,54 +416,54 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             <div class="lg:col-span-7 space-y-6 text-center lg:text-right reveal">
-                <span class="bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider border border-emerald-400/30">
+                <span class="bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider border border-emerald-400/30" data-i18n="heroBadge">
                     پشتیبانی تا تسلط کامل بر زبان
                 </span>
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
-                    آینده تحصیلی و شغلی‌ات را با <span class="text-emerald-400">موسسه دادمان</span> بساز!
+                    <span data-i18n="heroTitlePrefix">آینده تحصیلی و شغلی‌ات را با</span> <span class="text-emerald-400" data-i18n="heroTitleBrand">موسسه دادمان</span> <span data-i18n="heroTitleSuffix">بساز!</span>
                 </h1>
-                <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0" data-i18n="heroDesc">
                     با مجرب‌ترین اساتید، متدهای مدرن آموزشی و برنامه‌ریزی اختصاصی، در کوتاه‌ترین زمان ممکن به هدف زبانی خود برسید. از مکالمه روزمره تا آزمون‌های بین‌المللی همراه شما هستیم.
                 </p>
                 <div class="flex flex-wrap justify-center lg:justify-start gap-6 text-sm text-slate-300 pt-2">
                     <div class="flex items-center space-x-2 space-x-reverse">
                         <i class="fa-solid fa-check-circle text-emerald-400 text-lg"></i>
-                        <span>اساتید برتر کشور</span>
+                        <span data-i18n="heroFeature1">اساتید برتر کشور</span>
                     </div>
                     <div class="flex items-center space-x-2 space-x-reverse">
                         <i class="fa-solid fa-check-circle text-emerald-400 text-lg"></i>
-                        <span>متد مکالمه‌محور</span>
+                        <span data-i18n="heroFeature2">متد مکالمه‌محور</span>
                     </div>
                     <div class="flex items-center space-x-2 space-x-reverse">
                         <i class="fa-solid fa-check-circle text-emerald-400 text-lg"></i>
-                        <span>مشاوره و تعیین سطح رایگان</span>
+                        <span data-i18n="heroFeature3">مشاوره و تعیین سطح رایگان</span>
                     </div>
                 </div>
             </div>
 
             <div id="contact-form" class="lg:col-span-5 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 p-6 sm:p-8 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 transition-colors duration-300">
                 <div class="text-center mb-6">
-                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white">درخواست مشاوره رایگان</h2>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">فرم زیر را پر کنید تا کارشناسان ما با شما تماس بگیرند</p>
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white" data-i18n="formTitle">درخواست مشاوره رایگان</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1" data-i18n="formSubtitle">فرم زیر را پر کنید تا کارشناسان ما با شما تماس بگیرند</p>
                 </div>
 
                 <div id="formErrorBox" class="hidden mb-4 p-3 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-xs leading-relaxed flex items-start space-x-2 space-x-reverse">
                     <i class="fa-solid fa-triangle-exclamation mt-0.5"></i>
-                    <span id="formErrorText">مشکلی در ارسال فرم پیش آمد. لطفاً دوباره تلاش کنید یا از طریق تماس تلفنی با ما در ارتباط باشید.</span>
+                    <span id="formErrorText" data-i18n="formErrorDefault">مشکلی در ارسال فرم پیش آمد. لطفاً دوباره تلاش کنید یا از طریق تماس تلفنی با ما در ارتباط باشید.</span>
                 </div>
 
                 <form id="mainContactForm" action="https://formspree.io/f/mrpzvwyp" method="POST" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">نام و نام خانوادگی</label>
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5" data-i18n="formLabelName">نام و نام خانوادگی</label>
                         <div class="relative">
                             <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400">
                                 <i class="fa-solid fa-user"></i>
                             </span>
-                            <input type="text" id="fullName" name="fullName" required placeholder="مثال: علی رضایی" class="w-full pr-10 pl-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-700 transition">
+                            <input type="text" id="fullName" name="fullName" required data-i18n-placeholder="formPlaceholderName" placeholder="مثال: علی رضایی" class="w-full pr-10 pl-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-700 transition">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">شماره تماس</label>
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5" data-i18n="formLabelPhone">شماره تماس</label>
                         <div class="relative">
                             <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400">
                                 <i class="fa-solid fa-phone"></i>
@@ -422,32 +472,32 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">نوع درخواست یا دوره مورد نظر</label>
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5" data-i18n="formLabelType">نوع درخواست یا دوره مورد نظر</label>
                         <div class="relative">
                             <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400">
                                 <i class="fa-solid fa-list-check"></i>
                             </span>
                             <select id="requestType" name="requestType" class="w-full pr-10 pl-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-700 transition">
-                                <option value="مکالمه بزرگسالان">دوره‌های مکالمه بزرگسالان</option>
-                                <option value="آیلتس و تافل">آمادگی آزمون آیلتس (IELTS)</option>
-                                <option value="کودکان و نوجوانان">دوره‌های کودکان و نوجوانان</option>
-                                <option value="مشاوره عمومی">مشاوره عمومی و تعیین سطح</option>
+                                <option value="مکالمه بزرگسالان" data-i18n="formOption1">دوره‌های مکالمه بزرگسالان</option>
+                                <option value="آیلتس و تافل" data-i18n="formOption2">آمادگی آزمون آیلتس (IELTS)</option>
+                                <option value="کودکان و نوجوانان" data-i18n="formOption3">دوره‌های کودکان و نوجوانان</option>
+                                <option value="مشاوره عمومی" data-i18n="formOption4">مشاوره عمومی و تعیین سطح</option>
                             </select>
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">توضیحات یا پیام شما</label>
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5" data-i18n="formLabelMessage">توضیحات یا پیام شما</label>
                         <div class="relative">
                             <span class="absolute top-3.5 right-0 pr-3.5 flex items-start text-slate-400">
                                 <i class="fa-solid fa-comment-dots"></i>
                             </span>
-                            <textarea id="userMessage" name="userMessage" rows="3" required placeholder="(این فیلد اجباری است) لطفاً توضیحات خود را بنویسید..." class="w-full pr-10 pl-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-700 transition resize-none"></textarea>
+                            <textarea id="userMessage" name="userMessage" rows="3" required data-i18n-placeholder="formPlaceholderMessage" placeholder="(این فیلد اجباری است) لطفاً توضیحات خود را بنویسید..." class="w-full pr-10 pl-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-700 transition resize-none"></textarea>
                         </div>
                     </div>
                     <button type="submit" id="submitBtn" class="w-full bg-emerald-700 hover:bg-emerald-800 disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl transition shadow-lg flex items-center justify-center space-x-2 space-x-reverse">
                         <span class="btn-spinner"></span>
                         <i class="fa-solid fa-paper-plane btn-icon-default"></i>
-                        <span class="btn-text-default">ثبت درخواست و ارسال به موسسه</span>
+                        <span class="btn-text-default" data-i18n="formSubmitBtn">ثبت درخواست و ارسال به موسسه</span>
                     </button>
                 </form>
             </div>
@@ -458,31 +508,31 @@
     <section id="benefits" class="py-20 bg-white/70 dark:bg-slate-900/70 backdrop-blur-sm transition-colors duration-300 border-b border-slate-200 dark:border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-16 reveal">
-                <span class="text-emerald-700 dark:text-emerald-400 font-semibold text-xs tracking-wider uppercase bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1 rounded-full">چرا دادمان؟</span>
-                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-3">مزایای رقابتی موسسه زبان دادمان</h2>
-                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2">ما با فراهم کردن بهترین امکانات، مسیر یادگیری شما را هموارتر می‌کنیم</p>
+                <span class="text-emerald-700 dark:text-emerald-400 font-semibold text-xs tracking-wider uppercase bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1 rounded-full" data-i18n="benefitsKicker">چرا دادمان؟</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-3" data-i18n="benefitsTitle">مزایای رقابتی موسسه زبان دادمان</h2>
+                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2" data-i18n="benefitsSubtitle">ما با فراهم کردن بهترین امکانات، مسیر یادگیری شما را هموارتر می‌کنیم</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="p-8 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 reveal reveal-stagger" style="--reveal-delay:0ms;">
                     <div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
                         <i class="fa-solid fa-chalkboard-user"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">اساتید برجسته و مجرب</h3>
-                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">بهره‌گیری از اساتید دارای مدرک بین‌المللی تدریس با سال‌ها سابقه موفق آموزشی.</p>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3" data-i18n="benefit1Title">اساتید برجسته و مجرب</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="benefit1Desc">بهره‌گیری از اساتید دارای مدرک بین‌المللی تدریس با سال‌ها سابقه موفق آموزشی.</p>
                 </div>
                 <div class="p-8 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 reveal reveal-stagger" style="--reveal-delay:120ms;">
                     <div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
                         <i class="fa-solid fa-comments"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">تمرکز ۱۰۰٪ روی مکالمه</h3>
-                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">سیستم آموزشی ما بر پایه تقویت مهارت‌های شنیداری و گفتاری از جلسه اول طراحی شده است.</p>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3" data-i18n="benefit2Title">تمرکز ۱۰۰٪ روی مکالمه</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="benefit2Desc">سیستم آموزشی ما بر پایه تقویت مهارت‌های شنیداری و گفتاری از جلسه اول طراحی شده است.</p>
                 </div>
                 <div class="p-8 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 reveal reveal-stagger" style="--reveal-delay:240ms;">
                     <div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
                         <i class="fa-solid fa-clock-rotate-left"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">انعطاف در زمان برگزاری</h3>
-                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">امکان انتخاب جلسات آموزشی در ساعات مختلف صبح، عصر و روزهای آخر هفته متناسب با زمان شما.</p>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3" data-i18n="benefit3Title">انعطاف در زمان برگزاری</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="benefit3Desc">امکان انتخاب جلسات آموزشی در ساعات مختلف صبح، عصر و روزهای آخر هفته متناسب با زمان شما.</p>
                 </div>
             </div>
         </div>
@@ -491,64 +541,64 @@
     <section id="courses" class="py-20 bg-slate-100/70 dark:bg-slate-950/70 backdrop-blur-sm transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-16 reveal">
-                <span class="text-emerald-700 dark:text-emerald-400 font-semibold text-xs tracking-wider uppercase bg-emerald-100 dark:bg-emerald-950/50 px-3 py-1 rounded-full">برنامه‌های آموزشی</span>
-                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-3">انواع جلسات و دوره‌های آموزشی دادمان</h2>
-                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2">دوره‌های تخصصی متناسب با سنین، اهداف و سطوح مختلف زبان‌آموزان</p>
+                <span class="text-emerald-700 dark:text-emerald-400 font-semibold text-xs tracking-wider uppercase bg-emerald-100 dark:bg-emerald-950/50 px-3 py-1 rounded-full" data-i18n="coursesKicker">برنامه‌های آموزشی</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-3" data-i18n="coursesTitle">انواع جلسات و دوره‌های آموزشی دادمان</h2>
+                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2" data-i18n="coursesSubtitle">دوره‌های تخصصی متناسب با سنین، اهداف و سطوح مختلف زبان‌آموزان</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-md overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col reveal-scale reveal-stagger" style="--reveal-delay:0ms;">
                     <div class="bg-emerald-800 p-6 text-white text-center">
                         <i class="fa-solid fa-users text-4xl mb-3 opacity-90"></i>
-                        <h3 class="text-xl font-bold">جلسات مکالمه بزرگسالان</h3>
-                        <p class="text-emerald-200 text-xs mt-1">تضمین روانی در گفتار</p>
+                        <h3 class="text-xl font-bold" data-i18n="course1Title">جلسات مکالمه بزرگسالان</h3>
+                        <p class="text-emerald-200 text-xs mt-1" data-i18n="course1Tag">تضمین روانی در گفتار</p>
                     </div>
                     <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
-                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="course1Desc">
                             این جلسات به صورت گروهی تعاملی برگزار می‌شود و تمرکز اصلی روی سناریوهای واقعی زندگی روزمره و کاری است.
                         </p>
                         <ul class="space-y-2 text-xs text-slate-700 dark:text-slate-300">
-                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span>تعداد جلسات: ۱۲ جلسه در ماه</span></li>
-                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span>ظرفیت محدود کلاس‌ها (حداکثر ۸ نفر)</span></li>
+                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course1Li1">تعداد جلسات: ۱۲ جلسه در ماه</span></li>
+                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course1Li2">ظرفیت محدود کلاس‌ها (حداکثر ۸ نفر)</span></li>
                         </ul>
-                        <a href="#contact-form" class="block text-center bg-slate-100 dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-bold py-2.5 rounded-xl text-sm transition">رزرو مشاوره</a>
+                        <a href="#contact-form" class="block text-center bg-slate-100 dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-bold py-2.5 rounded-xl text-sm transition" data-i18n="courseBookBtn">رزرو مشاوره</a>
                     </div>
                 </div>
 
                 <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-md overflow-hidden border border-emerald-500/50 ring-2 ring-emerald-600/20 flex flex-col reveal-scale reveal-stagger" style="--reveal-delay:150ms;">
                     <div class="bg-slate-900 dark:bg-slate-950 p-6 text-white text-center relative border-b border-slate-800">
-                        <span class="absolute top-3 left-3 bg-emerald-700 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full">پرطرفدار</span>
+                        <span class="absolute top-3 left-3 bg-emerald-700 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full" data-i18n="course2Badge">پرطرفدار</span>
                         <i class="fa-solid fa-medal text-4xl mb-3 text-emerald-400"></i>
-                        <h3 class="text-xl font-bold">دوره‌های تخصصی آیلتس (IELTS)</h3>
-                        <p class="text-slate-400 text-xs mt-1">ویژه مهاجرت و تحصیل</p>
+                        <h3 class="text-xl font-bold" data-i18n="course2Title">دوره‌های تخصصی آیلتس (IELTS)</h3>
+                        <p class="text-slate-400 text-xs mt-1" data-i18n="course2Tag">ویژه مهاجرت و تحصیل</p>
                     </div>
                     <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
-                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="course2Desc">
                             جلسات فشرده و تخصصی آیلتس با تحلیل دقیق مهارت‌های چهارگانه و آزمون‌های آزمایشی استاندارد (Mock).
                         </p>
                         <ul class="space-y-2 text-xs text-slate-700 dark:text-slate-300">
-                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span>برنامه‌ریزی و پشتیبانی اختصاصی</span></li>
-                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span>تضمین نمره هدف با اساتید برند</span></li>
+                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course2Li1">برنامه‌ریزی و پشتیبانی اختصاصی</span></li>
+                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course2Li2">تضمین نمره هدف با اساتید برند</span></li>
                         </ul>
-                        <a href="#contact-form" class="block text-center bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-xl text-sm transition shadow-md">رزرو مشاوره</a>
+                        <a href="#contact-form" class="block text-center bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-xl text-sm transition shadow-md" data-i18n="courseBookBtn">رزرو مشاوره</a>
                     </div>
                 </div>
 
                 <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-md overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col reveal-scale reveal-stagger" style="--reveal-delay:300ms;">
                     <div class="bg-emerald-950 p-6 text-white text-center">
                         <i class="fa-solid fa-child-reaching text-4xl mb-3 text-emerald-400"></i>
-                        <h3 class="text-xl font-bold">کودکان و نوجوانان (Junior)</h3>
-                        <p class="text-emerald-200 text-xs mt-1">آموزش با بازی و انیمیشن</p>
+                        <h3 class="text-xl font-bold" data-i18n="course3Title">کودکان و نوجوانان (Junior)</h3>
+                        <p class="text-emerald-200 text-xs mt-1" data-i18n="course3Tag">آموزش با بازی و انیمیشن</p>
                     </div>
                     <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
-                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="course3Desc">
                             سیستم آموزشی نوین مخصوص کودکان که یادگیری زبان انگلیسی را به تجربه‌ای لذت‌بخش و ماندگار تبدیل می‌کند.
                         </p>
                         <ul class="space-y-2 text-xs text-slate-700 dark:text-slate-300">
-                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span>استفاده از پلتفرم‌های تعاملی و بازی</span></li>
-                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span>تقویت پایه‌ای تلفظ و واژگان</span></li>
+                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course3Li1">استفاده از پلتفرم‌های تعاملی و بازی</span></li>
+                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course3Li2">تقویت پایه‌ای تلفظ و واژگان</span></li>
                         </ul>
-                        <a href="#contact-form" class="block text-center bg-slate-100 dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-bold py-2.5 rounded-xl text-sm transition">رزرو مشاوره</a>
+                        <a href="#contact-form" class="block text-center bg-slate-100 dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-bold py-2.5 rounded-xl text-sm transition" data-i18n="courseBookBtn">رزرو مشاوره</a>
                     </div>
                 </div>
             </div>
@@ -563,21 +613,21 @@
                         <div class="w-10 h-10 bg-emerald-700 rounded-full overflow-hidden flex items-center justify-center font-bold text-white border border-emerald-500">
                             <img src="logo.jpg" alt="لوگو" class="w-full h-full object-cover">
                         </div>
-                        <span class="font-bold text-base">موسسه زبان دادمان</span>
+                        <span class="font-bold text-base" data-i18n="brandName">موسسه زبان دادمان</span>
                     </div>
-                    <p class="text-slate-400 text-xs leading-relaxed">
+                    <p class="text-slate-400 text-xs leading-relaxed" data-i18n="footerAbout">
                         مرجع تخصصی آموزش زبان‌های خارجی با بهره‌گیری از برترین متدهای روز دنیا و اساتید مجرب.
                     </p>
                 </div>
                 <div class="space-y-3 reveal reveal-stagger" style="--reveal-delay:100ms;">
-                    <h4 class="font-bold text-sm text-emerald-400">آدرس موسسه</h4>
+                    <h4 class="font-bold text-sm text-emerald-400" data-i18n="footerAddressTitle">آدرس موسسه</h4>
                     <p class="text-slate-300 text-xs leading-relaxed flex items-start space-x-2 space-x-reverse">
                         <i class="fa-solid fa-location-dot text-emerald-500 mt-1"></i>
-                        <span>تهران، مشیریه، خیابان سازمان آب</span>
+                        <span data-i18n="footerAddress">تهران، مشیریه، خیابان سازمان آب</span>
                     </p>
                 </div>
                 <div class="space-y-3 reveal reveal-stagger" style="--reveal-delay:200ms;">
-                    <h4 class="font-bold text-sm text-emerald-400">تماس با ما</h4>
+                    <h4 class="font-bold text-sm text-emerald-400" data-i18n="footerContactTitle">تماس با ما</h4>
                     <p class="text-slate-300 text-xs flex items-center space-x-2 space-x-reverse">
                         <i class="fa-solid fa-phone text-emerald-500"></i>
                         <span dir="ltr">021-33479054</span>
@@ -590,7 +640,7 @@
                 </div>
             </div>
             <div class="pt-6 text-center text-slate-500 text-xs">
-                <p>© تمامی حقوق مادی و معنوی برای موسسه زبان دادمان محفوظ است.</p>
+                <p data-i18n="footerCopyright">© تمامی حقوق مادی و معنوی برای موسسه زبان دادمان محفوظ است.</p>
             </div>
         </div>
     </footer>
@@ -619,11 +669,11 @@
             <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto text-2xl">
                 <i class="fa-solid fa-circle-check"></i>
             </div>
-            <h3 class="text-xl font-bold text-slate-900 dark:text-white">درخواست شما با موفقیت ثبت شد!</h3>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white" data-i18n="successTitle">درخواست شما با موفقیت ثبت شد!</h3>
             <p id="modalDesc" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                 کارشناسان موسسه زبان دادمان به زودی برای هماهنگی جلسات و مشاوره با شما تماس خواهند گرفت.
             </p>
-            <button onclick="closeModal()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition">
+            <button onclick="closeModal()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition" data-i18n="gotItBtn">
                 متوجه شدم
             </button>
         </div>
@@ -635,12 +685,46 @@
                 <i class="fa-solid fa-hourglass-half"></i>
             </div>
             <h3 id="comingSoonTitle" class="text-xl font-bold text-slate-900 dark:text-white">این بخش</h3>
-            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed" data-i18n="comingSoonDesc">
                 به زودی فعال خواهد شد.
             </p>
-            <button onclick="closeComingSoonModal()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition">
+            <button onclick="closeComingSoonModal()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition" data-i18n="gotItBtn">
                 متوجه شدم
             </button>
+        </div>
+    </div>
+
+    <!-- ===================== مودال انتخاب زبان ===================== -->
+    <div id="languageModal" class="fixed inset-0 bg-slate-950/50 hidden items-center justify-center z-[60] p-4">
+        <div class="bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl border border-slate-200 dark:border-slate-800 transition-colors">
+            <div class="flex items-center justify-between mb-5">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white" data-i18n="langModalTitle">انتخاب زبان سایت</h3>
+                <button onclick="closeLanguageModal()" aria-label="بستن" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="space-y-2">
+                <button type="button" class="lang-option" data-lang="fa" onclick="switchLanguage('fa')">
+                    <span class="lang-flag">🇮🇷</span>
+                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">فارسی</span>
+                </button>
+                <button type="button" class="lang-option" data-lang="en" onclick="switchLanguage('en')">
+                    <span class="lang-flag">🇬🇧</span>
+                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">English</span>
+                </button>
+                <button type="button" class="lang-option" data-lang="ar" onclick="switchLanguage('ar')">
+                    <span class="lang-flag">🇸🇦</span>
+                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">العربية</span>
+                </button>
+                <button type="button" class="lang-option" data-lang="ko" onclick="switchLanguage('ko')">
+                    <span class="lang-flag">🇰🇷</span>
+                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">한국어</span>
+                </button>
+                <button type="button" class="lang-option" data-lang="de" onclick="switchLanguage('de')">
+                    <span class="lang-flag">🇩🇪</span>
+                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">Deutsch</span>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -779,6 +863,434 @@
 
             revealElements.forEach(el => observer.observe(el));
         });
+
+        /* ===================== سیستم چند زبانه سایت ===================== */
+        const translations = {
+            fa: {
+                subnavStudents: "دانش‌آموزان DTS",
+                subnavMethod: "نحوه‌ی تدریس",
+                subnavBooks: "کتاب‌هایی که ما تدریس می‌کنیم",
+                brandName: "موسسه زبان دادمان",
+                brandTagline: "آموزش تخصصی زبان‌های خارجی",
+                navHome: "خانه",
+                navStudents: "دانش‌آموزان DTS",
+                navBenefits: "مزایای دادمان",
+                navCourses: "انواع دوره‌ها و جلسات",
+                navContact: "مشاوره رایگان",
+                navQuickSignup: "ثبت نام سریع",
+                heroBadge: "پشتیبانی تا تسلط کامل بر زبان",
+                heroTitlePrefix: "آینده تحصیلی و شغلی‌ات را با",
+                heroTitleBrand: "موسسه دادمان",
+                heroTitleSuffix: "بساز!",
+                heroDesc: "با مجرب‌ترین اساتید، متدهای مدرن آموزشی و برنامه‌ریزی اختصاصی، در کوتاه‌ترین زمان ممکن به هدف زبانی خود برسید. از مکالمه روزمره تا آزمون‌های بین‌المللی همراه شما هستیم.",
+                heroFeature1: "اساتید برتر کشور",
+                heroFeature2: "متد مکالمه‌محور",
+                heroFeature3: "مشاوره و تعیین سطح رایگان",
+                formTitle: "درخواست مشاوره رایگان",
+                formSubtitle: "فرم زیر را پر کنید تا کارشناسان ما با شما تماس بگیرند",
+                formErrorDefault: "مشکلی در ارسال فرم پیش آمد. لطفاً دوباره تلاش کنید یا از طریق تماس تلفنی با ما در ارتباط باشید.",
+                formLabelName: "نام و نام خانوادگی",
+                formPlaceholderName: "مثال: علی رضایی",
+                formLabelPhone: "شماره تماس",
+                formLabelType: "نوع درخواست یا دوره مورد نظر",
+                formOption1: "دوره‌های مکالمه بزرگسالان",
+                formOption2: "آمادگی آزمون آیلتس (IELTS)",
+                formOption3: "دوره‌های کودکان و نوجوانان",
+                formOption4: "مشاوره عمومی و تعیین سطح",
+                formLabelMessage: "توضیحات یا پیام شما",
+                formPlaceholderMessage: "(این فیلد اجباری است) لطفاً توضیحات خود را بنویسید...",
+                formSubmitBtn: "ثبت درخواست و ارسال به موسسه",
+                benefitsKicker: "چرا دادمان؟",
+                benefitsTitle: "مزایای رقابتی موسسه زبان دادمان",
+                benefitsSubtitle: "ما با فراهم کردن بهترین امکانات، مسیر یادگیری شما را هموارتر می‌کنیم",
+                benefit1Title: "اساتید برجسته و مجرب",
+                benefit1Desc: "بهره‌گیری از اساتید دارای مدرک بین‌المللی تدریس با سال‌ها سابقه موفق آموزشی.",
+                benefit2Title: "تمرکز ۱۰۰٪ روی مکالمه",
+                benefit2Desc: "سیستم آموزشی ما بر پایه تقویت مهارت‌های شنیداری و گفتاری از جلسه اول طراحی شده است.",
+                benefit3Title: "انعطاف در زمان برگزاری",
+                benefit3Desc: "امکان انتخاب جلسات آموزشی در ساعات مختلف صبح، عصر و روزهای آخر هفته متناسب با زمان شما.",
+                coursesKicker: "برنامه‌های آموزشی",
+                coursesTitle: "انواع جلسات و دوره‌های آموزشی دادمان",
+                coursesSubtitle: "دوره‌های تخصصی متناسب با سنین، اهداف و سطوح مختلف زبان‌آموزان",
+                course1Title: "جلسات مکالمه بزرگسالان",
+                course1Tag: "تضمین روانی در گفتار",
+                course1Desc: "این جلسات به صورت گروهی تعاملی برگزار می‌شود و تمرکز اصلی روی سناریوهای واقعی زندگی روزمره و کاری است.",
+                course1Li1: "تعداد جلسات: ۱۲ جلسه در ماه",
+                course1Li2: "ظرفیت محدود کلاس‌ها (حداکثر ۸ نفر)",
+                course2Badge: "پرطرفدار",
+                course2Title: "دوره‌های تخصصی آیلتس (IELTS)",
+                course2Tag: "ویژه مهاجرت و تحصیل",
+                course2Desc: "جلسات فشرده و تخصصی آیلتس با تحلیل دقیق مهارت‌های چهارگانه و آزمون‌های آزمایشی استاندارد (Mock).",
+                course2Li1: "برنامه‌ریزی و پشتیبانی اختصاصی",
+                course2Li2: "تضمین نمره هدف با اساتید برند",
+                course3Title: "کودکان و نوجوانان (Junior)",
+                course3Tag: "آموزش با بازی و انیمیشن",
+                course3Desc: "سیستم آموزشی نوین مخصوص کودکان که یادگیری زبان انگلیسی را به تجربه‌ای لذت‌بخش و ماندگار تبدیل می‌کند.",
+                course3Li1: "استفاده از پلتفرم‌های تعاملی و بازی",
+                course3Li2: "تقویت پایه‌ای تلفظ و واژگان",
+                courseBookBtn: "رزرو مشاوره",
+                footerAbout: "مرجع تخصصی آموزش زبان‌های خارجی با بهره‌گیری از برترین متدهای روز دنیا و اساتید مجرب.",
+                footerAddressTitle: "آدرس موسسه",
+                footerAddress: "تهران، مشیریه، خیابان سازمان آب",
+                footerContactTitle: "تماس با ما",
+                footerCopyright: "© تمامی حقوق مادی و معنوی برای موسسه زبان دادمان محفوظ است.",
+                successTitle: "درخواست شما با موفقیت ثبت شد!",
+                gotItBtn: "متوجه شدم",
+                comingSoonDesc: "به زودی فعال خواهد شد.",
+                langModalTitle: "انتخاب زبان سایت"
+            },
+            en: {
+                subnavStudents: "DTS Students",
+                subnavMethod: "Teaching Method",
+                subnavBooks: "Books We Teach",
+                brandName: "Dadman Language Institute",
+                brandTagline: "Specialized Foreign Language Education",
+                navHome: "Home",
+                navStudents: "DTS Students",
+                navBenefits: "Why Dadman",
+                navCourses: "Courses & Sessions",
+                navContact: "Free Consultation",
+                navQuickSignup: "Quick Sign-up",
+                heroBadge: "Support Until Full Mastery of the Language",
+                heroTitlePrefix: "Build Your Academic and Career Future With",
+                heroTitleBrand: "Dadman Institute",
+                heroTitleSuffix: "!",
+                heroDesc: "With the most experienced instructors, modern teaching methods and personalized planning, reach your language goals in the shortest possible time. From everyday conversation to international exams, we're with you.",
+                heroFeature1: "Top Instructors in the Country",
+                heroFeature2: "Conversation-Focused Method",
+                heroFeature3: "Free Consultation & Level Test",
+                formTitle: "Request a Free Consultation",
+                formSubtitle: "Fill out the form below so our team can contact you",
+                formErrorDefault: "There was a problem submitting the form. Please try again or contact us by phone.",
+                formLabelName: "Full Name",
+                formPlaceholderName: "e.g. Ali Rezaei",
+                formLabelPhone: "Phone Number",
+                formLabelType: "Request Type or Desired Course",
+                formOption1: "Adult Conversation Courses",
+                formOption2: "IELTS Exam Preparation",
+                formOption3: "Kids & Teens Courses",
+                formOption4: "General Consultation & Level Test",
+                formLabelMessage: "Your Message or Details",
+                formPlaceholderMessage: "(Required) Please write your message...",
+                formSubmitBtn: "Submit Request to the Institute",
+                benefitsKicker: "Why Dadman?",
+                benefitsTitle: "Competitive Advantages of Dadman Language Institute",
+                benefitsSubtitle: "We smooth your learning path by providing the best facilities",
+                benefit1Title: "Outstanding, Experienced Instructors",
+                benefit1Desc: "Instructors with internationally recognized teaching certificates and years of successful teaching experience.",
+                benefit2Title: "100% Focus on Conversation",
+                benefit2Desc: "Our teaching system is designed to strengthen listening and speaking skills from the very first session.",
+                benefit3Title: "Flexible Scheduling",
+                benefit3Desc: "Choose class times in the morning, evening, or on weekends to fit your schedule.",
+                coursesKicker: "Programs",
+                coursesTitle: "Dadman Course & Session Types",
+                coursesSubtitle: "Specialized courses tailored to different ages, goals and levels of learners",
+                course1Title: "Adult Conversation Sessions",
+                course1Tag: "Guaranteed Speaking Fluency",
+                course1Desc: "These sessions are held as interactive groups, focusing mainly on real everyday and work-life scenarios.",
+                course1Li1: "12 sessions per month",
+                course1Li2: "Limited class size (max 8 students)",
+                course2Badge: "Most Popular",
+                course2Title: "Specialized IELTS Courses",
+                course2Tag: "For Immigration & Study Abroad",
+                course2Desc: "Intensive specialized IELTS sessions with in-depth analysis of the four skills and standard mock exams.",
+                course2Li1: "Personalized planning and support",
+                course2Li2: "Target score guarantee with top instructors",
+                course3Title: "Kids & Teens (Junior)",
+                course3Tag: "Learning Through Games & Animation",
+                course3Desc: "A modern teaching system for children that turns learning English into an enjoyable, lasting experience.",
+                course3Li1: "Use of interactive platforms and games",
+                course3Li2: "Building strong pronunciation & vocabulary foundations",
+                courseBookBtn: "Book a Consultation",
+                footerAbout: "A specialized reference for foreign language education using the world's leading methods and experienced instructors.",
+                footerAddressTitle: "Institute Address",
+                footerAddress: "Tehran, Moshirieh, Sazman-e Ab Street",
+                footerContactTitle: "Contact Us",
+                footerCopyright: "© All rights reserved for Dadman Language Institute.",
+                successTitle: "Your Request Was Submitted Successfully!",
+                gotItBtn: "Got It",
+                comingSoonDesc: "This section will be available soon.",
+                langModalTitle: "Choose Site Language"
+            },
+            ar: {
+                subnavStudents: "طلاب DTS",
+                subnavMethod: "طريقة التدريس",
+                subnavBooks: "الكتب التي ندرّسها",
+                brandName: "معهد دادمان للغات",
+                brandTagline: "تعليم متخصص للغات الأجنبية",
+                navHome: "الرئيسية",
+                navStudents: "طلاب DTS",
+                navBenefits: "مزايا دادمان",
+                navCourses: "الدورات والجلسات",
+                navContact: "استشارة مجانية",
+                navQuickSignup: "تسجيل سريع",
+                heroBadge: "دعم حتى إتقان اللغة بالكامل",
+                heroTitlePrefix: "ابنِ مستقبلك الدراسي والمهني مع",
+                heroTitleBrand: "معهد دادمان",
+                heroTitleSuffix: "!",
+                heroDesc: "مع أكثر الأساتذة خبرة وأساليب تعليمية حديثة وتخطيط خاص، حقق هدفك اللغوي في أسرع وقت ممكن. من المحادثة اليومية إلى الاختبارات الدولية نحن معك.",
+                heroFeature1: "أفضل الأساتذة في البلاد",
+                heroFeature2: "منهج يركز على المحادثة",
+                heroFeature3: "استشارة وتحديد مستوى مجاني",
+                formTitle: "طلب استشارة مجانية",
+                formSubtitle: "املأ النموذج أدناه ليتواصل معك خبراؤنا",
+                formErrorDefault: "حدثت مشكلة أثناء إرسال النموذج. يرجى المحاولة مرة أخرى أو التواصل معنا هاتفياً.",
+                formLabelName: "الاسم الكامل",
+                formPlaceholderName: "مثال: علي رضائي",
+                formLabelPhone: "رقم الهاتف",
+                formLabelType: "نوع الطلب أو الدورة المطلوبة",
+                formOption1: "دورات محادثة للكبار",
+                formOption2: "إعداد اختبار الآيلتس (IELTS)",
+                formOption3: "دورات الأطفال والمراهقين",
+                formOption4: "استشارة عامة وتحديد مستوى",
+                formLabelMessage: "رسالتك أو تفاصيل طلبك",
+                formPlaceholderMessage: "(هذا الحقل إلزامي) يرجى كتابة رسالتك...",
+                formSubmitBtn: "إرسال الطلب إلى المعهد",
+                benefitsKicker: "لماذا دادمان؟",
+                benefitsTitle: "المزايا التنافسية لمعهد دادمان للغات",
+                benefitsSubtitle: "نُسهّل رحلة تعلمك من خلال توفير أفضل الإمكانيات",
+                benefit1Title: "أساتذة متميزون وذوو خبرة",
+                benefit1Desc: "الاستفادة من أساتذة حاصلين على شهادات تدريس دولية وسنوات من الخبرة الناجحة.",
+                benefit2Title: "تركيز 100٪ على المحادثة",
+                benefit2Desc: "نظامنا التعليمي مصمم لتعزيز مهارات الاستماع والتحدث منذ الجلسة الأولى.",
+                benefit3Title: "مرونة في مواعيد الجلسات",
+                benefit3Desc: "إمكانية اختيار مواعيد الجلسات صباحاً أو مساءً أو في عطلة نهاية الأسبوع بما يناسب وقتك.",
+                coursesKicker: "البرامج التعليمية",
+                coursesTitle: "أنواع جلسات ودورات معهد دادمان",
+                coursesSubtitle: "دورات متخصصة تناسب مختلف الأعمار والأهداف والمستويات",
+                course1Title: "جلسات محادثة للكبار",
+                course1Tag: "ضمان الطلاقة في الكلام",
+                course1Desc: "تُعقد هذه الجلسات بشكل جماعي وتفاعلي وتركز بشكل أساسي على سيناريوهات الحياة اليومية والعملية الواقعية.",
+                course1Li1: "عدد الجلسات: 12 جلسة شهرياً",
+                course1Li2: "سعة محدودة للفصول (8 أشخاص كحد أقصى)",
+                course2Badge: "الأكثر رواجاً",
+                course2Title: "دورات آيلتس المتخصصة (IELTS)",
+                course2Tag: "خاص بالهجرة والدراسة",
+                course2Desc: "جلسات مكثفة ومتخصصة في الآيلتس مع تحليل دقيق للمهارات الأربع واختبارات تجريبية معيارية (Mock).",
+                course2Li1: "تخطيط ودعم مخصص",
+                course2Li2: "ضمان الدرجة المستهدفة مع أساتذة بارزين",
+                course3Title: "الأطفال والمراهقون (Junior)",
+                course3Tag: "التعلم عبر الألعاب والرسوم المتحركة",
+                course3Desc: "نظام تعليمي حديث مخصص للأطفال يحوّل تعلم اللغة الإنجليزية إلى تجربة ممتعة ودائمة.",
+                course3Li1: "استخدام منصات تفاعلية وألعاب",
+                course3Li2: "تعزيز أساسيات النطق والمفردات",
+                courseBookBtn: "حجز استشارة",
+                footerAbout: "مرجع متخصص لتعليم اللغات الأجنبية باستخدام أحدث الأساليب العالمية وأساتذة ذوي خبرة.",
+                footerAddressTitle: "عنوان المعهد",
+                footerAddress: "طهران، مشيرية، شارع سازمان آب",
+                footerContactTitle: "تواصل معنا",
+                footerCopyright: "© جميع الحقوق محفوظة لمعهد دادمان للغات.",
+                successTitle: "تم إرسال طلبك بنجاح!",
+                gotItBtn: "حسناً",
+                comingSoonDesc: "سيتم تفعيل هذا القسم قريباً.",
+                langModalTitle: "اختر لغة الموقع"
+            },
+            ko: {
+                subnavStudents: "DTS 학생",
+                subnavMethod: "교육 방식",
+                subnavBooks: "저희가 가르치는 교재",
+                brandName: "다드만 어학원",
+                brandTagline: "전문 외국어 교육",
+                navHome: "홈",
+                navStudents: "DTS 학생",
+                navBenefits: "다드만의 장점",
+                navCourses: "과정 및 수업 종류",
+                navContact: "무료 상담",
+                navQuickSignup: "빠른 등록",
+                heroBadge: "완전한 언어 숙달까지 지원합니다",
+                heroTitlePrefix: "다드만 어학원과 함께",
+                heroTitleBrand: "학업과 커리어의 미래를",
+                heroTitleSuffix: "만드세요!",
+                heroDesc: "가장 경험 많은 강사진, 현대적인 교육 방법과 맞춤형 커리큘럼으로 최단 시간 안에 목표를 달성하세요. 일상 회화부터 국제 시험까지 함께합니다.",
+                heroFeature1: "국내 최고의 강사진",
+                heroFeature2: "회화 중심 교육법",
+                heroFeature3: "무료 상담 및 레벨 테스트",
+                formTitle: "무료 상담 신청",
+                formSubtitle: "아래 양식을 작성하시면 담당자가 연락드립니다",
+                formErrorDefault: "양식 제출 중 문제가 발생했습니다. 다시 시도하시거나 전화로 문의해 주세요.",
+                formLabelName: "성명",
+                formPlaceholderName: "예: 홍길동",
+                formLabelPhone: "전화번호",
+                formLabelType: "신청 종류 또는 희망 과정",
+                formOption1: "성인 회화 과정",
+                formOption2: "아이엘츠(IELTS) 준비 과정",
+                formOption3: "어린이·청소년 과정",
+                formOption4: "일반 상담 및 레벨 테스트",
+                formLabelMessage: "메시지 또는 문의 내용",
+                formPlaceholderMessage: "(필수 입력) 문의 내용을 작성해 주세요...",
+                formSubmitBtn: "신청서 제출하기",
+                benefitsKicker: "왜 다드만인가?",
+                benefitsTitle: "다드만 어학원의 경쟁력 있는 장점",
+                benefitsSubtitle: "최고의 시설을 제공하여 학습 여정을 더 편안하게 만듭니다",
+                benefit1Title: "우수하고 경험 많은 강사진",
+                benefit1Desc: "국제 교육 자격증을 보유하고 다년간의 성공적인 교육 경력을 가진 강사진.",
+                benefit2Title: "회화에 100% 집중",
+                benefit2Desc: "첫 수업부터 듣기와 말하기 능력을 강화하도록 설계된 교육 시스템입니다.",
+                benefit3Title: "유연한 수업 시간",
+                benefit3Desc: "오전, 오후, 주말 등 원하는 시간에 맞춰 수업을 선택할 수 있습니다.",
+                coursesKicker: "교육 프로그램",
+                coursesTitle: "다드만의 다양한 수업 및 과정 종류",
+                coursesSubtitle: "연령, 목표 및 수준에 맞는 전문 과정",
+                course1Title: "성인 회화 수업",
+                course1Tag: "말하기 유창성 보장",
+                course1Desc: "이 수업은 그룹 상호작용 형식으로 진행되며 실제 일상 및 업무 시나리오에 중점을 둡니다.",
+                course1Li1: "월 12회 수업",
+                course1Li2: "제한된 인원 (최대 8명)",
+                course2Badge: "인기 과정",
+                course2Title: "아이엘츠(IELTS) 전문 과정",
+                course2Tag: "이민 및 유학 전문",
+                course2Desc: "네 가지 영역을 정밀하게 분석하는 집중 아이엘츠 수업과 표준 모의고사(Mock).",
+                course2Li1: "맞춤형 계획 및 전담 지원",
+                course2Li2: "우수 강사진과 함께하는 목표 점수 보장",
+                course3Title: "어린이·청소년 (Junior)",
+                course3Tag: "게임과 애니메이션을 통한 학습",
+                course3Desc: "영어 학습을 즐겁고 오래 지속되는 경험으로 만드는 어린이 전용 최신 교육 시스템입니다.",
+                course3Li1: "인터랙티브 플랫폼 및 게임 활용",
+                course3Li2: "발음과 어휘의 기초 강화",
+                courseBookBtn: "상담 예약",
+                footerAbout: "세계 최고의 교육법과 경험 많은 강사진을 갖춘 전문 외국어 교육 기관입니다.",
+                footerAddressTitle: "학원 주소",
+                footerAddress: "테헤란, 모시리예, 사즈만 아브 거리",
+                footerContactTitle: "문의하기",
+                footerCopyright: "© 다드만 어학원. 모든 권리 보유.",
+                successTitle: "신청이 성공적으로 접수되었습니다!",
+                gotItBtn: "확인",
+                comingSoonDesc: "이 섹션은 곧 제공될 예정입니다.",
+                langModalTitle: "사이트 언어 선택"
+            },
+            de: {
+                subnavStudents: "DTS-Schüler",
+                subnavMethod: "Unterrichtsmethode",
+                subnavBooks: "Bücher, die wir unterrichten",
+                brandName: "Dadman Sprachinstitut",
+                brandTagline: "Spezialisierte Fremdsprachenausbildung",
+                navHome: "Startseite",
+                navStudents: "DTS-Schüler",
+                navBenefits: "Vorteile von Dadman",
+                navCourses: "Kurse & Sitzungen",
+                navContact: "Kostenlose Beratung",
+                navQuickSignup: "Schnellanmeldung",
+                heroBadge: "Unterstützung bis zur vollständigen Sprachbeherrschung",
+                heroTitlePrefix: "Gestalte deine akademische und berufliche Zukunft mit",
+                heroTitleBrand: "Dadman Institut",
+                heroTitleSuffix: "!",
+                heroDesc: "Mit den erfahrensten Lehrkräften, modernen Unterrichtsmethoden und individueller Planung erreichst du dein Sprachziel in kürzester Zeit. Von Alltagsgesprächen bis zu internationalen Prüfungen sind wir an deiner Seite.",
+                heroFeature1: "Top-Lehrkräfte des Landes",
+                heroFeature2: "Konversationsorientierte Methode",
+                heroFeature3: "Kostenlose Beratung & Einstufungstest",
+                formTitle: "Kostenlose Beratung anfordern",
+                formSubtitle: "Füllen Sie das Formular aus, damit unser Team Sie kontaktieren kann",
+                formErrorDefault: "Beim Absenden des Formulars ist ein Problem aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie uns telefonisch.",
+                formLabelName: "Vollständiger Name",
+                formPlaceholderName: "z. B. Ali Rezaei",
+                formLabelPhone: "Telefonnummer",
+                formLabelType: "Anfrageart oder gewünschter Kurs",
+                formOption1: "Konversationskurse für Erwachsene",
+                formOption2: "IELTS-Prüfungsvorbereitung",
+                formOption3: "Kurse für Kinder & Jugendliche",
+                formOption4: "Allgemeine Beratung & Einstufungstest",
+                formLabelMessage: "Ihre Nachricht oder Details",
+                formPlaceholderMessage: "(Pflichtfeld) Bitte schreiben Sie Ihre Nachricht...",
+                formSubmitBtn: "Anfrage an das Institut senden",
+                benefitsKicker: "Warum Dadman?",
+                benefitsTitle: "Wettbewerbsvorteile des Dadman Sprachinstituts",
+                benefitsSubtitle: "Wir erleichtern Ihren Lernweg mit den besten Möglichkeiten",
+                benefit1Title: "Herausragende, erfahrene Lehrkräfte",
+                benefit1Desc: "Lehrkräfte mit international anerkannten Lehrzertifikaten und jahrelanger erfolgreicher Unterrichtserfahrung.",
+                benefit2Title: "100% Fokus auf Konversation",
+                benefit2Desc: "Unser Unterrichtssystem stärkt Hör- und Sprechfertigkeiten bereits ab der ersten Sitzung.",
+                benefit3Title: "Flexible Terminplanung",
+                benefit3Desc: "Wählen Sie Unterrichtszeiten am Morgen, Abend oder am Wochenende passend zu Ihrem Zeitplan.",
+                coursesKicker: "Bildungsprogramme",
+                coursesTitle: "Kurs- und Sitzungsarten von Dadman",
+                coursesSubtitle: "Spezialisierte Kurse für verschiedene Altersgruppen, Ziele und Niveaus",
+                course1Title: "Konversationskurse für Erwachsene",
+                course1Tag: "Garantierte Sprechflüssigkeit",
+                course1Desc: "Diese Sitzungen finden in interaktiven Gruppen statt und konzentrieren sich hauptsächlich auf reale Alltags- und Arbeitsszenarien.",
+                course1Li1: "12 Sitzungen pro Monat",
+                course1Li2: "Begrenzte Klassengröße (max. 8 Personen)",
+                course2Badge: "Am beliebtesten",
+                course2Title: "Spezialisierte IELTS-Kurse",
+                course2Tag: "Für Auswanderung & Studium",
+                course2Desc: "Intensive, spezialisierte IELTS-Sitzungen mit detaillierter Analyse der vier Fertigkeiten und standardisierten Mock-Prüfungen.",
+                course2Li1: "Individuelle Planung und Betreuung",
+                course2Li2: "Zielnoten-Garantie mit Top-Lehrkräften",
+                course3Title: "Kinder & Jugendliche (Junior)",
+                course3Tag: "Lernen durch Spiele & Animation",
+                course3Desc: "Ein modernes Unterrichtssystem für Kinder, das Englischlernen zu einem angenehmen und nachhaltigen Erlebnis macht.",
+                course3Li1: "Nutzung interaktiver Plattformen und Spiele",
+                course3Li2: "Stärkung der Grundlagen von Aussprache & Wortschatz",
+                courseBookBtn: "Beratung buchen",
+                footerAbout: "Eine spezialisierte Referenz für Fremdsprachenausbildung mit den weltweit führenden Methoden und erfahrenen Lehrkräften.",
+                footerAddressTitle: "Institutsadresse",
+                footerAddress: "Teheran, Moshirieh, Sazman-e Ab Straße",
+                footerContactTitle: "Kontaktieren Sie uns",
+                footerCopyright: "© Alle Rechte vorbehalten für das Dadman Sprachinstitut.",
+                successTitle: "Ihre Anfrage wurde erfolgreich übermittelt!",
+                gotItBtn: "Verstanden",
+                comingSoonDesc: "Dieser Bereich wird bald verfügbar sein.",
+                langModalTitle: "Sprache der Website wählen"
+            }
+        };
+
+        const rtlLangs = ['fa', 'ar'];
+
+        function applyTranslations(lang) {
+            const dict = translations[lang] || translations.fa;
+            document.querySelectorAll('[data-i18n]').forEach(function (el) {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key] !== undefined) {
+                    el.textContent = dict[key];
+                }
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (dict[key] !== undefined) {
+                    el.setAttribute('placeholder', dict[key]);
+                }
+            });
+
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', rtlLangs.includes(lang) ? 'rtl' : 'ltr');
+
+            document.querySelectorAll('.lang-option').forEach(function (btn) {
+                btn.classList.toggle('lang-active', btn.getAttribute('data-lang') === lang);
+            });
+        }
+
+        function switchLanguage(lang) {
+            applyTranslations(lang);
+            try { localStorage.siteLang = lang; } catch (e) {}
+            closeLanguageModal();
+        }
+
+        function openLanguageModal() {
+            const modal = document.getElementById('languageModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeLanguageModal() {
+            const modal = document.getElementById('languageModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        document.getElementById('languageModal').addEventListener('click', function (event) {
+            if (event.target === this) {
+                closeLanguageModal();
+            }
+        });
+
+        (function initLanguage() {
+            let savedLang = 'fa';
+            try {
+                if (localStorage.siteLang && translations[localStorage.siteLang]) {
+                    savedLang = localStorage.siteLang;
+                }
+            } catch (e) {}
+            applyTranslations(savedLang);
+        })();
     </script>
 </body>
 </html>

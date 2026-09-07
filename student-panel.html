@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پنل دانش‌آموز | موسسه دادمان</title>
+<style>
+  :root{
+    --bg:#0f1115;
+    --card:#171a21;
+    --border:#262b35;
+    --text:#e7e9ee;
+    --muted:#9aa2b1;
+    --accent:#3d7dfc;
+    --danger:#e5484d;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Vazirmatn","Tahoma",sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+  .card{
+    width:100%;
+    max-width:420px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:32px 28px;
+  }
+  h1{
+    font-size:1.3rem;
+    margin:0 0 6px;
+  }
+  p.sub{
+    color:var(--muted);
+    margin:0 0 24px;
+    font-size:0.9rem;
+  }
+  label{
+    display:block;
+    font-size:0.85rem;
+    color:var(--muted);
+    margin-bottom:6px;
+  }
+  input{
+    width:100%;
+    padding:12px 14px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:#0c0e13;
+    color:var(--text);
+    font-size:1rem;
+    margin-bottom:16px;
+    font-family:inherit;
+  }
+  input:focus{outline:none;border-color:var(--accent);}
+  button{
+    width:100%;
+    padding:12px 14px;
+    border-radius:10px;
+    border:none;
+    background:var(--accent);
+    color:white;
+    font-size:1rem;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  button:disabled{opacity:0.6;cursor:default;}
+  .error{
+    color:var(--danger);
+    font-size:0.85rem;
+    margin:-8px 0 16px;
+    display:none;
+  }
+  .panel{display:none;}
+  .welcome{font-size:1.1rem;margin-bottom:20px;}
+  .tabs{
+    display:flex;
+    gap:8px;
+    margin-bottom:20px;
+  }
+  .tab{
+    flex:1;
+    padding:10px;
+    text-align:center;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:#0c0e13;
+    cursor:pointer;
+    color:var(--muted);
+    font-size:0.9rem;
+  }
+  .tab.active{
+    background:var(--accent);
+    color:white;
+    border-color:var(--accent);
+  }
+  .section{display:none;}
+  .section.active{display:block;}
+  .item{
+    background:#0c0e13;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:14px;
+    margin-bottom:10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .empty{
+    color:var(--muted);
+    text-align:center;
+    padding:30px 0;
+    font-size:0.9rem;
+  }
+  .score{
+    background:var(--accent);
+    color:white;
+    padding:4px 12px;
+    border-radius:20px;
+    font-size:0.85rem;
+  }
+  audio{width:100%;margin-top:8px;}
+  .voice-item{display:block;}
+  .loading{text-align:center;color:var(--muted);padding:20px;font-size:0.9rem;}
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- ===== فرم ورود ===== -->
+  <div id="loginBox">
+    <h1>پنل دانش‌آموز</h1>
+    <p class="sub">موسسه دادمان</p>
+    <label>نام کاربری</label>
+    <input type="text" id="username" placeholder="نام کاربری خود را وارد کنید">
+    <label>رمز عبور (کد ملی)</label>
+    <input type="password" id="password" placeholder="کد ملی خود را وارد کنید">
+    <div class="error" id="loginError">نام کاربری یا رمز عبور اشتباه است.</div>
+    <button id="loginBtn" onclick="doLogin()">ورود</button>
+  </div>
+
+  <!-- ===== پنل دانش‌آموز ===== -->
+  <div class="panel" id="panel">
+    <div class="welcome" id="welcomeText"></div>
+    <div class="tabs">
+      <div class="tab active" data-tab="grades" onclick="switchTab('grades')">نمرات</div>
+      <div class="tab" data-tab="voices" onclick="switchTab('voices')">فایل‌های صوتی</div>
+    </div>
+
+    <div class="section active" id="section-grades">
+      <div id="gradesList"><div class="loading">در حال بارگذاری...</div></div>
+    </div>
+
+    <div class="section" id="section-voices">
+      <div id="voicesList"><div class="loading">در حال بارگذاری...</div></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   تنظیمات — این بخش را با اطلاعات واقعی خودت جایگزین کن
+   ============================================================ */
+const CONFIG = {
+  owner: "dadmanlanguage",          // نام کاربری گیت‌هاب
+  repo: "dadmat-data",              // اسم ریپازیتوری داده
+  dataPath: "students.json",        // مسیر فایل داده
+  // توکن با دسترسی فقط-خواندن (Read-only). این توکن باید جدا از توکن مدیر ساخته شود.
+  readToken: "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"
+};
+/* ============================================================ */
+
+const API_BASE = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents`;
+
+function utf8ToBase64(str){
+  return btoa(unescape(encodeURIComponent(str)));
+}
+function base64ToUtf8(b64){
+  return decodeURIComponent(escape(atob(b64.replace(/\n/g,""))));
+}
+
+// تبدیل اعداد فارسی و عربی به انگلیسی، تا تفاوت کیبورد باعث رد شدن ورود نشود
+function normalizeDigits(str){
+  const persian = "۰۱۲۳۴۵۶۷۸۹";
+  const arabic  = "٠١٢٣٤٥٦٧٨٩";
+  return String(str).replace(/[۰-۹٠-٩]/g, ch => {
+    const pIdx = persian.indexOf(ch);
+    if(pIdx > -1) return pIdx;
+    const aIdx = arabic.indexOf(ch);
+    if(aIdx > -1) return aIdx;
+    return ch;
+  });
+}
+
+async function githubGet(path, token){
+  const res = await fetch(`${API_BASE}/${path}`, {
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Accept": "application/vnd.github+json"
+    }
+  });
+  if(!res.ok) throw new Error("خطا در دریافت اطلاعات از گیت‌هاب: " + res.status);
+  return res.json();
+}
+
+let studentsData = null;
+let currentStudentKey = null;
+
+async function doLogin(){
+  const username = document.getElementById("username").value.trim();
+  const password = normalizeDigits(document.getElementById("password").value.trim());
+  const btn = document.getElementById("loginBtn");
+  const errBox = document.getElementById("loginError");
+  errBox.style.display = "none";
+
+  if(!username){
+    errBox.textContent = "لطفاً نام کاربری را وارد کنید.";
+    errBox.style.display = "block";
+    return;
+  }
+
+  if(!password){
+    errBox.textContent = "لطفاً کد ملی را وارد کنید.";
+    errBox.style.display = "block";
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "در حال بررسی...";
+
+  try{
+    const fileData = await githubGet(CONFIG.dataPath, CONFIG.readToken);
+    const json = JSON.parse(base64ToUtf8(fileData.content));
+    studentsData = json;
+
+    const student = json[username];
+    if(!student || normalizeDigits(student.nationalCode || "") !== password){
+      errBox.textContent = "نام کاربری یا رمز عبور اشتباه است.";
+      errBox.style.display = "block";
+      btn.disabled = false;
+      btn.textContent = "ورود";
+      return;
+    }
+
+    currentStudentKey = username;
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("panel").style.display = "block";
+    document.getElementById("welcomeText").textContent = `سلام ${student.name || ""} 👋`;
+    renderGrades(student.grades || []);
+    renderVoices(student.voices || []);
+
+  }catch(e){
+    errBox.textContent = "خطا در اتصال. اتصال اینترنت یا تنظیمات را بررسی کنید.";
+    errBox.style.display = "block";
+    btn.disabled = false;
+    btn.textContent = "ورود";
+  }
+}
+
+function switchTab(tab){
+  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === tab));
+  document.getElementById("section-grades").classList.toggle("active", tab === "grades");
+  document.getElementById("section-voices").classList.toggle("active", tab === "voices");
+}
+
+function renderGrades(grades){
+  const box = document.getElementById("gradesList");
+  if(!grades.length){
+    box.innerHTML = `<div class="empty">هنوز نمره‌ای ثبت نشده است.</div>`;
+    return;
+  }
+  box.innerHTML = grades.map(g => `
+    <div class="item">
+      <span>${escapeHtml(g.title || "")}</span>
+      <span class="score">${escapeHtml(String(g.score ?? ""))}</span>
+    </div>
+  `).join("");
+}
+
+async function renderVoices(voices){
+  const box = document.getElementById("voicesList");
+  if(!voices.length){
+    box.innerHTML = `<div class="empty">هنوز فایل صوتی‌ای اضافه نشده است.</div>`;
+    return;
+  }
+  box.innerHTML = voices.map((v,i) => `
+    <div class="item voice-item">
+      <div>${escapeHtml(v.name || "بدون عنوان")}</div>
+      <audio controls id="audio-${i}"></audio>
+    </div>
+  `).join("");
+
+  // بارگذاری هر فایل صوتی به‌صورت جدا (چون ریپازیتوری خصوصی است)
+  voices.forEach(async (v, i) => {
+    try{
+      const fileData = await githubGet(v.path, CONFIG.readToken);
+      const binary = atob(fileData.content.replace(/\n/g,""));
+      const bytes = new Uint8Array(binary.length);
+      for(let j=0; j<binary.length; j++) bytes[j] = binary.charCodeAt(j);
+      const blob = new Blob([bytes], {type: "audio/mpeg"});
+      const url = URL.createObjectURL(blob);
+      document.getElementById(`audio-${i}`).src = url;
+    }catch(e){
+      const el = document.getElementById(`audio-${i}`);
+      if(el) el.outerHTML = `<span style="color:var(--danger);font-size:0.85rem;">خطا در بارگذاری فایل صوتی</span>`;
+    }
+  });
+}
+
+function escapeHtml(str){
+  const d = document.createElement("div");
+  d.textContent = str;
+  return d.innerHTML;
+}
+</script>
+</body>
+</html>

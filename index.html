@@ -711,10 +711,6 @@
                     <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
                 </button>
 
-                <button onclick="openPanelModal()" aria-label="ورود به پنل" title="ورود به پنل" class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-200 dark:hover:bg-emerald-900 transition shadow-sm border border-emerald-200 dark:border-emerald-800">
-                    <i class="fa-solid fa-right-to-bracket text-lg"></i>
-                </button>
-
                 <a href="#contact-form" class="hidden sm:inline-block bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-md whitespace-nowrap" data-i18n="navQuickSignup">
                     ثبت نام سریع
                 </a>
@@ -1075,28 +1071,6 @@
                     <span class="lang-flag">🇩🇪</span>
                     <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">Deutsch</span>
                 </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===================== مودال انتخاب پنل (دانش‌آموز / مدیر) ===================== -->
-    <div id="panelModal" class="fixed inset-0 bg-slate-950/50 hidden items-center justify-center z-[60] p-4">
-        <div class="bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl border border-slate-200 dark:border-slate-800 transition-colors">
-            <div class="flex items-center justify-between mb-5">
-                <h3 class="text-lg font-bold text-slate-900 dark:text-white">ورود به پنل</h3>
-                <button onclick="closePanelModal()" aria-label="بستن" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div class="space-y-2">
-                <a href="student-panel.html" class="lang-option">
-                    <span class="lang-flag"><i class="fa-solid fa-user-graduate text-emerald-700 dark:text-emerald-400"></i></span>
-                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">ورود دانش‌آموزان</span>
-                </a>
-                <a href="Mr.akbari.html" class="lang-option">
-                    <span class="lang-flag"><i class="fa-solid fa-user-tie text-emerald-700 dark:text-emerald-400"></i></span>
-                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">ورود مدیریت</span>
-                </a>
             </div>
         </div>
     </div>
@@ -1731,4 +1705,47 @@
                 footerAbout: "Eine spezialisierte Referenz für Fremdsprachenausbildung mit den weltweit führenden Methoden und erfahrenen Lehrkräften.",
                 footerAddressTitle: "Institutsadresse",
                 footerAddress: "Teheran, Moshirieh, Sazman-e Ab Straße",
-          
+                footerContactTitle: "Kontaktieren Sie uns",
+                footerCopyright: "© Alle Rechte vorbehalten für das Dadman Sprachinstitut.",
+                successTitle: "Ihre Anfrage wurde erfolgreich übermittelt!",
+                gotItBtn: "Verstanden",
+                comingSoonDesc: "Dieser Bereich wird bald verfügbar sein.",
+                langModalTitle: "Sprache der Website wählen",
+                gamerModalTitle: "Gamer-Themes",
+                gamerModalDesc: "Wählen Sie eines der Neon-Glas-Themes unten",
+                gamerTheme1Desc: "Neon-Pink & Cyan auf dunklem Glas",
+                gamerTheme2Desc: "Hacker-Grün auf reinem Schwarz",
+                gamerTheme3Desc: "Feuriges Rot & Orange",
+                gamerTheme4Desc: "Retro Lila & Pink",
+                gamerTheme5Desc: "Wechselnde Farben wie bei RGB-Gaming-Hardware",
+                gamerResetOption: "Zurück zum normalen Theme"
+            }
+        };
+
+        const rtlLangs = ['fa', 'ar'];
+
+        function applyTranslations(lang) {
+            const dict = translations[lang] || translations.fa;
+            document.querySelectorAll('[data-i18n]').forEach(function (el) {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key] !== undefined) {
+                    el.textContent = dict[key];
+                }
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (dict[key] !== undefined) {
+                    el.setAttribute('placeholder', dict[key]);
+                }
+            });
+
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', rtlLangs.includes(lang) ? 'rtl' : 'ltr');
+
+            document.querySelectorAll('.lang-option').forEach(function (btn) {
+                btn.classList.toggle('lang-active', btn.getAttribute('data-lang') === lang);
+            });
+        }
+
+        function switchLanguage(lang) {
+ 

@@ -619,6 +619,24 @@ const themeIcon = document.getElementById('themeIcon');
             }
         });
 
+        function openPanelModal() {
+            const modal = document.getElementById('panelModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closePanelModal() {
+            const modal = document.getElementById('panelModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        document.getElementById('panelModal').addEventListener('click', function (event) {
+            if (event.target === this) {
+                closePanelModal();
+            }
+        });
+
         (function initLanguage() {
             let savedLang = 'fa';
             try {

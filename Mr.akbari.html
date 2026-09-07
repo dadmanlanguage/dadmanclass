@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پنل مدیریت | موسسه دادمان</title>
+<style>
+  :root{
+    --bg:#0f1115;
+    --card:#171a21;
+    --border:#262b35;
+    --text:#e7e9ee;
+    --muted:#9aa2b1;
+    --accent:#3d7dfc;
+    --danger:#e5484d;
+    --success:#2fb26a;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Vazirmatn","Tahoma",sans-serif;
+    padding:24px;
+  }
+  .wrap{max-width:520px;margin:0 auto;}
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:28px 24px;
+    margin-bottom:16px;
+  }
+  h1{font-size:1.25rem;margin:0 0 6px;}
+  p.sub{color:var(--muted);margin:0 0 22px;font-size:0.88rem;}
+  label{display:block;font-size:0.85rem;color:var(--muted);margin-bottom:6px;}
+  input, select{
+    width:100%;
+    padding:11px 13px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:#0c0e13;
+    color:var(--text);
+    font-size:0.95rem;
+    margin-bottom:14px;
+    font-family:inherit;
+  }
+  input:focus, select:focus{outline:none;border-color:var(--accent);}
+  button{
+    padding:11px 16px;
+    border-radius:10px;
+    border:none;
+    background:var(--accent);
+    color:white;
+    font-size:0.92rem;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  button.full{width:100%;}
+  button.danger{background:var(--danger);}
+  button.secondary{background:#262b35;color:var(--text);}
+  button:disabled{opacity:0.55;cursor:default;}
+  .error{color:var(--danger);font-size:0.85rem;margin:-6px 0 14px;display:none;}
+  .ok{color:var(--success);font-size:0.85rem;margin:-6px 0 14px;display:none;}
+  #panel{display:none;}
+  .tabs{display:flex;gap:8px;margin-bottom:18px;}
+  .tab{
+    flex:1;padding:10px;text-align:center;border-radius:10px;
+    border:1px solid var(--border);background:#0c0e13;
+    cursor:pointer;color:var(--muted);font-size:0.88rem;
+  }
+  .tab.active{background:var(--accent);color:white;border-color:var(--accent);}
+  .section{display:none;}
+  .section.active{display:block;}
+  .item{
+    background:#0c0e13;border:1px solid var(--border);border-radius:10px;
+    padding:12px 14px;margin-bottom:8px;
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+  }
+  .item .info{flex:1;}
+  .item audio{width:100%;margin-top:6px;}
+  .empty{color:var(--muted);text-align:center;padding:24px 0;font-size:0.88rem;}
+  .del-btn{
+    background:transparent;color:var(--danger);border:1px solid var(--danger);
+    padding:6px 10px;font-size:0.8rem;
+  }
+  .add-form{border-top:1px solid var(--border);margin-top:14px;padding-top:14px;}
+  .row{display:flex;gap:8px;}
+  .row input{flex:1;}
+  .loading{text-align:center;color:var(--muted);padding:16px;font-size:0.88rem;}
+  .welcome{font-size:1.05rem;margin-bottom:16px;color:var(--muted);}
+  .studentName{color:var(--text);font-weight:bold;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===== ورود مدیر ===== -->
+  <div class="card" id="loginBox">
+    <h1>پنل مدیریت موسسه دادمان</h1>
+    <p class="sub">برای ورود، نام کاربری دانش‌آموز مورد نظر و توکن مدیریتی را وارد کنید.</p>
+    <label>نام کاربری دانش‌آموز</label>
+    <input type="text" id="studentUsername" placeholder="مثلاً students123">
+    <label>توکن مدیریتی (رمز مدیر)</label>
+    <input type="password" id="adminToken" placeholder="ghp_... یا github_pat_...">
+    <div class="error" id="loginError"></div>
+    <button class="full" id="loginBtn" onclick="doLogin()">ورود به پنل دانش‌آموز</button>
+  </div>
+
+  <!-- ===== پنل مدیریت دانش‌آموز ===== -->
+  <div class="card" id="panel">
+    <div class="welcome">در حال مدیریت پنل: <span class="studentName" id="studentNameLabel"></span></div>
+    <div class="tabs">
+      <div class="tab active" data-tab="grades" onclick="switchTab('grades')">نمرات</div>
+      <div class="tab" data-tab="voices" onclick="switchTab('voices')">فایل‌های صوتی</div>
+    </div>
+
+    <!-- بخش نمرات -->
+    <div class="section active" id="section-grades">
+      <div id="gradesList"></div>
+      <div class="add-form">
+        <label>افزودن نمره جدید</label>
+        <div class="row">
+          <input type="text" id="newGradeTitle" placeholder="عنوان (مثلاً ریاضی)">
+          <input type="text" id="newGradeScore" placeholder="نمره" style="max-width:90px;">
+        </div>
+        <button class="full" onclick="addGrade()">افزودن نمره</button>
+      </div>
+    </div>
+
+    <!-- بخش ویس‌ها -->
+    <div class="section" id="section-voices">
+      <div id="voicesList"></div>
+      <div class="add-form">
+        <label>افزودن فایل صوتی جدید</label>
+        <input type="text" id="newVoiceName" placeholder="عنوان فایل صوتی">
+        <input type="file" id="newVoiceFile" accept="audio/*">
+        <button class="full" onclick="addVoice()" style="margin-top:10px;">افزودن فایل صوتی</button>
+      </div>
+    </div>
+
+    <div class="ok" id="statusOk">تغییرات با موفقیت ذخیره شد.</div>
+    <div class="error" id="statusError"></div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   تنظیمات — این بخش را با اطلاعات واقعی خودت جایگزین کن
+   ============================================================ */
+const CONFIG = {
+  owner: "dadmanlanguage",
+  repo: "dadmat-data",
+  dataPath: "students.json"
+  // توکن مدیر اینجا نوشته نمی‌شود؛ هر بار دستی وارد می‌شود.
+};
+/* ============================================================ */
+
+const API_BASE = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents`;
+let adminToken = null;
+let studentsData = null;
+let currentSha = null;
+let currentStudentKey = null;
+
+function utf8ToBase64(str){
+  return btoa(unescape(encodeURIComponent(str)));
+}
+function base64ToUtf8(b64){
+  return decodeURIComponent(escape(atob(b64.replace(/\n/g,""))));
+}
+
+async function githubGet(path){
+  const res = await fetch(`${API_BASE}/${path}`, {
+    headers: {
+      "Authorization": `Bearer ${adminToken}`,
+      "Accept": "application/vnd.github+json"
+    }
+  });
+  if(!res.ok) throw new Error("خطا در دریافت اطلاعات (کد " + res.status + ")");
+  return res.json();
+}
+
+async function githubPut(path, contentBase64, sha, message){
+  const body = { message, content: contentBase64 };
+  if(sha) body.sha = sha;
+  const res = await fetch(`${API_BASE}/${path}`, {
+    method: "PUT",
+    headers: {
+      "Authorization": `Bearer ${adminToken}`,
+      "Accept": "application/vnd.github+json"
+    },
+    body: JSON.stringify(body)
+  });
+  if(!res.ok){
+    const errText = await res.text();
+    throw new Error("خطا در ذخیره‌سازی (کد " + res.status + "): " + errText);
+  }
+  return res.json();
+}
+
+async function doLogin(){
+  const username = document.getElementById("studentUsername").value.trim();
+  const token = document.getElementById("adminToken").value.trim();
+  const errBox = document.getElementById("loginError");
+  const btn = document.getElementById("loginBtn");
+  errBox.style.display = "none";
+
+  if(!username || !token){
+    errBox.textContent = "لطفاً هر دو فیلد را پر کنید.";
+    errBox.style.display = "block";
+    return;
+  }
+
+  adminToken = token;
+  btn.disabled = true;
+  btn.textContent = "در حال بررسی...";
+
+  try{
+    const fileData = await githubGet(CONFIG.dataPath);
+    currentSha = fileData.sha;
+    studentsData = JSON.parse(base64ToUtf8(fileData.content));
+
+    if(!studentsData[username]){
+      // اگر دانش‌آموز وجود نداشت، یک رکورد خالی برایش می‌سازیم
+      studentsData[username] = { name: username, nationalCode: "", grades: [], voices: [] };
+    }
+    currentStudentKey = username;
+
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("panel").style.display = "block";
+    document.getElementById("studentNameLabel").textContent =
+      studentsData[username].name || username;
+
+    renderGrades();
+    renderVoices();
+
+  }catch(e){
+    errBox.textContent = "ورود ناموفق. توکن یا اتصال را بررسی کنید. (" + e.message + ")";
+    errBox.style.display = "block";
+    adminToken = null;
+  }finally{
+    btn.disabled = false;
+    btn.textContent = "ورود به پنل دانش‌آموز";
+  }
+}
+
+function switchTab(tab){
+  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === tab));
+  document.getElementById("section-grades").classList.toggle("active", tab === "grades");
+  document.getElementById("section-voices").classList.toggle("active", tab === "voices");
+}
+
+function showStatus(ok, msg){
+  const okBox = document.getElementById("statusOk");
+  const errBox = document.getElementById("statusError");
+  okBox.style.display = "none";
+  errBox.style.display = "none";
+  if(ok){
+    okBox.style.display = "block";
+    setTimeout(() => okBox.style.display = "none", 2500);
+  }else{
+    errBox.textContent = msg;
+    errBox.style.display = "block";
+  }
+}
+
+function escapeHtml(str){
+  const d = document.createElement("div");
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+/* ---------- نمرات ---------- */
+function renderGrades(){
+  const student = studentsData[currentStudentKey];
+  const box = document.getElementById("gradesList");
+  const grades = student.grades || [];
+  if(!grades.length){
+    box.innerHTML = `<div class="empty">هنوز نمره‌ای ثبت نشده است.</div>`;
+    return;
+  }
+  box.innerHTML = grades.map((g,i) => `
+    <div class="item">
+      <div class="info">${escapeHtml(g.title || "")} — <b>${escapeHtml(String(g.score ?? ""))}</b></div>
+      <button class="del-btn" onclick="deleteGrade(${i})">حذف</button>
+    </div>
+  `).join("");
+}
+
+async function addGrade(){
+  const title = document.getElementById("newGradeTitle").value.trim();
+  const score = document.getElementById("newGradeScore").value.trim();
+  if(!title || !score) return;
+
+  studentsData[currentStudentKey].grades = studentsData[currentStudentKey].grades || [];
+  studentsData[currentStudentKey].grades.push({ title, score });
+
+  await saveData("افزودن نمره برای " + currentStudentKey);
+  document.getElementById("newGradeTitle").value = "";
+  document.getElementById("newGradeScore").value = "";
+  renderGrades();
+}
+
+async function deleteGrade(index){
+  studentsData[currentStudentKey].grades.splice(index, 1);
+  await saveData("حذف نمره برای " + currentStudentKey);
+  renderGrades();
+}
+
+/* ---------- ویس‌ها ---------- */
+function renderVoices(){
+  const student = studentsData[currentStudentKey];
+  const box = document.getElementById("voicesList");
+  const voices = student.voices || [];
+  if(!voices.length){
+    box.innerHTML = `<div class="empty">هنوز فایل صوتی‌ای اضافه نشده است.</div>`;
+    return;
+  }
+  box.innerHTML = voices.map((v,i) => `
+    <div class="item" style="flex-direction:column;align-items:stretch;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div class="info">${escapeHtml(v.name || "بدون عنوان")}</div>
+        <button class="del-btn" onclick="deleteVoice(${i})">حذف</button>
+      </div>
+      <audio controls id="admin-audio-${i}"></audio>
+    </div>
+  `).join("");
+
+  voices.forEach(async (v, i) => {
+    try{
+      const fileData = await githubGet(v.path);
+      const binary = atob(fileData.content.replace(/\n/g,""));
+      const bytes = new Uint8Array(binary.length);
+      for(let j=0; j<binary.length; j++) bytes[j] = binary.charCodeAt(j);
+      const blob = new Blob([bytes], {type: "audio/mpeg"});
+      document.getElementById(`admin-audio-${i}`).src = URL.createObjectURL(blob);
+    }catch(e){ /* فایل هنوز آماده نمایش نیست */ }
+  });
+}
+
+function fileToBase64(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const bytes = new Uint8Array(reader.result);
+      let binary = "";
+      const chunk = 8192;
+      for(let i=0; i<bytes.length; i+=chunk){
+        binary += String.fromCharCode.apply(null, bytes.subarray(i, i+chunk));
+      }
+      resolve(btoa(binary));
+    };
+    reader.onerror = reject;
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+async function addVoice(){
+  const name = document.getElementById("newVoiceName").value.trim();
+  const fileInput = document.getElementById("newVoiceFile");
+  const file = fileInput.files[0];
+  if(!name || !file) return;
+
+  const btn = event.target;
+  btn.disabled = true;
+  btn.textContent = "در حال آپلود...";
+
+  try{
+    const base64 = await fileToBase64(file);
+    const safeFileName = `${currentStudentKey}_${Date.now()}_${file.name}`;
+    const path = `voices/${safeFileName}`;
+
+    await githubPut(path, base64, null, "آپلود فایل صوتی برای " + currentStudentKey);
+
+    studentsData[currentStudentKey].voices = studentsData[currentStudentKey].voices || [];
+    studentsData[currentStudentKey].voices.push({ name, path });
+
+    await saveData("افزودن ویس برای " + currentStudentKey);
+
+    document.getElementById("newVoiceName").value = "";
+    fileInput.value = "";
+    renderVoices();
+  }catch(e){
+    showStatus(false, "خطا در آپلود فایل صوتی: " + e.message);
+  }finally{
+    btn.disabled = false;
+    btn.textContent = "افزودن فایل صوتی";
+  }
+}
+
+async function deleteVoice(index){
+  studentsData[currentStudentKey].voices.splice(index, 1);
+  await saveData("حذف ویس برای " + currentStudentKey);
+  renderVoices();
+}
+
+/* ---------- ذخیره‌سازی کلی فایل داده ---------- */
+async function saveData(message){
+  try{
+    const content = utf8ToBase64(JSON.stringify(studentsData, null, 2));
+    const result = await githubPut(CONFIG.dataPath, content, currentSha, message);
+    currentSha = result.content.sha;
+    showStatus(true);
+  }catch(e){
+    showStatus(false, e.message);
+  }
+}
+</script>
+</body>
+</html>

@@ -1,493 +1,873 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موسسه زبان دادمان - مرجع تخصصی آموزش زبان</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>موسسه زبان دادمان - مرجع تخصصی آموزش زبان</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+darkMode: 'class',
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+body {
+font-family: 'Vazirmatn', sans-serif;
+position: relative;
+margin: 0;
+min-height: 100vh;
+}
+
+/* ===================== پس‌زمینه متحرک سراسری (تم روشن و تاریک) ===================== /
+body::before {
+content: "";
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: -1;
+/ گرادینت داینامیک بر اساس حالت روشن و تاریک */
+background: linear-gradient(-45deg, #f1f5f9, #e2e8f0, #dcfce7, #f3f4f6);
+background-size: 400% 400%;
+animation: globalGradientBG 15s ease infinite;
+opacity: 0.8;
+pointer-events: none;
+transition: background 0.5s ease;
+}
+
+/* حالت تاریک پس‌زمینه متحرک */
+.dark body::before, html.dark body::before {
+background: linear-gradient(-45deg, #064e3b, #022c22, #0f172a, #1e293b) !important;
+opacity: 1;
+}
+
+@keyframes globalGradientBG {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+body::before { animation: none; }
+}
+
+/* ===================== انیمیشن‌های اسکرول (Scroll Reveal) ===================== */
+.reveal {
+opacity: 0;
+transform: translateY(28px);
+transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+will-change: opacity, transform;
+}
+
+.reveal.reveal-visible {
+opacity: 1;
+transform: translateY(0);
+}
+
+.reveal-stagger.reveal-visible {
+transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal-scale {
+opacity: 0;
+transform: translateY(24px) scale(0.94);
+transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-scale.reveal-visible {
+opacity: 1;
+transform: translateY(0) scale(1);
+transition-delay: var(--reveal-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+.reveal, .reveal-scale, .reveal-stagger {
+transition: none !important;
+opacity: 1 !important;
+transform: none !important;
+}
+}
+
+/* حباب‌های متحرک بخش Hero با طیف سبز لجنی */
+.hero-animated-bg {
+position: absolute;
+inset: 0;
+overflow: hidden;
+pointer-events: none;
+z-index: 0;
+}
+
+.hero-blob {
+position: absolute;
+border-radius: 9999px;
+filter: blur(70px);
+opacity: 0.35;
+background: radial-gradient(circle at 30% 30%, rgba(34,197,94,0.4), transparent 70%);
+animation: heroFloat 14s ease-in-out infinite;
+}
+
+.hero-blob.blob-1 {
+width: 380px;
+height: 380px;
+top: -80px;
+right: -60px;
+animation-duration: 16s;
+}
+
+.hero-blob.blob-2 {
+width: 320px;
+height: 320px;
+bottom: -100px;
+left: -60px;
+background: radial-gradient(circle at 60% 40%, rgba(21,128,61,0.4), transparent 70%);
+animation-duration: 20s;
+animation-delay: -4s;
+}
+
+@keyframes heroFloat {
+0%, 100% { transform: translate(0, 0) scale(1); }
+33% { transform: translate(20px, -25px) scale(1.06); }
+66% { transform: translate(-15px, 15px) scale(0.96); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+.hero-blob { animation: none; }
+}
+
+/* اسپینر لودینگ دکمه ارسال */
+.btn-spinner {
+display: none;
+width: 18px;
+height: 18px;
+border: 2.5px solid rgba(255,255,255,0.4);
+border-top-color: #fff;
+border-radius: 50%;
+animation: spin 0.7s linear infinite;
+}
+.btn-loading .btn-spinner { display: inline-block; }
+.btn-loading .btn-text-default,
+.btn-loading .btn-icon-default { display: none; }
+@keyframes spin {
+to { transform: rotate(360deg); }
+}
+
+/* ===================== دکمه‌های شناور (Floating Action Buttons) ===================== */
+.float-actions {
+position: fixed;
+bottom: 1.5rem;
+left: 1.25rem;
+z-index: 40;
+width: 52px;
+height: 52px;
+}
+
+.float-btn {
+position: relative;
+width: 52px;
+height: 52px;
+box-sizing: border-box;
+border-radius: 9999px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1.25rem;
+color: #ecfdf5;
+background: linear-gradient(145deg, #15803d, #064e3b);
+box-shadow: 0 8px 20px -6px rgba(6, 78, 59, 0.55), 0 0 0 1px rgba(255,255,255,0.06) inset;
+overflow: hidden;
+transition: transform 0.25s ease, box-shadow 0.25s ease;
+text-decoration: none;
+border: none;
+cursor: pointer;
+}
+
+.float-main {
+position: relative;
+z-index: 5;
+}
+
+/* دکمه‌های فرعی: روبیکا، ایتا، بله */
+.float-sub {
+position: absolute;
+left: 4px;
+bottom: 0;
+width: 44px;
+height: 44px;
+font-size: 1rem;
+font-weight: 800;
+z-index: 4;
+opacity: 0;
+transform: translateY(0) scale(0.45);
+pointer-events: none;
+transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+}
+
+.float-actions.float-open .float-sub {
+opacity: 1;
+pointer-events: auto;
+transform: translateY(calc(var(--i) * -60px)) scale(1);
+transition-delay: calc((var(--i) - 1) * 0.06s);
+}
+
+/* هاور فقط روی دستگاه‌هایی با ماوس واقعی فعال شود؛ در موبایل فقط با لمس دکمه اصلی باز/بسته می‌شود */
+@media (hover: hover) and (pointer: fine) {
+.float-actions:hover .float-sub {
+opacity: 1;
+pointer-events: auto;
+transform: translateY(calc(var(--i) * -60px)) scale(1);
+transition-delay: calc((var(--i) - 1) * 0.06s);
+}
+}
+
+.dark .float-btn {
+background: linear-gradient(145deg, #10b981, #065f46);
+box-shadow: 0 8px 22px -6px rgba(0,0,0,0.6), 0 0 0 1px rgba(16,185,129,0.25) inset;
+}
+
+.float-btn:hover {
+transform: translateY(-3px) scale(1.06);
+box-shadow: 0 12px 26px -6px rgba(6, 78, 59, 0.6);
+}
+
+.float-btn .float-tooltip {
+position: absolute;
+right: calc(100% + 10px);
+top: 50%;
+transform: translateY(-50%) translateX(6px);
+background: #0f172a;
+color: #f0fdf4;
+font-size: 0.7rem;
+font-weight: 600;
+white-space: nowrap;
+padding: 5px 10px;
+border-radius: 8px;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.float-btn:hover .float-tooltip {
+opacity: 1;
+transform: translateY(-50%) translateX(0);
+}
+
+/* برق ملیح: هر ۱ ثانیه یک بار روی دکمه‌ها می‌گذرد */
+.float-btn::after {
+content: "";
+position: absolute;
+top: 0;
+left: -60%;
+width: 40%;
+height: 100%;
+background: linear-gradient(120deg, transparent, rgba(255,255,255,0.65), transparent);
+transform: skewX(-20deg);
+animation: floatShine 1s ease-in-out infinite;
+pointer-events: none;
+}
+
+.float-btn.float-btn-accent::after {
+animation-delay: 0.1s;
+}
+
+.float-sub .float-tooltip {
+font-size: 0.65rem;
+}
+
+@keyframes floatShine {
+0% { left: -60%; }
+22% { left: 130%; }
+100% { left: 130%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+.float-btn::after { animation: none; }
+}
+
+/* ===================== مودال انتخاب زبان ===================== */
+#languageModal {
+backdrop-filter: blur(6px);
+-webkit-backdrop-filter: blur(6px);
+}
+
+.lang-option {
+display: flex;
+align-items: center;
+gap: 0.75rem;
+width: 100%;
+padding: 0.9rem 1rem;
+border-radius: 1rem;
+border: 1px solid transparent;
+background: transparent;
+cursor: pointer;
+transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+text-align: inherit;
+}
+
+.lang-option:hover {
+background: rgba(16, 185, 129, 0.08);
+border-color: rgba(16, 185, 129, 0.35);
+transform: translateY(-1px);
+}
+
+.lang-option.lang-active {
+background: rgba(16, 185, 129, 0.12);
+border-color: rgba(16, 185, 129, 0.5);
+}
+
+.lang-flag {
+font-size: 1.5rem;
+width: 2.25rem;
+height: 2.25rem;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 9999px;
+background: rgba(15, 23, 42, 0.05);
+flex-shrink: 0;
+}
+.dark .lang-flag {
+background: rgba(255,255,255,0.06);
+}
+
+/* ===================== مودال و کارت‌های تم گیمری ===================== */
+#gamerThemeModal {
+backdrop-filter: blur(6px);
+-webkit-backdrop-filter: blur(6px);
+}
+
+.gamer-option {
+position: relative;
+display: flex;
+align-items: center;
+gap: 0.9rem;
+width: 100%;
+padding: 0.85rem 1rem;
+border-radius: 1rem;
+border: 1px solid transparent;
+background: rgba(15, 23, 42, 0.04);
+cursor: pointer;
+transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+text-align: inherit;
+overflow: hidden;
+}
+.dark .gamer-option {
+background: rgba(255,255,255,0.04);
+}
+.gamer-option:hover {
+transform: translateY(-1px);
+}
+.gamer-option.lang-active {
+border-color: rgba(255,255,255,0.5);
+}
+.gamer-swatch {
+width: 2.5rem;
+height: 2.5rem;
+border-radius: 0.85rem;
+flex-shrink: 0;
+box-shadow: 0 0 14px rgba(0,0,0,0.25);
+}
+.gamer-option-name {
+font-weight: 800;
+font-size: 0.85rem;
+}
+.gamer-option-desc {
+font-size: 0.68rem;
+opacity: 0.7;
+}
+
+/* ---- تم ۱: سایبرپانک نئون ---- */
+html[data-gamer-theme="cyberpunk"] {
+--g-primary: #ff2bd6;
+--g-secondary: #00fff2;
+--g-bg1: #05010f; --g-bg2: #1a0b2e; --g-bg3: #001a1a; --g-bg4: #10002b;
+--g-header-bg: rgba(10,4,20,0.5);
+--g-card-bg: rgba(15,6,30,0.32);
+--g-border: rgba(0,255,242,0.4);
+--g-glow: 0 0 25px rgba(255,43,214,0.35), 0 0 45px rgba(0,255,242,0.18);
+--g-text: #f5d0ff;
+}
+
+/* ---- تم ۲: پروتکل ماتریکس ---- */
+html[data-gamer-theme="matrix"] {
+--g-primary: #00ff66;
+--g-secondary: #39ff14;
+--g-bg1: #000500; --g-bg2: #001a08; --g-bg3: #000000; --g-bg4: #002200;
+--g-header-bg: rgba(0,10,3,0.55);
+--g-card-bg: rgba(0,15,5,0.3);
+--g-border: rgba(0,255,102,0.4);
+--g-glow: 0 0 25px rgba(0,255,102,0.4);
+--g-text: #b6ffcf;
+}
+
+/* ---- تم ۳: اینفرنو / دوزخ ---- */
+html[data-gamer-theme="inferno"] {
+--g-primary: #ff1f3d;
+--g-secondary: #ff7a00;
+--g-bg1: #0a0000; --g-bg2: #1a0000; --g-bg3: #2b0a00; --g-bg4: #000000;
+--g-header-bg: rgba(15,0,0,0.55);
+--g-card-bg: rgba(20,0,0,0.32);
+--g-border: rgba(255,31,61,0.45);
+--g-glow: 0 0 25px rgba(255,31,61,0.4), 0 0 45px rgba(255,122,0,0.2);
+--g-text: #ffd6d6;
+}
+
+/* ---- تم ۴: سینت‌ویو ---- */
+html[data-gamer-theme="synthwave"] {
+--g-primary: #ff00e5;
+--g-secondary: #00d4ff;
+--g-bg1: #0d0221; --g-bg2: #240046; --g-bg3: #3c096c; --g-bg4: #10002b;
+--g-header-bg: rgba(20,2,40,0.5);
+--g-card-bg: rgba(30,5,60,0.32);
+--g-border: rgba(0,212,255,0.4);
+--g-glow: 0 0 25px rgba(255,0,229,0.35), 0 0 45px rgba(0,212,255,0.2);
+--g-text: #f3d9ff;
+}
+
+/* ---- تم ۵: آر‌جی‌بی اوردرایو (رنگ‌های متغیر مثل لوازم گیمینگ) ---- */
+html[data-gamer-theme="rgb"] {
+--g-primary: #ffffff;
+--g-secondary: #00e5ff;
+--g-bg1: #050505; --g-bg2: #111111; --g-bg3: #000000; --g-bg4: #0a0a0a;
+--g-header-bg: rgba(10,10,10,0.5);
+--g-card-bg: rgba(10,10,10,0.32);
+--g-border: rgba(255,255,255,0.45);
+--g-glow: 0 0 30px rgba(255,255,255,0.5);
+--g-text: #ffffff;
+}
+html[data-gamer-theme="rgb"] #siteContent {
+animation: rgbHueShift 10s linear infinite;
+will-change: filter;
+transform: translateZ(0);
+}
+@keyframes rgbHueShift {
+from { filter: hue-rotate(0deg); }
+to { filter: hue-rotate(360deg); }
+}
+
+/* پالس نور ملایم برای هدر و کارت‌ها در همه‌ی تم‌های گیمری (بدون تغییر اندازه/جابجایی، پس هیچ لرزشی ایجاد نمی‌کند) */
+html[data-gamer-theme] header,
+html[data-gamer-theme] .bg-emerald-700,
+html[data-gamer-theme] .bg-emerald-800,
+html[data-gamer-theme] .bg-emerald-950,
+html[data-gamer-theme] .bg-slate-900,
+html[data-gamer-theme] .bg-white,
+html[data-gamer-theme] #contact-form {
+animation: gamerGlowPulse 3.2s ease-in-out infinite;
+will-change: box-shadow;
+}
+@keyframes gamerGlowPulse {
+0%, 100% { box-shadow: var(--g-glow); }
+50% { box-shadow: var(--g-glow), 0 0 12px 2px var(--g-secondary); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+html[data-gamer-theme] #siteContent,
+html[data-gamer-theme] header,
+html[data-gamer-theme] .bg-emerald-700,
+html[data-gamer-theme] .bg-emerald-800,
+html[data-gamer-theme] .bg-emerald-950,
+html[data-gamer-theme] .bg-slate-900,
+html[data-gamer-theme] .bg-white,
+html[data-gamer-theme] #contact-form {
+animation: none !important;
+}
+}
+
+/* ---- قوانین عمومی مشترک بین همه تم‌های گیمری ---- */
+html[data-gamer-theme] body::before {
+background: linear-gradient(-45deg, var(--g-bg1), var(--g-bg2), var(--g-bg3), var(--g-bg4)) !important;
+background-size: 200% 200% !important;
+opacity: 1 !important;
+animation: none !important;
+}
+html[data-gamer-theme] body {
+color: var(--g-text) !important;
+}
+html[data-gamer-theme] header,
+html[data-gamer-theme] .bg-emerald-900,
+html[data-gamer-theme] .bg-white/95,
+html[data-gamer-theme] .bg-white/90 {
+background: var(--g-header-bg) !important;
+backdrop-filter: blur(10px) !important;
+-webkit-backdrop-filter: blur(10px) !important;
+border-color: var(--g-border) !important;
+color: var(--g-text) !important;
+}
+html[data-gamer-theme] section.bg-gradient-to-br,
+html[data-gamer-theme] .bg-white/70,
+html[data-gamer-theme] .bg-slate-100/70 {
+background: var(--g-card-bg) !important;
+backdrop-filter: blur(8px) !important;
+-webkit-backdrop-filter: blur(8px) !important;
+}
+html[data-gamer-theme] .bg-white,
+html[data-gamer-theme] #contact-form,
+html[data-gamer-theme] .bg-slate-950,
+html[data-gamer-theme] #customModal > div,
+html[data-gamer-theme] #comingSoonModal > div,
+html[data-gamer-theme] #languageModal > div,
+html[data-gamer-theme] #gamerThemeModal > div {
+background: var(--g-card-bg) !important;
+backdrop-filter: blur(8px) !important;
+-webkit-backdrop-filter: blur(8px) !important;
+border-color: var(--g-border) !important;
+box-shadow: var(--g-glow) !important;
+color: var(--g-text) !important;
+}
+html[data-gamer-theme] .border-slate-200,
+html[data-gamer-theme] .border-slate-700,
+html[data-gamer-theme] .border-emerald-500/50,
+html[data-gamer-theme] .ring-emerald-600/20,
+html[data-gamer-theme] .border-emerald-950/40,
+html[data-gamer-theme] .border-slate-800,
+html[data-gamer-theme] .border-slate-900 {
+border-color: var(--g-border) !important;
+}
+html[data-gamer-theme] .bg-emerald-700,
+html[data-gamer-theme] .bg-emerald-800,
+html[data-gamer-theme] .bg-emerald-950,
+html[data-gamer-theme] .bg-slate-900 {
+background: linear-gradient(135deg, var(--g-primary), var(--g-secondary)) !important;
+border: none !important;
+box-shadow: var(--g-glow) !important;
+color: #05010a !important;
+}
+html[data-gamer-theme] .hover:bg-emerald-800:hover,
+html[data-gamer-theme] .hover:bg-emerald-100:hover,
+html[data-gamer-theme] .hover:bg-slate-700:hover,
+html[data-gamer-theme] .hover:bg-emerald-50:hover {
+filter: brightness(1.2) !important;
+}
+html[data-gamer-theme] .text-emerald-700,
+html[data-gamer-theme] .text-emerald-400,
+html[data-gamer-theme] .text-emerald-300,
+html[data-gamer-theme] .text-emerald-200,
+html[data-gamer-theme] .text-emerald-500,
+html[data-gamer-theme] .text-emerald-800 {
+color: var(--g-secondary) !important;
+}
+html[data-gamer-theme] .text-slate-700,
+html[data-gamer-theme] .text-slate-600,
+html[data-gamer-theme] .text-slate-900,
+html[data-gamer-theme] .text-slate-500,
+html[data-gamer-theme] .text-slate-400,
+html[data-gamer-theme] .text-slate-300,
+html[data-gamer-theme] .text-white {
+color: var(--g-text) !important;
+}
+html[data-gamer-theme] .bg-emerald-100,
+html[data-gamer-theme] .bg-emerald-50,
+html[data-gamer-theme] .bg-emerald-500/20 {
+background: rgba(255,255,255,0.07) !important;
+color: var(--g-primary) !important;
+border: 1px solid var(--g-border) !important;
+}
+html[data-gamer-theme] footer {
+background: var(--g-header-bg) !important;
+border-top: 1px solid var(--g-border) !important;
+}
+html[data-gamer-theme] h1, html[data-gamer-theme] h2, html[data-gamer-theme] h3, html[data-gamer-theme] h4 {
+text-shadow: var(--g-glow);
+}
+html[data-gamer-theme] .hero-blob {
+background: radial-gradient(circle at 30% 30%, var(--g-primary), transparent 70%) !important;
+opacity: 0.5 !important;
+}
+</style>
 </head>
 <body class="bg-transparent text-slate-700 dark:text-slate-100 transition-colors duration-300">
-    <div id="siteContent" class="flex flex-col min-h-screen">
+<div id="siteContent" class="flex flex-col min-h-screen">
 
-    <div class="bg-emerald-900 dark:bg-slate-950 text-emerald-50 dark:text-emerald-300 text-xs transition-colors duration-300 border-b border-emerald-950/40 dark:border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-row flex-wrap items-center justify-center sm:justify-between gap-x-4 gap-y-1">
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-envelope"></i>
-                <span dir="ltr">info@dadmanlanguage.ir</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-mobile-screen-button"></i>
-                <span dir="ltr">0912-345-6789</span>
-            </div>
-        </div>
-    </div>
+<div class="bg-emerald-900 dark:bg-slate-950 text-emerald-50 dark:text-emerald-300 text-xs transition-colors duration-300 border-b border-emerald-950/40 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-row flex-wrap items-center justify-center sm:justify-between gap-x-4 gap-y-1">
+<div class="flex items-center gap-2">
+<i class="fa-solid fa-envelope"></i>
+<span dir="ltr">info@dadmanlanguage.ir</span>
+</div>
+<div class="flex items-center gap-2">
+<i class="fa-solid fa-mobile-screen-button"></i>
+<span dir="ltr">0912-345-6789</span>
+</div>
+</div>
+</div>
 
-    <div class="bg-white/95 dark:bg-slate-900/95 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-10 py-1.5 flex items-center justify-center sm:justify-start gap-x-4 sm:gap-x-6 gap-y-1 flex-wrap">
-            <a href="students.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition whitespace-nowrap">
-                <i class="fa-solid fa-graduation-cap"></i>
-                <span data-i18n="subnavStudents">دانش‌آموزان DTS</span>
-            </a>
-            <a href="teaching-method.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition whitespace-nowrap">
-                <i class="fa-solid fa-chalkboard"></i>
-                <span data-i18n="subnavMethod">نحوه‌ی تدریس</span>
-            </a>
-            <a href="books.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition whitespace-nowrap">
-                <i class="fa-solid fa-book"></i>
-                <span data-i18n="subnavBooks">کتاب‌هایی که ما تدریس می‌کنیم</span>
-            </a>
-            <a href="new-page.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition invisible">
-                <i class="fa-solid fa-file-lines"></i>
-                <span class="invisible">.</span>
-            </a>
-        </div>
-    </div>
+<div class="bg-white/95 dark:bg-slate-900/95 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-10 py-1.5 flex items-center justify-center sm:justify-start gap-x-4 sm:gap-x-6 gap-y-1 flex-wrap">
+<a href="students.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition whitespace-nowrap">
+<i class="fa-solid fa-graduation-cap"></i>
+<span data-i18n="subnavStudents">دانش‌آموزان DTS</span>
+</a>
+<a href="teaching-method.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition whitespace-nowrap">
+<i class="fa-solid fa-chalkboard"></i>
+<span data-i18n="subnavMethod">نحوه‌ی تدریس</span>
+</a>
+<a href="books.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition whitespace-nowrap">
+<i class="fa-solid fa-book"></i>
+<span data-i18n="subnavBooks">کتاب‌هایی که ما تدریس می‌کنیم</span>
+</a>
+<a href="new-page.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition invisible">
+<i class="fa-solid fa-file-lines"></i>
+<span class="invisible">.</span>
+</a>
+</div>
+</div>
 
-    <header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-sm sticky top-0 z-50 transition-colors duration-300 border-b border-slate-200 dark:border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[5rem] py-3 flex items-center justify-between flex-wrap gap-y-3 gap-x-4">
-            <div class="flex items-center gap-3 min-w-0">
-                <div class="w-12 h-12 bg-emerald-700 text-white rounded-full overflow-hidden flex items-center justify-center shadow-md border-2 border-emerald-500 shrink-0">
-                    <img src="logo.jpg" alt="لوگو موسسه زبان دادمان" class="w-full h-full object-cover">
-                </div>
-                <div class="min-w-0">
-                    <h1 class="font-extrabold text-lg sm:text-xl text-slate-900 dark:text-white leading-tight" data-i18n="brandName">موسسه زبان دادمان</h1>
-                    <span class="block text-xs text-emerald-700 dark:text-emerald-400 font-medium leading-snug" data-i18n="brandTagline">آموزش تخصصی زبان‌های خارجی</span>
-                </div>
-            </div>
-            
-            <nav class="hidden md:flex items-center flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-slate-600 dark:text-slate-300">
-                <a href="#" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navHome">خانه</a>
-                <a href="students.html" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navStudents">دانش‌آموزان DTS</a>
-                <a href="#benefits" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navBenefits">مزایای دادمان</a>
-                <a href="#courses" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navCourses">انواع دوره‌ها و جلسات</a>
-                <a href="#contact-form" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navContact">مشاوره رایگان</a>
-            </nav>
+<header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-sm sticky top-0 z-50 transition-colors duration-300 border-b border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[5rem] py-3 flex items-center justify-between flex-wrap gap-y-3 gap-x-4">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-12 h-12 bg-emerald-700 text-white rounded-full overflow-hidden flex items-center justify-center shadow-md border-2 border-emerald-500 shrink-0">
+<img src="logo.jpg" alt="لوگو موسسه زبان دادمان" class="w-full h-full object-cover">
+</div>
+<div class="min-w-0">
+<h1 class="font-extrabold text-lg sm:text-xl text-slate-900 dark:text-white leading-tight" data-i18n="brandName">موسسه زبان دادمان</h1>
+<span class="block text-xs text-emerald-700 dark:text-emerald-400 font-medium leading-snug" data-i18n="brandTagline">آموزش تخصصی زبان‌های خارجی</span>
+</div>
+</div>
 
-            <div class="flex items-center flex-wrap justify-end gap-2 sm:gap-3">
-                <a href="tel:02133479054" aria-label="تماس مستقیم" title="تماس مستقیم" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
-                    <i class="fa-solid fa-phone text-lg"></i>
-                </a>
+<nav class="hidden md:flex items-center flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-slate-600 dark:text-slate-300">
+<a href="#" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navHome">خانه</a>
+<a href="students.html" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navStudents">دانش‌آموزان DTS</a>
+<a href="#benefits" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navBenefits">مزایای دادمان</a>
+<a href="#courses" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navCourses">انواع دوره‌ها و جلسات</a>
+<a href="#contact-form" class="hover:text-emerald-700 dark:hover:text-emerald-400 transition whitespace-nowrap" data-i18n="navContact">مشاوره رایگان</a>
+</nav>
 
-                <div class="flex items-center rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
-                    <button onclick="changeFontSize(-1)" aria-label="کوچک کردن متن" title="کوچک کردن متن" class="w-9 h-10 flex items-center justify-center text-slate-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-slate-700 transition font-extrabold text-sm">
-                        A-
-                    </button>
-                    <span class="w-px h-5 bg-slate-300 dark:bg-slate-600"></span>
-                    <button onclick="changeFontSize(1)" aria-label="بزرگ کردن متن" title="بزرگ کردن متن" class="w-9 h-10 flex items-center justify-center text-slate-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-slate-700 transition font-extrabold text-sm">
-                        A+
-                    </button>
-                </div>
+<div class="flex items-center flex-wrap justify-end gap-2 sm:gap-3">
+<a href="tel:02133479054" aria-label="تماس مستقیم" title="تماس مستقیم" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
+<i class="fa-solid fa-phone text-lg"></i>
+</a>
 
-                <button onclick="openLanguageModal()" aria-label="تغییر زبان" title="تغییر زبان" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
-                    <i class="fa-solid fa-globe text-lg"></i>
-                </button>
+<div class="flex items-center rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+<button onclick="changeFontSize(-1)" aria-label="کوچک کردن متن" title="کوچک کردن متن" class="w-9 h-10 flex items-center justify-center text-slate-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-slate-700 transition font-extrabold text-sm">
+A-
+</button>
+<span class="w-px h-5 bg-slate-300 dark:bg-slate-600"></span>
+<button onclick="changeFontSize(1)" aria-label="بزرگ کردن متن" title="بزرگ کردن متن" class="w-9 h-10 flex items-center justify-center text-slate-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-slate-700 transition font-extrabold text-sm">
+A+
+</button>
+</div>
 
-                <button onclick="openGamerModal()" aria-label="تم گیمری" title="تم گیمری" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
-                    <i class="fa-solid fa-gamepad text-lg"></i>
-                </button>
+<button onclick="openLanguageModal()" aria-label="تغییر زبان" title="تغییر زبان" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
+<i class="fa-solid fa-globe text-lg"></i>
+</button>
 
-                <button onclick="toggleTheme()" aria-label="تغییر تم" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
-                    <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
-                </button>
+<button onclick="openGamerModal()" aria-label="تم گیمری" title="تم گیمری" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
+<i class="fa-solid fa-gamepad text-lg"></i>
+</button>
 
-                <a href="#contact-form" class="hidden sm:inline-block bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-md whitespace-nowrap" data-i18n="navQuickSignup">
-                    ثبت نام سریع
-                </a>
-            </div>
-        </div>
-    </header>
+<button onclick="toggleTheme()" aria-label="تغییر تم" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
+<i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
+</button>
 
-    <section class="bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-950 text-white py-16 lg:py-24 relative overflow-hidden transition-colors duration-300">
-        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#4ade80_1px,transparent_1px)] [background-size:16px_16px]"></div>
+<a href="#contact-form" class="hidden sm:inline-block bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-md whitespace-nowrap" data-i18n="navQuickSignup">
+ثبت نام سریع
+</a>
+</div>
+</div>
+</header>
 
-        <div class="hero-animated-bg" aria-hidden="true">
-            <div class="hero-blob blob-1"></div>
-            <div class="hero-blob blob-2"></div>
-        </div>
+<section class="bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-950 text-white py-16 lg:py-24 relative overflow-hidden transition-colors duration-300">
+<div class="absolute inset-0 opacity-10 bg-[radial-gradient(#4ade80_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
-            <div class="lg:col-span-7 space-y-6 text-center lg:text-right reveal">
-                <span class="inline-block bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-4 py-1.5 rounded-2xl uppercase tracking-wider border border-emerald-400/30 leading-relaxed" data-i18n="heroBadge">
-                    پشتیبانی تا تسلط کامل بر زبان
-                </span>
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
-                    <span data-i18n="heroTitlePrefix">آینده تحصیلی و شغلی‌ات را با</span> <span class="text-emerald-400" data-i18n="heroTitleBrand">موسسه دادمان</span> <span data-i18n="heroTitleSuffix">بساز!</span>
-                </h1>
-                <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0" data-i18n="heroDesc">
-                    با مجرب‌ترین اساتید، متدهای مدرن آموزشی و برنامه‌ریزی اختصاصی، در کوتاه‌ترین زمان ممکن به هدف زبانی خود برسید. از مکالمه روزمره تا آزمون‌های بین‌المللی همراه شما هستیم.
-                </p>
-                <div class="flex flex-wrap justify-center lg:justify-start gap-6 text-sm text-slate-300 pt-2">
-                    <div class="flex items-center space-x-2 space-x-reverse">
-                        <i class="fa-solid fa-check-circle text-emerald-400 text-lg"></i>
-                        <span data-i18n="heroFeature1">اساتید برتر کشور</span>
-                    </div>
-                    <div class="flex items-center space-x-2 space-x-reverse">
-                        <i class="fa-solid fa-check-circle text-emerald-400 text-lg"></i>
-                        <span data-i18n="heroFeature2">متد مکالمه‌محور</span>
-                    </div>
-                    <div class="flex items-center space-x-2 space-x-reverse">
-                        <i class="fa-solid fa-check-circle text-emerald-400 text-lg"></i>
-                        <span data-i18n="heroFeature3">مشاوره و تعیین سطح رایگان</span>
-                    </div>
-                </div>
-            </div>
+<div class="hero-animated-bg" aria-hidden="true">
+<div class="hero-blob blob-1"></div>
+<div class="hero-blob blob-2"></div>
+</div>
 
-            <div id="contact-form" class="lg:col-span-5 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 p-6 sm:p-8 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 transition-colors duration-300">
-                <div class="text-center mb-6">
-                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white" data-i18n="formTitle">درخواست مشاوره رایگان</h2>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1" data-i18n="formSubtitle">فرم زیر را پر کنید تا کارشناسان ما با شما تماس بگیرند</p>
-                </div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
-                <div id="formErrorBox" class="hidden mb-4 p-3 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-xs leading-relaxed flex items-start space-x-2 space-x-reverse">
-                    <i class="fa-solid fa-triangle-exclamation mt-0.5"></i>
-                    <span id="formErrorText" data-i18n="formErrorDefault">مشکلی در ارسال فرم پیش آمد. لطفاً دوباره تلاش کنید یا از طریق تماس تلفنی با ما در ارتباط باشید.</span>
-                </div>
+<div class="lg:col-span-7 space-y-6 text-center lg:text-right reveal">
+<span class="inline-block bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-4 py-1.5 rounded-2xl uppercase tracking-wider border border-emerald-400/30 leading-relaxed" data-i18n="heroBadge">
+پشتیبانی تا تسلط کامل بر زبان
+</span>
+<h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+<span data-i18n="heroTitlePrefix">آینده تحصیلی و شغلی‌ات را با</span> <span class="text-emerald-400" data-i18n="heroTitleBrand">موسسه دادمان</span> <span data-i18n="heroTitleSuffix">بساز!</span>
+</h1>
+<p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0" data-i18n="heroDesc">
+با مجرب‌ترین اساتید، متدهای مدرن آموزشی و برنامه‌ریزی اختصاصی، در کوتاه‌ترین زمان ممکن به هدف زبانی خود برسید. از مکالمه روزمره تا آزمون‌های بین‌المللی همراه شما هستیم.
+</p>
+<div class="flex flex-wrap justify-center lg:justify-start gap-6 text-sm text-slate-300 pt-2">
+<div class="flex items-center space-x-2 space-x-reverse">
+<i class="fa-solid fa-check-circle text-emerald-400 text-lg"></i>
+<span data-i18n="heroFeature1">اساتید برتر کشور</span>
+</div>
+<div class="flex items-center space-x-2 space-x-reverse">
+<i class="fa-solid fa-check-circle text-emerald-400 text-lg"></i>
+<span data-i18n="heroFeature2">متد مکالمه‌محور</span>
+</div>
+<div class="flex items-center space-x-2 space-x-reverse">
+<i class="fa-solid fa-check-circle text-emerald-400 text-lg"></i>
+<span data-i18n="heroFeature3">مشاوره و تعیین سطح رایگان</span>
+</div>
+</div>
+</div>
 
-                <form id="mainContactForm" action="https://formspree.io/f/mrpzvwyp" method="POST" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5" data-i18n="formLabelName">نام و نام خانوادگی</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400">
-                                <i class="fa-solid fa-user"></i>
-                            </span>
-                            <input type="text" id="fullName" name="fullName" required data-i18n-placeholder="formPlaceholderName" placeholder="مثال: علی رضایی" class="w-full pr-10 pl-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-700 transition">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5" data-i18n="formLabelPhone">شماره تماس</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400">
-                                <i class="fa-solid fa-phone"></i>
-                            </span>
-                            <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="09123456789" class="w-full pr-10 pl-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-700 transition" dir="ltr">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5" data-i18n="formLabelType">نوع درخواست یا دوره مورد نظر</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400">
-                                <i class="fa-solid fa-list-check"></i>
-                            </span>
-                            <select id="requestType" name="requestType" class="w-full pr-10 pl-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-700 transition">
-                                <option value="مکالمه بزرگسالان" data-i18n="formOption1">دوره‌های مکالمه بزرگسالان</option>
-                                <option value="آیلتس و تافل" data-i18n="formOption2">آمادگی آزمون آیلتس (IELTS)</option>
-                                <option value="کودکان و نوجوانان" data-i18n="formOption3">دوره‌های کودکان و نوجوانان</option>
-                                <option value="مشاوره عمومی" data-i18n="formOption4">مشاوره عمومی و تعیین سطح</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5" data-i18n="formLabelMessage">توضیحات یا پیام شما</label>
-                        <div class="relative">
-                            <span class="absolute top-3.5 right-0 pr-3.5 flex items-start text-slate-400">
-                                <i class="fa-solid fa-comment-dots"></i>
-                            </span>
-                            <textarea id="userMessage" name="userMessage" rows="3" required data-i18n-placeholder="formPlaceholderMessage" placeholder="(این فیلد اجباری است) لطفاً توضیحات خود را بنویسید..." class="w-full pr-10 pl-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-700 transition resize-none"></textarea>
-                        </div>
-                    </div>
-                    <button type="submit" id="submitBtn" class="w-full bg-emerald-700 hover:bg-emerald-800 disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl transition shadow-lg flex items-center justify-center space-x-2 space-x-reverse">
-                        <span class="btn-spinner"></span>
-                        <i class="fa-solid fa-paper-plane btn-icon-default"></i>
-                        <span class="btn-text-default" data-i18n="formSubmitBtn">ثبت درخواست و ارسال به موسسه</span>
-                    </button>
-                </form>
-            </div>
+<div id="contact-form" class="lg:col-span-5 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 p-6 sm:p-8 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 transition-colors duration-300">
+<div class="text-center mb-6">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white" data-i18n="formTitle">درخواست مشاوره رایگان</h2>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1" data-i18n="formSubtitle">فرم زیر را پر کنید تا کارشناسان ما با شما تماس بگیرند</p>
+</div>
 
-        </div>
-    </section>
+<div id="formErrorBox" class="hidden mb-4 p-3 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-xs leading-relaxed flex items-start space-x-2 space-x-reverse">
+<i class="fa-solid fa-triangle-exclamation mt-0.5"></i>
+<span id="formErrorText" data-i18n="formErrorDefault">مشکلی در ارسال فرم پیش آمد. لطفاً دوباره تلاش کنید یا از طریق تماس تلفنی با ما در ارتباط باشید.</span>
+</div>
 
-    <section id="benefits" class="py-20 bg-white/70 dark:bg-slate-900/70 backdrop-blur-sm transition-colors duration-300 border-b border-slate-200 dark:border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-16 reveal">
-                <span class="text-emerald-700 dark:text-emerald-400 font-semibold text-xs tracking-wider uppercase bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1 rounded-full" data-i18n="benefitsKicker">چرا دادمان؟</span>
-                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-3" data-i18n="benefitsTitle">مزایای رقابتی موسسه زبان دادمان</h2>
-                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2" data-i18n="benefitsSubtitle">ما با فراهم کردن بهترین امکانات، مسیر یادگیری شما را هموارتر می‌کنیم</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="p-8 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 reveal reveal-stagger" style="--reveal-delay:0ms;">
-                    <div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
-                        <i class="fa-solid fa-chalkboard-user"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3" data-i18n="benefit1Title">اساتید برجسته و مجرب</h3>
-                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="benefit1Desc">بهره‌گیری از اساتید دارای مدرک بین‌المللی تدریس با سال‌ها سابقه موفق آموزشی.</p>
-                </div>
-                <div class="p-8 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 reveal reveal-stagger" style="--reveal-delay:120ms;">
-                    <div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
-                        <i class="fa-solid fa-comments"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3" data-i18n="benefit2Title">تمرکز ۱۰۰٪ روی مکالمه</h3>
-                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="benefit2Desc">سیستم آموزشی ما بر پایه تقویت مهارت‌های شنیداری و گفتاری از جلسه اول طراحی شده است.</p>
-                </div>
-                <div class="p-8 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 reveal reveal-stagger" style="--reveal-delay:240ms;">
-                    <div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
-                        <i class="fa-solid fa-clock-rotate-left"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3" data-i18n="benefit3Title">انعطاف در زمان برگزاری</h3>
-                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="benefit3Desc">امکان انتخاب جلسات آموزشی در ساعات مختلف صبح، عصر و روزهای آخر هفته متناسب با زمان شما.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<form id="mainContactForm" action="https://formspree.io/f/mrpzvwyp" method="POST" class="space-y-4">
+<div>
+<label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5" data-i18n="formLabelName">نام و نام خانوادگی</label>
+<div class="relative">
+<span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400">
+<i class="fa-solid fa-user"></i>
+</span>
+<input type="text" id="fullName" name="fullName" required data-i18n-placeholder="formPlaceholderName" placeholder="مثال: علی رضایی" class="w-full pr-10 pl-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-700 transition">
+</div>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5" data-i18n="formLabelPhone">شماره تماس</label>
+<div class="relative">
+<span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400">
+<i class="fa-solid fa-phone"></i>
+</span>
+<input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="09123456789" class="w-full pr-10 pl-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-700 transition" dir="ltr">
+</div>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5" data-i18n="formLabelType">نوع درخواست یا دوره مورد نظر</label>
+<div class="relative">
+<span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400">
+<i class="fa-solid fa-list-check"></i>
+</span>
+<select id="requestType" name="requestType" class="w-full pr-10 pl-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-700 transition">
+<option value="مکالمه بزرگسالان" data-i18n="formOption1">دوره‌های مکالمه بزرگسالان</option>
+<option value="آیلتس و تافل" data-i18n="formOption2">آمادگی آزمون آیلتس (IELTS)</option>
+<option value="کودکان و نوجوانان" data-i18n="formOption3">دوره‌های کودکان و نوجوانان</option>
+<option value="مشاوره عمومی" data-i18n="formOption4">مشاوره عمومی و تعیین سطح</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5" data-i18n="formLabelMessage">توضیحات یا پیام شما</label>
+<div class="relative">
+<span class="absolute top-3.5 right-0 pr-3.5 flex items-start text-slate-400">
+<i class="fa-solid fa-comment-dots"></i>
+</span>
+<textarea id="userMessage" name="userMessage" rows="3" required data-i18n-placeholder="formPlaceholderMessage" placeholder="(این فیلد اجباری است) لطفاً توضیحات خود را بنویسید..." class="w-full pr-10 pl-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:border-emerald-700 transition resize-none"></textarea>
+</div>
+</div>
+<button type="submit" id="submitBtn" class="w-full bg-emerald-700 hover:bg-emerald-800 disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl transition shadow-lg flex items-center justify-center space-x-2 space-x-reverse">
+<span class="btn-spinner"></span>
+<i class="fa-solid fa-paper-plane btn-icon-default"></i>
+<span class="btn-text-default" data-i18n="formSubmitBtn">ثبت درخواست و ارسال به موسسه</span>
+</button>
+</form>
+</div>
 
-    <section id="courses" class="py-20 bg-slate-100/70 dark:bg-slate-950/70 backdrop-blur-sm transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-16 reveal">
-                <span class="text-emerald-700 dark:text-emerald-400 font-semibold text-xs tracking-wider uppercase bg-emerald-100 dark:bg-emerald-950/50 px-3 py-1 rounded-full" data-i18n="coursesKicker">برنامه‌های آموزشی</span>
-                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-3" data-i18n="coursesTitle">انواع جلسات و دوره‌های آموزشی دادمان</h2>
-                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2" data-i18n="coursesSubtitle">دوره‌های تخصصی متناسب با سنین، اهداف و سطوح مختلف زبان‌آموزان</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-md overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col reveal-scale reveal-stagger" style="--reveal-delay:0ms;">
-                    <div class="bg-emerald-800 p-6 text-white text-center">
-                        <i class="fa-solid fa-users text-4xl mb-3 opacity-90"></i>
-                        <h3 class="text-xl font-bold" data-i18n="course1Title">جلسات مکالمه بزرگسالان</h3>
-                        <p class="text-emerald-200 text-xs mt-1" data-i18n="course1Tag">تضمین روانی در گفتار</p>
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
-                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="course1Desc">
-                            این جلسات به صورت گروهی تعاملی برگزار می‌شود و تمرکز اصلی روی سناریوهای واقعی زندگی روزمره و کاری است.
-                        </p>
-                        <ul class="space-y-2 text-xs text-slate-700 dark:text-slate-300">
-                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course1Li1">تعداد جلسات: ۱۲ جلسه در ماه</span></li>
-                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course1Li2">ظرفیت محدود کلاس‌ها (حداکثر ۸ نفر)</span></li>
-                        </ul>
-                        <a href="#contact-form" class="block text-center bg-slate-100 dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-bold py-2.5 rounded-xl text-sm transition" data-i18n="courseBookBtn">رزرو مشاوره</a>
-                    </div>
-                </div>
+</div>
+</section>
 
-                <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-md overflow-hidden border border-emerald-500/50 ring-2 ring-emerald-600/20 flex flex-col reveal-scale reveal-stagger" style="--reveal-delay:150ms;">
-                    <div class="bg-slate-900 dark:bg-slate-950 p-6 text-white text-center relative border-b border-slate-800">
-                        <span class="absolute top-3 left-3 max-w-[45%] bg-emerald-700 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full whitespace-nowrap overflow-hidden text-ellipsis" data-i18n="course2Badge">پرطرفدار</span>
-                        <i class="fa-solid fa-medal text-4xl mb-3 text-emerald-400"></i>
-                        <h3 class="text-xl font-bold" data-i18n="course2Title">دوره‌های تخصصی آیلتس (IELTS)</h3>
-                        <p class="text-slate-400 text-xs mt-1" data-i18n="course2Tag">ویژه مهاجرت و تحصیل</p>
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
-                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="course2Desc">
-                            جلسات فشرده و تخصصی آیلتس با تحلیل دقیق مهارت‌های چهارگانه و آزمون‌های آزمایشی استاندارد (Mock).
-                        </p>
-                        <ul class="space-y-2 text-xs text-slate-700 dark:text-slate-300">
-                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course2Li1">برنامه‌ریزی و پشتیبانی اختصاصی</span></li>
-                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course2Li2">تضمین نمره هدف با اساتید برند</span></li>
-                        </ul>
-                        <a href="#contact-form" class="block text-center bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-xl text-sm transition shadow-md" data-i18n="courseBookBtn">رزرو مشاوره</a>
-                    </div>
-                </div>
+<section id="benefits" class="py-20 bg-white/70 dark:bg-slate-900/70 backdrop-blur-sm transition-colors duration-300 border-b border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center max-w-2xl mx-auto mb-16 reveal">
+<span class="text-emerald-700 dark:text-emerald-400 font-semibold text-xs tracking-wider uppercase bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1 rounded-full" data-i18n="benefitsKicker">چرا دادمان؟</span>
+<h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-3" data-i18n="benefitsTitle">مزایای رقابتی موسسه زبان دادمان</h2>
+<p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2" data-i18n="benefitsSubtitle">ما با فراهم کردن بهترین امکانات، مسیر یادگیری شما را هموارتر می‌کنیم</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="p-8 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 reveal reveal-stagger" style="--reveal-delay:0ms;">
+<div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+<i class="fa-solid fa-chalkboard-user"></i>
+</div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3" data-i18n="benefit1Title">اساتید برجسته و مجرب</h3>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="benefit1Desc">بهره‌گیری از اساتید دارای مدرک بین‌المللی تدریس با سال‌ها سابقه موفق آموزشی.</p>
+</div>
+<div class="p-8 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 reveal reveal-stagger" style="--reveal-delay:120ms;">
+<div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+<i class="fa-solid fa-comments"></i>
+</div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3" data-i18n="benefit2Title">تمرکز ۱۰۰٪ روی مکالمه</h3>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="benefit2Desc">سیستم آموزشی ما بر پایه تقویت مهارت‌های شنیداری و گفتاری از جلسه اول طراحی شده است.</p>
+</div>
+<div class="p-8 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 reveal reveal-stagger" style="--reveal-delay:240ms;">
+<div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+<i class="fa-solid fa-clock-rotate-left"></i>
+</div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3" data-i18n="benefit3Title">انعطاف در زمان برگزاری</h3>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="benefit3Desc">امکان انتخاب جلسات آموزشی در ساعات مختلف صبح، عصر و روزهای آخر هفته متناسب با زمان شما.</p>
+</div>
+</div>
+</div>
+</section>
 
-                <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-md overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col reveal-scale reveal-stagger" style="--reveal-delay:300ms;">
-                    <div class="bg-emerald-950 p-6 text-white text-center">
-                        <i class="fa-solid fa-child-reaching text-4xl mb-3 text-emerald-400"></i>
-                        <h3 class="text-xl font-bold" data-i18n="course3Title">کودکان و نوجوانان (Junior)</h3>
-                        <p class="text-emerald-200 text-xs mt-1" data-i18n="course3Tag">آموزش با بازی و انیمیشن</p>
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
-                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="course3Desc">
-                            سیستم آموزشی نوین مخصوص کودکان که یادگیری زبان انگلیسی را به تجربه‌ای لذت‌بخش و ماندگار تبدیل می‌کند.
-                        </p>
-                        <ul class="space-y-2 text-xs text-slate-700 dark:text-slate-300">
-                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course3Li1">استفاده از پلتفرم‌های تعاملی و بازی</span></li>
-                            <li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course3Li2">تقویت پایه‌ای تلفظ و واژگان</span></li>
-                        </ul>
-                        <a href="#contact-form" class="block text-center bg-slate-100 dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-bold py-2.5 rounded-xl text-sm transition" data-i18n="courseBookBtn">رزرو مشاوره</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<section id="courses" class="py-20 bg-slate-100/70 dark:bg-slate-950/70 backdrop-blur-sm transition-colors duration-300">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center max-w-2xl mx-auto mb-16 reveal">
+<span class="text-emerald-700 dark:text-emerald-400 font-semibold text-xs tracking-wider uppercase bg-emerald-100 dark:bg-emerald-950/50 px-3 py-1 rounded-full" data-i18n="coursesKicker">برنامه‌های آموزشی</span>
+<h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-3" data-i18n="coursesTitle">انواع جلسات و دوره‌های آموزشی دادمان</h2>
+<p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2" data-i18n="coursesSubtitle">دوره‌های تخصصی متناسب با سنین، اهداف و سطوح مختلف زبان‌آموزان</p>
+</div>
 
-    <footer class="bg-slate-950 text-white mt-auto py-12 border-t border-slate-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-10 border-b border-slate-800">
-                <div class="space-y-3 reveal">
-                    <div class="flex items-center space-x-3 space-x-reverse">
-                        <div class="w-10 h-10 bg-emerald-700 rounded-full overflow-hidden flex items-center justify-center font-bold text-white border border-emerald-500">
-                            <img src="logo.jpg" alt="لوگو" class="w-full h-full object-cover">
-                        </div>
-                        <span class="font-bold text-base" data-i18n="brandName">موسسه زبان دادمان</span>
-                    </div>
-                    <p class="text-slate-400 text-xs leading-relaxed" data-i18n="footerAbout">
-                        مرجع تخصصی آموزش زبان‌های خارجی با بهره‌گیری از برترین متدهای روز دنیا و اساتید مجرب.
-                    </p>
-                </div>
-                <div class="space-y-3 reveal reveal-stagger" style="--reveal-delay:100ms;">
-                    <h4 class="font-bold text-sm text-emerald-400" data-i18n="footerAddressTitle">آدرس موسسه</h4>
-                    <p class="text-slate-300 text-xs leading-relaxed flex items-start space-x-2 space-x-reverse">
-                        <i class="fa-solid fa-location-dot text-emerald-500 mt-1"></i>
-                        <span data-i18n="footerAddress">تهران، مشیریه، خیابان سازمان آب</span>
-                    </p>
-                </div>
-                <div class="space-y-3 reveal reveal-stagger" style="--reveal-delay:200ms;">
-                    <h4 class="font-bold text-sm text-emerald-400" data-i18n="footerContactTitle">تماس با ما</h4>
-                    <p class="text-slate-300 text-xs flex items-center space-x-2 space-x-reverse">
-                        <i class="fa-solid fa-phone text-emerald-500"></i>
-                        <span dir="ltr">021-33479054</span>
-                    </p>
-                    <div class="flex space-x-4 space-x-reverse text-slate-400 pt-2">
-                        <a href="#" class="hover:text-emerald-400 transition"><i class="fa-brands fa-telegram text-lg"></i></a>
-                        <a href="#" class="hover:text-emerald-400 transition"><i class="fa-brands fa-instagram text-lg"></i></a>
-                        <a href="https://wa.me/989123456789" target="_blank" rel="noopener" class="hover:text-emerald-400 transition"><i class="fa-brands fa-whatsapp text-lg"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="pt-6 text-center text-slate-500 text-xs">
-                <p data-i18n="footerCopyright">© تمامی حقوق مادی و معنوی برای موسسه زبان دادمان محفوظ است.</p>
-            </div>
-        </div>
-    </footer>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="bg-white dark:bg-slate-900 rounded-3xl shadow-md overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col reveal-scale reveal-stagger" style="--reveal-delay:0ms;">
+<div class="bg-emerald-800 p-6 text-white text-center">
+<i class="fa-solid fa-users text-4xl mb-3 opacity-90"></i>
+<h3 class="text-xl font-bold" data-i18n="course1Title">جلسات مکالمه بزرگسالان</h3>
+<p class="text-emerald-200 text-xs mt-1" data-i18n="course1Tag">تضمین روانی در گفتار</p>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="course1Desc">
+این جلسات به صورت گروهی تعاملی برگزار می‌شود و تمرکز اصلی روی سناریوهای واقعی زندگی روزمره و کاری است.
+</p>
+<ul class="space-y-2 text-xs text-slate-700 dark:text-slate-300">
+<li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course1Li1">تعداد جلسات: ۱۲ جلسه در ماه</span></li>
+<li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course1Li2">ظرفیت محدود کلاس‌ها (حداکثر ۸ نفر)</span></li>
+</ul>
+<a href="#contact-form" class="block text-center bg-slate-100 dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-bold py-2.5 rounded-xl text-sm transition" data-i18n="courseBookBtn">رزرو مشاوره</a>
+</div>
+</div>
 
-    </div>
+<div class="bg-white dark:bg-slate-900 rounded-3xl shadow-md overflow-hidden border border-emerald-500/50 ring-2 ring-emerald-600/20 flex flex-col reveal-scale reveal-stagger" style="--reveal-delay:150ms;">
+<div class="bg-slate-900 dark:bg-slate-950 p-6 text-white text-center relative border-b border-slate-800">
+<span class="absolute top-3 left-3 max-w-[45%] bg-emerald-700 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full whitespace-nowrap overflow-hidden text-ellipsis" data-i18n="course2Badge">پرطرفدار</span>
+<i class="fa-solid fa-medal text-4xl mb-3 text-emerald-400"></i>
+<h3 class="text-xl font-bold" data-i18n="course2Title">دوره‌های تخصصی آیلتس (IELTS)</h3>
+<p class="text-slate-400 text-xs mt-1" data-i18n="course2Tag">ویژه مهاجرت و تحصیل</p>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="course2Desc">
+جلسات فشرده و تخصصی آیلتس با تحلیل دقیق مهارت‌های چهارگانه و آزمون‌های آزمایشی استاندارد (Mock).
+</p>
+<ul class="space-y-2 text-xs text-slate-700 dark:text-slate-300">
+<li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course2Li1">برنامه‌ریزی و پشتیبانی اختصاصی</span></li>
+<li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course2Li2">تضمین نمره هدف با اساتید برند</span></li>
+</ul>
+<a href="#contact-form" class="block text-center bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-xl text-sm transition shadow-md" data-i18n="courseBookBtn">رزرو مشاوره</a>
+</div>
+</div>
 
-    <div class="float-actions" aria-label="ارتباط سریع">
-        <a href="https://wa.me/989123456789" target="_blank" rel="noopener" class="float-btn float-sub" style="--i:4; background: linear-gradient(145deg, #25D366, #128C7E);">
-            <span class="float-tooltip">واتساپ</span>
-            <i class="fa-brands fa-whatsapp"></i>
-        </a>
-        <button type="button" onclick="showComingSoon(event, 'روبیکا'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:3; background: linear-gradient(145deg, #9333ea, #581c87);">
-            <span class="float-tooltip">روبیکا</span>
-            <span>ر</span>
-        </button>
-        <button type="button" onclick="showComingSoon(event, 'ایتا'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:2; background: #ffffff; padding: 8px;">
-            <span class="float-tooltip">ایتا</span>
-            <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/eitaa.svg" alt="ایتا" class="w-full h-full object-contain">
-        </button>
-        <button type="button" onclick="showComingSoon(event, 'بله'); document.querySelector('.float-actions').classList.remove('float-open')" class="float-btn float-sub" style="--i:1; background: #ffffff; padding: 8px;">
-            <span class="float-tooltip">بله</span>
-            <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/bale.svg" alt="بله" class="w-full h-full object-contain">
-        </button>
-        <button type="button" onclick="toggleFloatMenu(event)" class="float-btn float-main">
-            <span class="float-tooltip">ارتباط سریع</span>
-            <i class="fa-solid fa-comment-dots"></i>
-        </button>
-    </div>
+<div class="bg-white dark:bg-slate-900 rounded-3xl shadow-md overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col reveal-scale reveal-stagger" style="--reveal-delay:300ms;">
+<div class="bg-emerald-950 p-6 text-white text-center">
+<i class="fa-solid fa-child-reaching text-4xl mb-3 text-emerald-400"></i>
+<h3 class="text-xl font-bold" data-i18n="course3Title">کودکان و نوجوانان (Junior)</h3>
+<p class="text-emerald-200 text-xs mt-1" data-i18n="course3Tag">آموزش با بازی و انیمیشن</p>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed" data-i18n="course3Desc">
+سیستم آموزشی نوین مخصوص کودکان که یادگیری زبان انگلیسی را به تجربه‌ای لذت‌بخش و ماندگار تبدیل می‌کند.
+</p>
+<ul class="space-y-2 text-xs text-slate-700 dark:text-slate-300">
+<li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course3Li1">استفاده از پلتفرم‌های تعاملی و بازی</span></li>
+<li class="flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-check text-emerald-700 dark:text-emerald-400"></i><span data-i18n="course3Li2">تقویت پایه‌ای تلفظ و واژگان</span></li>
+</ul>
+<a href="#contact-form" class="block text-center bg-slate-100 dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-slate-700 text-emerald-800 dark:text-emerald-300 font-bold py-2.5 rounded-xl text-sm transition" data-i18n="courseBookBtn">رزرو مشاوره</a>
+</div>
+</div>
+</div>
+</div>
+</section>
 
-    <div id="customModal" class="fixed inset-0 bg-slate-950/60 hidden items-center justify-center z-50 p-4">
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-center space-y-4 transition-colors">
-            <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto text-2xl">
-                <i class="fa-solid fa-circle-check"></i>
-            </div>
-            <h3 class="text-xl font-bold text-slate-900 dark:text-white" data-i18n="successTitle">درخواست شما با موفقیت ثبت شد!</h3>
-            <p id="modalDesc" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                کارشناسان موسسه زبان دادمان به زودی برای هماهنگی جلسات و مشاوره با شما تماس خواهند گرفت.
-            </p>
-            <button onclick="closeModal()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition" data-i18n="gotItBtn">
-                متوجه شدم
-            </button>
-        </div>
-    </div>
-
-    <div id="comingSoonModal" class="fixed inset-0 bg-slate-950/60 hidden items-center justify-center z-50 p-4">
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-center space-y-4 transition-colors">
-            <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto text-2xl">
-                <i class="fa-solid fa-hourglass-half"></i>
-            </div>
-            <h3 id="comingSoonTitle" class="text-xl font-bold text-slate-900 dark:text-white">این بخش</h3>
-            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed" data-i18n="comingSoonDesc">
-                به زودی فعال خواهد شد.
-            </p>
-            <button onclick="closeComingSoonModal()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition" data-i18n="gotItBtn">
-                متوجه شدم
-            </button>
-        </div>
-    </div>
-
-    <!-- ===================== مودال انتخاب زبان ===================== -->
-    <div id="languageModal" class="fixed inset-0 bg-slate-950/50 hidden items-center justify-center z-[60] p-4">
-        <div class="bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl border border-slate-200 dark:border-slate-800 transition-colors">
-            <div class="flex items-center justify-between mb-5">
-                <h3 class="text-lg font-bold text-slate-900 dark:text-white" data-i18n="langModalTitle">انتخاب زبان سایت</h3>
-                <button onclick="closeLanguageModal()" aria-label="بستن" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div class="space-y-2">
-                <button type="button" class="lang-option" data-lang="fa" onclick="switchLanguage('fa')">
-                    <span class="lang-flag">🇮🇷</span>
-                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">فارسی</span>
-                </button>
-                <button type="button" class="lang-option" data-lang="en" onclick="switchLanguage('en')">
-                    <span class="lang-flag">🇬🇧</span>
-                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">English</span>
-                </button>
-                <button type="button" class="lang-option" data-lang="ar" onclick="switchLanguage('ar')">
-                    <span class="lang-flag">🇸🇦</span>
-                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">العربية</span>
-                </button>
-                <button type="button" class="lang-option" data-lang="ko" onclick="switchLanguage('ko')">
-                    <span class="lang-flag">🇰🇷</span>
-                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">한국어</span>
-                </button>
-                <button type="button" class="lang-option" data-lang="de" onclick="switchLanguage('de')">
-                    <span class="lang-flag">🇩🇪</span>
-                    <span class="font-semibold text-sm text-slate-800 dark:text-slate-100">Deutsch</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===================== مودال انتخاب تم گیمری ===================== -->
-    <div id="gamerThemeModal" class="fixed inset-0 bg-slate-950/60 hidden items-center justify-center z-[60] p-4">
-        <div class="bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl border border-slate-200 dark:border-slate-800 transition-colors">
-            <div class="flex items-center justify-between mb-2">
-                <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                    <i class="fa-solid fa-gamepad text-emerald-600 dark:text-emerald-400"></i>
-                    <span data-i18n="gamerModalTitle">تم‌های ویژه گیمرها</span>
-                </h3>
-                <button onclick="closeGamerModal()" aria-label="بستن" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <p class="text-slate-500 dark:text-slate-400 text-xs mb-5" data-i18n="gamerModalDesc">یکی از تم‌های نئونی و شیشه‌ای زیر رو انتخاب کن</p>
-            <div class="space-y-2">
-                <button type="button" class="gamer-option" data-gamer="cyberpunk" onclick="applyGamerTheme('cyberpunk')">
-                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #ff2bd6, #00fff2);"></span>
-                    <span>
-                        <span class="gamer-option-name block text-slate-800 dark:text-white">Cyberpunk Neon</span>
-                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamerTheme1Desc">صورتی و فیروزه‌ای نئون، شیشه‌ای تیره</span>
-                    </span>
-                </button>
-                <button type="button" class="gamer-option" data-gamer="matrix" onclick="applyGamerTheme('matrix')">
-                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #00ff66, #003b16);"></span>
-                    <span>
-                        <span class="gamer-option-name block text-slate-800 dark:text-white">Matrix Protocol</span>
-                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamerTheme2Desc">سبز هکری روی مشکی محض</span>
-                    </span>
-                </button>
-                <button type="button" class="gamer-option" data-gamer="inferno" onclick="applyGamerTheme('inferno')">
-                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #ff1f3d, #ff7a00);"></span>
-                    <span>
-                        <span class="gamer-option-name block text-slate-800 dark:text-white">Inferno Doom</span>
-                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamerTheme3Desc">قرمز و نارنجی آتشین</span>
-                    </span>
-                </button>
-                <button type="button" class="gamer-option" data-gamer="synthwave" onclick="applyGamerTheme('synthwave')">
-                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #ff00e5, #00d4ff);"></span>
-                    <span>
-                        <span class="gamer-option-name block text-slate-800 dark:text-white">Synthwave Retro</span>
-                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamerTheme4Desc">بنفش و صورتی رترو</span>
-                    </span>
-                </button>
-                <button type="button" class="gamer-option" data-gamer="rgb" onclick="applyGamerTheme('rgb')">
-                    <span class="gamer-swatch" style="background: linear-gradient(135deg, red, orange, yellow, green, blue, violet);"></span>
-                    <span>
-                        <span class="gamer-option-name block text-slate-800 dark:text-white">RGB Overdrive</span>
-                        <span class="gamer-option-desc text-slate-500 dark:text-slate-400" data-i18n="gamerTheme5Desc">رنگ‌های متغیر مثل لوازم گیمینگ</span>
-                    </span>
-                </button>
-                <button type="button" class="gamer-option" data-gamer="none" onclick="applyGamerTheme('none')">
-                    <span class="gamer-swatch" style="background: linear-gradient(135deg, #cbd5e1, #64748b);"></span>
-                    <span>
-                        <span class="gamer-option-name block text-slate-800 dark:text-white" data-i18n="gamerResetOption">بازگشت به حالت عادی</span>
-                    </span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-        <script src="main.js"></script>
-</body>
-</html>
+<footer class="bg-slate-950 text-white mt-auto py-12 border-t border-slate-900">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-col

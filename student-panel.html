@@ -214,6 +214,18 @@ async function githubGet(path, token){
   return res.json();
 }
 
+/* دریافت خام فایل (بدون JSON/Base64 در سمت جاوااسکریپت) — برای فایل‌های صوتی سریع‌تر است */
+async function githubGetRaw(path, token){
+  const res = await fetch(`${API_BASE}/${path}`, {
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Accept": "application/vnd.github.raw"
+    }
+  });
+  if(!res.ok) throw new Error("خطا در دریافت فایل صوتی: " + res.status);
+  return res.arrayBuffer();
+}
+
 let studentsData = null;
 let currentStudentKey = null;
 
@@ -288,7 +300,7 @@ function renderGrades(grades){
   `).join("");
 }
 
-async function renderVoices(voices){
+function renderVoices(voices){
   const box = document.getElementById("voicesList");
   if(!voices.length){
     box.innerHTML = `<div class="empty">هنوز فایل صوتی‌ای اضافه نشده است.</div>`;
@@ -297,24 +309,28 @@ async function renderVoices(voices){
   box.innerHTML = voices.map((v,i) => `
     <div class="item voice-item">
       <div>${escapeHtml(v.name || "بدون عنوان")}</div>
-      <audio controls id="audio-${i}"></audio>
+      <audio controls id="audio-${i}" preload="none"></audio>
     </div>
   `).join("");
 
-  // بارگذاری هر فایل صوتی به‌صورت جدا (چون ریپازیتوری خصوصی است)
-  voices.forEach(async (v, i) => {
-    try{
-      const fileData = await githubGet(v.path, CONFIG.readToken);
-      const binary = atob(fileData.content.replace(/\n/g,""));
-      const bytes = new Uint8Array(binary.length);
-      for(let j=0; j<binary.length; j++) bytes[j] = binary.charCodeAt(j);
-      const blob = new Blob([bytes], {type: "audio/mpeg"});
-      const url = URL.createObjectURL(blob);
-      document.getElementById(`audio-${i}`).src = url;
-    }catch(e){
-      const el = document.getElementById(`audio-${i}`);
-      if(el) el.outerHTML = `<span style="color:var(--danger);font-size:0.85rem;">خطا در بارگذاری فایل صوتی</span>`;
-    }
+  /* پخش تنبل (Lazy): فایل صوتی فقط با زدن پلی دانلود می‌شود، نه هنگام باز شدن لیست.
+     همچنین از githubGetRaw استفاده می‌شود که بایت خام برمی‌گرداند و نیازی به
+     دیکد دستی base64 (که برای فایل‌های بزرگ کند بود) نیست. */
+  voices.forEach((v, i) => {
+    const audioEl = document.getElementById(`audio-${i}`);
+    audioEl.addEventListener("play", async function(){
+      if(audioEl.dataset.loaded) return;
+      audioEl.pause();
+      try{
+        const buffer = await githubGetRaw(v.path, CONFIG.readToken);
+        const blob = new Blob([buffer], {type: "audio/mpeg"});
+        audioEl.src = URL.createObjectURL(blob);
+        audioEl.dataset.loaded = "1";
+        audioEl.play();
+      }catch(e){
+        audioEl.outerHTML = `<span style="color:var(--danger);font-size:0.85rem;">خطا در بارگذاری فایل صوتی</span>`;
+      }
+    });
   });
 }
 

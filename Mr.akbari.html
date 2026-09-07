@@ -183,6 +183,18 @@ async function githubGet(path){
   return res.json();
 }
 
+/* دریافت خام فایل (بدون JSON/Base64 در سمت جاوااسکریپت) — برای فایل‌های صوتی */
+async function githubGetRaw(path){
+  const res = await fetch(`${API_BASE}/${path}`, {
+    headers: {
+      "Authorization": `Bearer ${adminToken}`,
+      "Accept": "application/vnd.github.raw"
+    }
+  });
+  if(!res.ok) throw new Error("خطا در دریافت فایل صوتی (کد " + res.status + ")");
+  return res.arrayBuffer();
+}
+
 async function githubPut(path, contentBase64, sha, message){
   const body = { message, content: contentBase64 };
   if(sha) body.sha = sha;
@@ -325,36 +337,34 @@ function renderVoices(){
         <div class="info">${escapeHtml(v.name || "بدون عنوان")}</div>
         <button class="del-btn" onclick="deleteVoice(${i})">حذف</button>
       </div>
-      <audio controls id="admin-audio-${i}"></audio>
+      <audio controls id="admin-audio-${i}" preload="none"></audio>
     </div>
   `).join("");
 
-  voices.forEach(async (v, i) => {
-    try{
-      const fileData = await githubGet(v.path);
-      const binary = atob(fileData.content.replace(/\n/g,""));
-      const bytes = new Uint8Array(binary.length);
-      for(let j=0; j<binary.length; j++) bytes[j] = binary.charCodeAt(j);
-      const blob = new Blob([bytes], {type: "audio/mpeg"});
-      document.getElementById(`admin-audio-${i}`).src = URL.createObjectURL(blob);
-    }catch(e){ /* فایل هنوز آماده نمایش نیست */ }
+  /* پخش تنبل (Lazy): فایل صوتی فقط با زدن پلی دانلود می‌شود، نه هنگام باز شدن لیست */
+  voices.forEach((v, i) => {
+    const audioEl = document.getElementById(`admin-audio-${i}`);
+    audioEl.addEventListener("play", async function(){
+      if(audioEl.dataset.loaded) return;
+      audioEl.pause();
+      try{
+        const buffer = await githubGetRaw(v.path);
+        const blob = new Blob([buffer], {type: "audio/mpeg"});
+        audioEl.src = URL.createObjectURL(blob);
+        audioEl.dataset.loaded = "1";
+        audioEl.play();
+      }catch(e){ /* فایل هنوز آماده نمایش نیست */ }
+    });
   });
 }
 
+/* تبدیل فایل به Base64 با موتور داخلی مرورگر (سریع‌تر از حلقه‌ی دستی) */
 function fileToBase64(file){
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = () => {
-      const bytes = new Uint8Array(reader.result);
-      let binary = "";
-      const chunk = 8192;
-      for(let i=0; i<bytes.length; i+=chunk){
-        binary += String.fromCharCode.apply(null, bytes.subarray(i, i+chunk));
-      }
-      resolve(btoa(binary));
-    };
+    reader.onload = () => resolve(reader.result.split(",")[1]);
     reader.onerror = reject;
-    reader.readAsArrayBuffer(file);
+    reader.readAsDataURL(file);
   });
 }
 

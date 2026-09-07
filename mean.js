@@ -698,3 +698,48 @@ const themeIcon = document.getElementById('themeIcon');
             }
             updateGamerActiveState();
         })();
+async function doLogin(){
+  const username = document.getElementById("username").value.trim();
+  const password = normalizeDigits(document.getElementById("password").value.trim());
+  const btn = document.getElementById("loginBtn");
+  const errBox = document.getElementById("loginError");
+  errBox.style.display = "none";
+
+  if(!username || !password){
+    errBox.textContent = "لطفاً نام کاربری و کد ملی را وارد کنید.";
+    errBox.style.display = "block";
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "در حال بررسی...";
+
+  try{
+    const res = await fetch(`${RAW_BASE}/${CONFIG.dataPath}?t=${Date.now()}`);
+    if(!res.ok) throw new Error("خطا در دریافت اطلاعات");
+    
+    const json = await res.json();
+    const student = json[username];
+
+    // بررسی کد ملی به صورت ساده و مقایسه رشته‌ای
+    if(!student || String(student.nationalCode).trim() !== password){
+      errBox.textContent = "نام کاربری یا رمز عبور اشتباه است.";
+      errBox.style.display = "block";
+      btn.disabled = false;
+      btn.textContent = "ورود";
+      return;
+    }
+
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("panel").style.display = "block";
+    document.getElementById("welcomeText").textContent = `سلام ${student.name || ""} 👋`;
+    renderGrades(student.grades || []);
+    renderVoices(student.voices || []);
+
+  }catch(e){
+    errBox.textContent = "خطا در برقراری ارتباط. از Public بودن مخزن مطمئن شوید.";
+    errBox.style.display = "block";
+    btn.disabled = false;
+    btn.textContent = "ورود";
+  }
+}

@@ -8,6 +8,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        #panelModal { backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+        .panel-option {
+            display: flex; align-items: center; gap: 0.75rem; width: 100%;
+            padding: 0.9rem 1rem; border-radius: 1rem; border: 1px solid transparent;
+            background: transparent; cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+            text-align: inherit; text-decoration: none;
+        }
+        .panel-option:hover {
+            background: rgba(16, 185, 129, 0.08);
+            border-color: rgba(16, 185, 129, 0.35);
+            transform: translateY(-1px);
+        }
+        .panel-icon {
+            font-size: 1.15rem; width: 2.5rem; height: 2.5rem;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 9999px; background: rgba(16, 185, 129, 0.1);
+            color: #047857; flex-shrink: 0;
+        }
+        .dark .panel-icon { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+    </style>
 </head>
 <body class="bg-transparent text-slate-700 dark:text-slate-100 transition-colors duration-300">
     <div id="siteContent" class="flex flex-col min-h-screen">
@@ -26,20 +48,20 @@
     </div>
 
     <div class="bg-white/95 dark:bg-slate-900/95 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-10 py-1.5 flex items-center justify-center sm:justify-start gap-x-4 sm:gap-x-6 gap-y-1 flex-wrap">
-            <a href="students.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition whitespace-nowrap">
-                <i class="fa-solid fa-graduation-cap"></i>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-center sm:justify-start gap-2 sm:gap-3 flex-wrap">
+            <a href="students.html" class="flex items-center gap-2 text-sm sm:text-[0.95rem] font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800 transition whitespace-nowrap px-3.5 py-2 rounded-xl">
+                <i class="fa-solid fa-graduation-cap text-emerald-600 dark:text-emerald-400"></i>
                 <span data-i18n="subnavStudents">دانش‌آموزان DTS</span>
             </a>
-            <a href="teaching-method.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition whitespace-nowrap">
-                <i class="fa-solid fa-chalkboard"></i>
+            <a href="teaching-method.html" class="flex items-center gap-2 text-sm sm:text-[0.95rem] font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800 transition whitespace-nowrap px-3.5 py-2 rounded-xl">
+                <i class="fa-solid fa-chalkboard text-emerald-600 dark:text-emerald-400"></i>
                 <span data-i18n="subnavMethod">نحوه‌ی تدریس</span>
             </a>
-            <a href="books.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition whitespace-nowrap">
-                <i class="fa-solid fa-book"></i>
+            <a href="books.html" class="flex items-center gap-2 text-sm sm:text-[0.95rem] font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800 transition whitespace-nowrap px-3.5 py-2 rounded-xl">
+                <i class="fa-solid fa-book text-emerald-600 dark:text-emerald-400"></i>
                 <span data-i18n="subnavBooks">کتاب‌هایی که ما تدریس می‌کنیم</span>
             </a>
-            <a href="new-page.html" class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 transition invisible">
+            <a href="new-page.html" class="flex items-center gap-2 text-sm sm:text-[0.95rem] font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800 transition whitespace-nowrap px-3.5 py-2 rounded-xl invisible">
                 <i class="fa-solid fa-file-lines"></i>
                 <span class="invisible">.</span>
             </a>
@@ -67,6 +89,11 @@
             </nav>
 
             <div class="flex items-center flex-wrap justify-end gap-2 sm:gap-3">
+                <button onclick="openPanelModal()" aria-label="پنل ورود" title="پنل ورود" class="flex items-center gap-1.5 h-10 px-3.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm transition shadow-sm whitespace-nowrap">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span>پنل</span>
+                </button>
+
                 <a href="tel:02133479054" aria-label="تماس مستقیم" title="تماس مستقیم" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-emerald-400 flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-slate-700 transition shadow-sm border border-slate-200 dark:border-slate-700">
                     <i class="fa-solid fa-phone text-lg"></i>
                 </a>
@@ -392,6 +419,34 @@
             <button onclick="closeComingSoonModal()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition" data-i18n="gotItBtn">
                 متوجه شدم
             </button>
+        </div>
+    </div>
+
+    <!-- ===================== مودال پنل ورود ===================== -->
+    <div id="panelModal" class="fixed inset-0 bg-slate-950/50 hidden items-center justify-center z-[60] p-4">
+        <div class="bg-white/95 dark:bg-slate-900/95 rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl border border-slate-200 dark:border-slate-800 transition-colors">
+            <div class="flex items-center justify-between mb-5">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">ورود به پنل</h3>
+                <button onclick="closePanelModal()" aria-label="بستن" class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="space-y-2">
+                <a href="student-panel.html" class="panel-option">
+                    <span class="panel-icon"><i class="fa-solid fa-user-graduate"></i></span>
+                    <span>
+                        <span class="block font-semibold text-sm text-slate-800 dark:text-slate-100">ورود دانش‌آموزان</span>
+                        <span class="block text-xs text-slate-500 dark:text-slate-400">مشاهده نمرات و فایل‌های صوتی</span>
+                    </span>
+                </a>
+                <a href="Mr.akbari.html" class="panel-option">
+                    <span class="panel-icon"><i class="fa-solid fa-user-shield"></i></span>
+                    <span>
+                        <span class="block font-semibold text-sm text-slate-800 dark:text-slate-100">ورود مدیریت</span>
+                        <span class="block text-xs text-slate-500 dark:text-slate-400">مدیریت نمرات و فایل‌های صوتی دانش‌آموزان</span>
+                    </span>
+                </a>
+            </div>
         </div>
     </div>
 

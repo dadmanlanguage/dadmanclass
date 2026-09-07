@@ -1,0 +1,562 @@
+body {
+            font-family: 'Vazirmatn', sans-serif;
+            position: relative;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        /* ===================== پس‌زمینه متحرک سراسری (تم روشن و تاریک) ===================== */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            /* گرادینت داینامیک بر اساس حالت روشن و تاریک */
+            background: linear-gradient(-45deg, #f1f5f9, #e2e8f0, #dcfce7, #f3f4f6);
+            background-size: 400% 400%;
+            animation: globalGradientBG 15s ease infinite;
+            opacity: 0.8;
+            pointer-events: none;
+            transition: background 0.5s ease;
+        }
+
+        /* حالت تاریک پس‌زمینه متحرک */
+        .dark body::before, html.dark body::before {
+            background: linear-gradient(-45deg, #064e3b, #022c22, #0f172a, #1e293b) !important;
+            opacity: 1;
+        }
+
+        @keyframes globalGradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            body::before { animation: none; }
+        }
+
+        /* ===================== انیمیشن‌های اسکرول (Scroll Reveal) ===================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal.reveal-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-stagger.reveal-visible {
+            transition-delay: var(--reveal-delay, 0ms);
+        }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: translateY(24px) scale(0.94);
+            transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal-scale.reveal-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            transition-delay: var(--reveal-delay, 0ms);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal, .reveal-scale, .reveal-stagger {
+                transition: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
+
+        /* حباب‌های متحرک بخش Hero با طیف سبز لجنی */
+        .hero-animated-bg {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-blob {
+            position: absolute;
+            border-radius: 9999px;
+            filter: blur(70px);
+            opacity: 0.35;
+            background: radial-gradient(circle at 30% 30%, rgba(34,197,94,0.4), transparent 70%);
+            animation: heroFloat 14s ease-in-out infinite;
+        }
+
+        .hero-blob.blob-1 {
+            width: 380px;
+            height: 380px;
+            top: -80px;
+            right: -60px;
+            animation-duration: 16s;
+        }
+
+        .hero-blob.blob-2 {
+            width: 320px;
+            height: 320px;
+            bottom: -100px;
+            left: -60px;
+            background: radial-gradient(circle at 60% 40%, rgba(21,128,61,0.4), transparent 70%);
+            animation-duration: 20s;
+            animation-delay: -4s;
+        }
+
+        @keyframes heroFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(20px, -25px) scale(1.06); }
+            66% { transform: translate(-15px, 15px) scale(0.96); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-blob { animation: none; }
+        }
+
+        /* اسپینر لودینگ دکمه ارسال */
+        .btn-spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(255,255,255,0.4);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        .btn-loading .btn-spinner { display: inline-block; }
+        .btn-loading .btn-text-default,
+        .btn-loading .btn-icon-default { display: none; }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===================== دکمه‌های شناور (Floating Action Buttons) ===================== */
+        .float-actions {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 1.25rem;
+            z-index: 40;
+            width: 52px;
+            height: 52px;
+        }
+
+        .float-btn {
+            position: relative;
+            width: 52px;
+            height: 52px;
+            box-sizing: border-box;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: #ecfdf5;
+            background: linear-gradient(145deg, #15803d, #064e3b);
+            box-shadow: 0 8px 20px -6px rgba(6, 78, 59, 0.55), 0 0 0 1px rgba(255,255,255,0.06) inset;
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .float-main {
+            position: relative;
+            z-index: 5;
+        }
+
+        /* دکمه‌های فرعی: روبیکا، ایتا، بله */
+        .float-sub {
+            position: absolute;
+            left: 4px;
+            bottom: 0;
+            width: 44px;
+            height: 44px;
+            font-size: 1rem;
+            font-weight: 800;
+            z-index: 4;
+            opacity: 0;
+            transform: translateY(0) scale(0.45);
+            pointer-events: none;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+        }
+
+        .float-actions.float-open .float-sub {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(calc(var(--i) * -60px)) scale(1);
+            transition-delay: calc((var(--i) - 1) * 0.06s);
+        }
+
+        /* هاور فقط روی دستگاه‌هایی با ماوس واقعی فعال شود؛ در موبایل فقط با لمس دکمه اصلی باز/بسته می‌شود */
+        @media (hover: hover) and (pointer: fine) {
+            .float-actions:hover .float-sub {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateY(calc(var(--i) * -60px)) scale(1);
+                transition-delay: calc((var(--i) - 1) * 0.06s);
+            }
+        }
+
+        .dark .float-btn {
+            background: linear-gradient(145deg, #10b981, #065f46);
+            box-shadow: 0 8px 22px -6px rgba(0,0,0,0.6), 0 0 0 1px rgba(16,185,129,0.25) inset;
+        }
+
+        .float-btn:hover {
+            transform: translateY(-3px) scale(1.06);
+            box-shadow: 0 12px 26px -6px rgba(6, 78, 59, 0.6);
+        }
+
+        .float-btn .float-tooltip {
+            position: absolute;
+            right: calc(100% + 10px);
+            top: 50%;
+            transform: translateY(-50%) translateX(6px);
+            background: #0f172a;
+            color: #f0fdf4;
+            font-size: 0.7rem;
+            font-weight: 600;
+            white-space: nowrap;
+            padding: 5px 10px;
+            border-radius: 8px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .float-btn:hover .float-tooltip {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        /* برق ملیح: هر ۱ ثانیه یک بار روی دکمه‌ها می‌گذرد */
+        .float-btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -60%;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.65), transparent);
+            transform: skewX(-20deg);
+            animation: floatShine 1s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .float-btn.float-btn-accent::after {
+            animation-delay: 0.1s;
+        }
+
+        .float-sub .float-tooltip {
+            font-size: 0.65rem;
+        }
+
+        @keyframes floatShine {
+            0% { left: -60%; }
+            22% { left: 130%; }
+            100% { left: 130%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .float-btn::after { animation: none; }
+        }
+
+        /* ===================== مودال انتخاب زبان ===================== */
+        #languageModal {
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border-radius: 1rem;
+            border: 1px solid transparent;
+            background: transparent;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+            text-align: inherit;
+        }
+
+        .lang-option:hover {
+            background: rgba(16, 185, 129, 0.08);
+            border-color: rgba(16, 185, 129, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .lang-option.lang-active {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        .lang-flag {
+            font-size: 1.5rem;
+            width: 2.25rem;
+            height: 2.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            background: rgba(15, 23, 42, 0.05);
+            flex-shrink: 0;
+        }
+        .dark .lang-flag {
+            background: rgba(255,255,255,0.06);
+        }
+
+        /* ===================== مودال و کارت‌های تم گیمری ===================== */
+        #gamerThemeModal {
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .gamer-option {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border-radius: 1rem;
+            border: 1px solid transparent;
+            background: rgba(15, 23, 42, 0.04);
+            cursor: pointer;
+            transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            text-align: inherit;
+            overflow: hidden;
+        }
+        .dark .gamer-option {
+            background: rgba(255,255,255,0.04);
+        }
+        .gamer-option:hover {
+            transform: translateY(-1px);
+        }
+        .gamer-option.lang-active {
+            border-color: rgba(255,255,255,0.5);
+        }
+        .gamer-swatch {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.85rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 14px rgba(0,0,0,0.25);
+        }
+        .gamer-option-name {
+            font-weight: 800;
+            font-size: 0.85rem;
+        }
+        .gamer-option-desc {
+            font-size: 0.68rem;
+            opacity: 0.7;
+        }
+
+        /* ---- تم ۱: سایبرپانک نئون ---- */
+        html[data-gamer-theme="cyberpunk"] {
+            --g-primary: #ff2bd6;
+            --g-secondary: #00fff2;
+            --g-bg1: #05010f; --g-bg2: #1a0b2e; --g-bg3: #001a1a; --g-bg4: #10002b;
+            --g-header-bg: rgba(10,4,20,0.5);
+            --g-card-bg: rgba(15,6,30,0.32);
+            --g-border: rgba(0,255,242,0.4);
+            --g-glow: 0 0 25px rgba(255,43,214,0.35), 0 0 45px rgba(0,255,242,0.18);
+            --g-text: #f5d0ff;
+        }
+
+        /* ---- تم ۲: پروتکل ماتریکس ---- */
+        html[data-gamer-theme="matrix"] {
+            --g-primary: #00ff66;
+            --g-secondary: #39ff14;
+            --g-bg1: #000500; --g-bg2: #001a08; --g-bg3: #000000; --g-bg4: #002200;
+            --g-header-bg: rgba(0,10,3,0.55);
+            --g-card-bg: rgba(0,15,5,0.3);
+            --g-border: rgba(0,255,102,0.4);
+            --g-glow: 0 0 25px rgba(0,255,102,0.4);
+            --g-text: #b6ffcf;
+        }
+
+        /* ---- تم ۳: اینفرنو / دوزخ ---- */
+        html[data-gamer-theme="inferno"] {
+            --g-primary: #ff1f3d;
+            --g-secondary: #ff7a00;
+            --g-bg1: #0a0000; --g-bg2: #1a0000; --g-bg3: #2b0a00; --g-bg4: #000000;
+            --g-header-bg: rgba(15,0,0,0.55);
+            --g-card-bg: rgba(20,0,0,0.32);
+            --g-border: rgba(255,31,61,0.45);
+            --g-glow: 0 0 25px rgba(255,31,61,0.4), 0 0 45px rgba(255,122,0,0.2);
+            --g-text: #ffd6d6;
+        }
+
+        /* ---- تم ۴: سینت‌ویو ---- */
+        html[data-gamer-theme="synthwave"] {
+            --g-primary: #ff00e5;
+            --g-secondary: #00d4ff;
+            --g-bg1: #0d0221; --g-bg2: #240046; --g-bg3: #3c096c; --g-bg4: #10002b;
+            --g-header-bg: rgba(20,2,40,0.5);
+            --g-card-bg: rgba(30,5,60,0.32);
+            --g-border: rgba(0,212,255,0.4);
+            --g-glow: 0 0 25px rgba(255,0,229,0.35), 0 0 45px rgba(0,212,255,0.2);
+            --g-text: #f3d9ff;
+        }
+
+        /* ---- تم ۵: آر‌جی‌بی اوردرایو (رنگ‌های متغیر مثل لوازم گیمینگ) ---- */
+        html[data-gamer-theme="rgb"] {
+            --g-primary: #ffffff;
+            --g-secondary: #00e5ff;
+            --g-bg1: #050505; --g-bg2: #111111; --g-bg3: #000000; --g-bg4: #0a0a0a;
+            --g-header-bg: rgba(10,10,10,0.5);
+            --g-card-bg: rgba(10,10,10,0.32);
+            --g-border: rgba(255,255,255,0.45);
+            --g-glow: 0 0 30px rgba(255,255,255,0.5);
+            --g-text: #ffffff;
+        }
+        html[data-gamer-theme="rgb"] #siteContent {
+            animation: rgbHueShift 10s linear infinite;
+            will-change: filter;
+            transform: translateZ(0);
+        }
+        @keyframes rgbHueShift {
+            from { filter: hue-rotate(0deg); }
+            to { filter: hue-rotate(360deg); }
+        }
+
+        /* پالس نور ملایم برای هدر و کارت‌ها در همه‌ی تم‌های گیمری (بدون تغییر اندازه/جابجایی، پس هیچ لرزشی ایجاد نمی‌کند) */
+        html[data-gamer-theme] header,
+        html[data-gamer-theme] .bg-emerald-700,
+        html[data-gamer-theme] .bg-emerald-800,
+        html[data-gamer-theme] .bg-emerald-950,
+        html[data-gamer-theme] .bg-slate-900,
+        html[data-gamer-theme] .bg-white,
+        html[data-gamer-theme] #contact-form {
+            animation: gamerGlowPulse 3.2s ease-in-out infinite;
+            will-change: box-shadow;
+        }
+        @keyframes gamerGlowPulse {
+            0%, 100% { box-shadow: var(--g-glow); }
+            50% { box-shadow: var(--g-glow), 0 0 12px 2px var(--g-secondary); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html[data-gamer-theme] #siteContent,
+            html[data-gamer-theme] header,
+            html[data-gamer-theme] .bg-emerald-700,
+            html[data-gamer-theme] .bg-emerald-800,
+            html[data-gamer-theme] .bg-emerald-950,
+            html[data-gamer-theme] .bg-slate-900,
+            html[data-gamer-theme] .bg-white,
+            html[data-gamer-theme] #contact-form {
+                animation: none !important;
+            }
+        }
+
+        /* ---- قوانین عمومی مشترک بین همه تم‌های گیمری ---- */
+        html[data-gamer-theme] body::before {
+            background: linear-gradient(-45deg, var(--g-bg1), var(--g-bg2), var(--g-bg3), var(--g-bg4)) !important;
+            background-size: 200% 200% !important;
+            opacity: 1 !important;
+            animation: none !important;
+        }
+        html[data-gamer-theme] body {
+            color: var(--g-text) !important;
+        }
+        html[data-gamer-theme] header,
+        html[data-gamer-theme] .bg-emerald-900,
+        html[data-gamer-theme] .bg-white\/95,
+        html[data-gamer-theme] .bg-white\/90 {
+            background: var(--g-header-bg) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            border-color: var(--g-border) !important;
+            color: var(--g-text) !important;
+        }
+        html[data-gamer-theme] section.bg-gradient-to-br,
+        html[data-gamer-theme] .bg-white\/70,
+        html[data-gamer-theme] .bg-slate-100\/70 {
+            background: var(--g-card-bg) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+        }
+        html[data-gamer-theme] .bg-white,
+        html[data-gamer-theme] #contact-form,
+        html[data-gamer-theme] .bg-slate-950,
+        html[data-gamer-theme] #customModal > div,
+        html[data-gamer-theme] #comingSoonModal > div,
+        html[data-gamer-theme] #languageModal > div,
+        html[data-gamer-theme] #gamerThemeModal > div {
+            background: var(--g-card-bg) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+            border-color: var(--g-border) !important;
+            box-shadow: var(--g-glow) !important;
+            color: var(--g-text) !important;
+        }
+        html[data-gamer-theme] .border-slate-200,
+        html[data-gamer-theme] .border-slate-700,
+        html[data-gamer-theme] .border-emerald-500\/50,
+        html[data-gamer-theme] .ring-emerald-600\/20,
+        html[data-gamer-theme] .border-emerald-950\/40,
+        html[data-gamer-theme] .border-slate-800,
+        html[data-gamer-theme] .border-slate-900 {
+            border-color: var(--g-border) !important;
+        }
+        html[data-gamer-theme] .bg-emerald-700,
+        html[data-gamer-theme] .bg-emerald-800,
+        html[data-gamer-theme] .bg-emerald-950,
+        html[data-gamer-theme] .bg-slate-900 {
+            background: linear-gradient(135deg, var(--g-primary), var(--g-secondary)) !important;
+            border: none !important;
+            box-shadow: var(--g-glow) !important;
+            color: #05010a !important;
+        }
+        html[data-gamer-theme] .hover\:bg-emerald-800:hover,
+        html[data-gamer-theme] .hover\:bg-emerald-100:hover,
+        html[data-gamer-theme] .hover\:bg-slate-700:hover,
+        html[data-gamer-theme] .hover\:bg-emerald-50:hover {
+            filter: brightness(1.2) !important;
+        }
+        html[data-gamer-theme] .text-emerald-700,
+        html[data-gamer-theme] .text-emerald-400,
+        html[data-gamer-theme] .text-emerald-300,
+        html[data-gamer-theme] .text-emerald-200,
+        html[data-gamer-theme] .text-emerald-500,
+        html[data-gamer-theme] .text-emerald-800 {
+            color: var(--g-secondary) !important;
+        }
+        html[data-gamer-theme] .text-slate-700,
+        html[data-gamer-theme] .text-slate-600,
+        html[data-gamer-theme] .text-slate-900,
+        html[data-gamer-theme] .text-slate-500,
+        html[data-gamer-theme] .text-slate-400,
+        html[data-gamer-theme] .text-slate-300,
+        html[data-gamer-theme] .text-white {
+            color: var(--g-text) !important;
+        }
+        html[data-gamer-theme] .bg-emerald-100,
+        html[data-gamer-theme] .bg-emerald-50,
+        html[data-gamer-theme] .bg-emerald-500\/20 {
+            background: rgba(255,255,255,0.07) !important;
+            color: var(--g-primary) !important;
+            border: 1px solid var(--g-border) !important;
+        }
+        html[data-gamer-theme] footer {
+            background: var(--g-header-bg) !important;
+            border-top: 1px solid var(--g-border) !important;
+        }
+        html[data-gamer-theme] h1, html[data-gamer-theme] h2, html[data-gamer-theme] h3, html[data-gamer-theme] h4 {
+            text-shadow: var(--g-glow);
+        }
+        html[data-gamer-theme] .hero-blob {
+            background: radial-gradient(circle at 30% 30%, var(--g-primary), transparent 70%) !important;
+            opacity: 0.5 !important;
+        }

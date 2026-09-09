@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>رزومه شخصی | نام شما</title>
+
+  <meta
+    name="description"
+    content="رزومه آنلاین و وب‌سایت شخصی نام شما"
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --primary: #7c5cff;
+      --primary-dark: #6243e8;
+      --secondary: #19c6b4;
+      --text: #f7f7fb;
+      --muted: #a6a9bb;
+      --background: #0a0b13;
+      --surface: #121421;
+      --surface-light: #191c2c;
+      --border: rgba(255, 255, 255, 0.09);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+      --radius: 22px;
+      --transition: 0.3s ease;
+    }
+
+    body.light-mode {
+      --text: #171827;
+      --muted: #646779;
+      --background: #f5f6fb;
+      --surface: #ffffff;
+      --surface-light: #eef0f8;
+      --border: rgba(20, 25, 50, 0.1);
+      --shadow: 0 20px 60px rgba(40, 45, 80, 0.12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Vazirmatn", sans-serif;
+      background:
+        radial-gradient(circle at 90% 5%, rgba(124, 92, 255, 0.16), transparent 25%),
+        radial-gradient(circle at 5% 45%, rgba(25, 198, 180, 0.08), transparent 24%),
+        var(--background);
+      color: var(--text);
+      line-height: 1.8;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: auto;
+    }
+
+    .section {
+      padding: 110px 0;
+    }
+
+    .section-title {
+      margin-bottom: 50px;
+      text-align: center;
+    }
+
+    .section-title span {
+      display: inline-block;
+      color: var(--secondary);
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      line-height: 1.3;
+    }
+
+    .section-title p {
+      max-width: 560px;
+      margin: 15px auto 0;
+      color: var(--muted);
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 1000;
+      padding: 18px 0;
+      background: rgba(10, 11, 19, 0.55);
+      border-bottom: 1px solid transparent;
+      backdrop-filter: blur(18px);
+      transition: var(--transition);
+    }
+
+    body.light-mode header {
+      background: rgba(245, 246, 251, 0.72);
+    }
+
+    header.scrolled {
+      border-color: var(--border);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .logo {
+      font-size: 1.35rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .logo span {
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-btn,
+    .menu-btn {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 1.1rem;
+      transition: var(--transition);
+    }
+
+    .icon-btn:hover,
+    .menu-btn:hover {
+      color: white;
+      background: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .menu-btn {
+      display: none;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 130px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 80px;
+    }
+
+    .hero-content {
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      color: var(--secondary);
+      background: rgba(25, 198, 180, 0.09);
+      border: 1px solid rgba(25, 198, 180, 0.2);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      margin-bottom: 22px;
+    }
+
+    .hero-label::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: var(--secondary);
+      border-radius: 50%;
+      box-shadow: 0 0 0 5px rgba(25, 198, 180, 0.12);
+    }
+
+    .hero h1 {
+      max-width: 700px;
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      line-height: 1.2;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 strong {
+      color: var(--primary);
+    }
+
+    .hero-description {
+      max-width: 620px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 30px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 38px;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 9px;
+      min-height: 50px;
+      padding: 0 22px;
+      border: 0;
+      border-radius: 13px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      box-shadow: 0 12px 25px rgba(124, 92, 255, 0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 17px 32px rgba(124, 92, 255, 0.38);
+    }
+
+    .btn-outline {
+      color: var(--text);
+      background: transparent;
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-4px);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.85rem;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      color: white;
+      background: var(--primary);
+      transform: translateY(-4px);
+    }
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      animation: fadeIn 1s ease both;
+    }
+
+    .profile-card {
+      position: relative;
+      width: min(390px, 100%);
+      padding: 16px;
+      background: linear-gradient(145deg, rgba(124, 92, 255, 0.25), var(--surface));
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      transform: rotate(3deg);
+      transition: var(--transition);
+    }
+
+    .profile-card:hover {
+      transform: rotate(0) translateY(-8px);
+    }
+
+    .profile-image {
+      height: 440px;
+      overflow: hidden;
+      background:
+        linear-gradient(145deg, rgba(124, 92, 255, 0.3), rgba(25, 198, 180, 0.15)),
+        var(--surface-light);
+      border-radius: 22px;
+    }
+
+    .profile-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 18px 5px 4px;
+    }
+
+    .profile-info h3 {
+      font-size: 1.1rem;
+    }
+
+    .profile-info p {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .available {
+      width: 11px;
+      height: 11px;
+      background: var(--secondary);
+      border-radius: 50%;
+      box-shadow: 0 0 0 6px rgba(25, 198, 180, 0.12);
+    }
+
+    /* About */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 70px;
+      align-items: center;
+    }
+
+    .about-image {
+      position: relative;
+      overflow: hidden;
+      min-height: 390px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: var(--radius);
+    }
+
+    .about-image::before {
+      content: "CREATIVE";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      color: rgba(255, 255, 255, 0.18);
+      font-size: 3.8rem;
+      font-weight: 800;
+      transform: translate(-50%, -50%) rotate(-90deg);
+    }
+
+    .about-content h3 {
+      font-size: 1.8rem;
+      margin-bottom: 18px;
+    }
+
+    .about-content p {
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .fact {
+      padding: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+    }
+
+    .fact strong {
+      display: block;
+      color: var(--primary);
+      font-size: 1.4rem;
+    }
+
+    .fact span {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    /* Skills */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .skill-card {
+      padding: 25px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: var(--transition);
+    }
+
+    .skill-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(124, 92, 255, 0.45);
+    }
+
+    .skill-heading {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .skill-heading span:last-child {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .progress {
+      height: 8px;
+      overflow: hidden;
+      background: var(--surface-light);
+      border-radius: 20px;
+    }
+
+    .progress span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: inherit;
+      transition: width 1.2s ease;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      max-width: 850px;
+      margin: auto;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 16px;
+      width: 2px;
+      height: 100%;
+      background: var(--border);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 0 60px 38px 0;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      top: 5px;
+      right: 9px;
+      z-index: 2;
+      width: 16px;
+      height: 16px;
+      background: var(--primary);
+      border: 4px solid var(--background);
+      border-radius: 50%;
+      box-shadow: 0 0 0 1px var(--primary);
+    }
+
+    .timeline-content {
+      padding: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .timeline-content small {
+      color: var(--secondary);
+      font-weight: 600;
+    }
+
+    .timeline-content h3 {
+      margin: 8px 0;
+    }
+
+    .timeline-content p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* Portfolio */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .project-card {
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: var(--transition);
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow);
+    }
+
+    .project-image {
+      position: relative;
+      height: 220px;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+
+    .project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.5s ease;
+    }
+
+    .project-card:hover .project-image img {
+      transform: scale(1.08);
+    }
+
+    .project-content {
+      padding: 22px;
+    }
+
+    .project-content h3 {
+      margin-bottom: 8px;
+    }
+
+    .project-content p {
+      color: var(--muted);
+      font-size: 0.84rem;
+      margin-bottom: 14px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      color: var(--primary);
+      background: rgba(124, 92, 255, 0.1);
+      border-radius: 50px;
+      font-size: 0.72rem;
+    }
+
+    /* Contact */
+    .contact-box {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 45px;
+      padding: 38px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .contact-info h3 {
+      font-size: 1.7rem;
+      margin-bottom: 15px;
+    }
+
+    .contact-info > p {
+      color: var(--muted);
+      margin-bottom: 25px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 17px 0;
+    }
+
+    .contact-icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      color: var(--primary);
+      background: rgba(124, 92, 255, 0.1);
+      border-radius: 12px;
+    }
+
+    .contact-item small {
+      display: block;
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+
+    .contact-item span {
+      font-size: 0.87rem;
+    }
+
+    .form-group {
+      margin-bottom: 17px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 0.85rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 14px 16px;
+      color: var(--text);
+      background: var(--surface-light);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+
+    .form-group textarea {
+      min-height: 125px;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.1);
+    }
+
+    .form-message {
+      display: none;
+      color: var(--secondary);
+      margin-top: 15px;
+      font-size: 0.85rem;
+    }
+
+    /* Footer */
+    footer {
+      padding: 28px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    /* Reveal animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: 0.8s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.94);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero-grid,
+      .about-grid,
+      .contact-box {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-content {
+        text-align: center;
+      }
+
+      .hero-buttons,
+      .social-links {
+        justify-content: center;
+      }
+
+      .hero-visual {
+        order: -1;
+      }
+
+      .profile-card {
+        width: min(330px, 100%);
+      }
+
+      .profile-image {
+        height: 350px;
+      }
+
+      .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .about-image {
+        min-height: 280px;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .container {
+        width: min(100% - 28px, 1120px);
+      }
+
+      .section {
+        padding: 75px 0;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 75px;
+        right: 14px;
+        left: 14px;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 12px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        display: block;
+        padding: 11px 13px;
+      }
+
+      .menu-btn {
+        display: grid;
+      }
+
+      .hero {
+        padding-top: 115px;
+      }
+
+      .hero h1 {
+        font-size: 2.35rem;
+      }
+
+      .skills-grid,
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-box {
+        padding: 23px;
+      }
+
+      .facts {
+        gap: 10px;
+      }
+
+      .timeline-item {
+        padding-right: 45px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header id="header">
+    <div class="container nav">
+      <a href="#home" class="logo">نام<span>شما.</span></a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="active">خانه</a></li>
+        <li><a href="#about">درباره من</a></li>
+        <li><a href="#skills">مهارت‌ها</a></li>
+        <li><a href="#experience">تجربه</a></li>
+        <li><a href="#portfolio">نمونه‌کارها</a></li>
+        <li><a href="#contact">تماس</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="تغییر حالت رنگی">
+          ☼
+        </button>
+
+        <button class="menu-btn" id="menuToggle" aria-label="باز کردن منو">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <span class="hero-label">آماده همکاری در پروژه‌های جدید</span>
+
+          <h1>
+            سلام، من <strong>نام شما</strong> هستم؛
+            <br />
+            <span id="typingText">طراح و توسعه‌دهنده وب</span>
+          </h1>
+
+          <p class="hero-description">
+            به کسب‌وکارها و برندها کمک می‌کنم تا با طراحی محصولات دیجیتال
+            زیبا، سریع و کاربردی، حضور حرفه‌ای‌تری در فضای آنلاین داشته باشند.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#portfolio" class="btn btn-primary">
+              مشاهده نمونه‌کارها
+              <span>←</span>
+            </a>
+
+            <a href="resume.pdf" download class="btn btn-outline">
+              دانلود رزومه
+              <span>↓</span>
+            </a>
+          </div>
+
+          <div class="social-links">
+            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="#" aria-label="GitHub">GH</a>
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="Telegram">TG</a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="profile-card">
+            <div class="profile-image">
+              <img
+                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=800&q=85"
+                alt="تصویر پروفایل"
+              />
+            </div>
+
+            <div class="profile-info">
+              <div>
+                <h3>نام شما</h3>
+                <p>طراح محصول و توسعه‌دهنده</p>
+              </div>
+
+              <span class="available"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section reveal" id="about">
+      <div class="container">
+        <div class="section-title">
+          <span>درباره من</span>
+          <h2>ترکیب خلاقیت و فناوری</h2>
+          <p>
+            طراحی را فقط زیبا نمی‌کنم، بلکه آن را به ابزاری برای حل مسئله
+            و ایجاد تجربه بهتر تبدیل می‌کنم.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-image"></div>
+
+          <div class="about-content">
+            <h3>ایده‌ها را به تجربه‌های دیجیتال تبدیل می‌کنم.</h3>
+
+            <p>
+              من یک طراح و توسعه‌دهنده وب هستم که روی ساخت وب‌سایت‌ها،
+              داشبوردها و محصولات دیجیتال مدرن تمرکز دارم.
+            </p>
+
+            <p>
+              هدف من ساخت محصولاتی است که علاوه بر ظاهر حرفه‌ای، سریع،
+              قابل استفاده و متناسب با نیاز واقعی کاربران باشند.
+            </p>
+
+            <div class="facts">
+              <div class="fact">
+                <strong>۵+</strong>
+                <span>سال تجربه</span>
+              </div>
+
+              <div class="fact">
+                <strong>۴۰+</strong>
+                <span>پروژه موفق</span>
+              </div>
+
+              <div class="fact">
+                <strong>۳۰+</strong>
+                <span>مشتری راضی</span>
+              </div>
+
+              <div class="fact">
+                <strong>۱۲</strong>
+                <span>جایزه و افتخار</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="section reveal" id="skills">
+      <div class="container">
+        <div class="section-title">
+          <span>مهارت‌های من</span>
+          <h2>توانایی‌هایی که به پروژه اضافه می‌کنم</h2>
+        </div>
+
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div class="skill-heading">
+              <span>طراحی رابط کاربری</span>
+              <span>۹۵٪</span>
+            </div>
+            <div class="progress">
+              <span data-width="95%"></span>
+            </div>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-heading">
+              <span>HTML و CSS</span>
+              <span>۹۸٪</span>
+            </div>
+            <div class="progress">
+              <span data-width="98%"></span>
+            </div>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-heading">
+              <span>JavaScript</span>
+              <span>۹۰٪</span>
+            </div>
+            <div class="progress">
+              <span data-width="90%"></span>
+            </div>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-heading">
+              <span>طراحی واکنش‌گرا</span>
+              <span>۹۶٪</span>
+            </div>
+            <div class="progress">
+              <span data-width="96%"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="section reveal" id="experience">
+      <div class="container">
+        <div class="section-title">
+          <span>مسیر حرفه‌ای</span>
+          <h2>تجربه کاری و تحصیلات</h2>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <small>۱۴۰۱ تا اکنون</small>
+              <h3>طراح محصول ارشد، شرکت نمونه</h3>
+              <p>
+                طراحی تجربه کاربری، ایجاد سیستم طراحی و همکاری نزدیک با تیم
+                توسعه برای ساخت محصولات دیجیتال.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <small>۱۳۹۸ تا ۱۴۰۱</small>
+              <h3>توسعه‌دهنده فرانت‌اند، استودیو خلاق</h3>
+              <p>
+                پیاده‌سازی وب‌سایت‌های واکنش‌گرا و پنل‌های مدیریتی با تمرکز
+                بر عملکرد و تجربه کاربری.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <small>۱۳۹۴ تا ۱۳۹۸</small>
+              <h3>کارشناسی مهندسی نرم‌افزار</h3>
+              <p>
+                دانشگاه نمونه، تمرکز بر طراحی نرم‌افزار، برنامه‌نویسی وب
+                و پایگاه داده.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section class="section reveal" id="portfolio">
+      <div class="container">
+        <div class="section-title">
+          <span>نمونه‌کارهای منتخب</span>
+          <h2>پروژه‌هایی که با افتخار ساخته‌ام</h2>
+        </div>
+
+        <div class="portfolio-grid">
+          <article class="project-card">
+            <div class="project-image">
+              <img
+                src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=85"
+                alt="پروژه فروشگاه آنلاین"
+              />
+            </div>
+            <div class="project-content">
+              <h3>فروشگاه آنلاین مدرن</h3>
+              <p>
+                طراحی و توسعه فروشگاه اینترنتی با تمرکز بر افزایش نرخ تبدیل.
+              </p>
+              <div class="tags">
+                <span class="tag">UI/UX</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">E-commerce</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-image">
+              <img
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=85"
+                alt="پروژه داشبورد مدیریتی"
+              />
+            </div>
+            <div class="project-content">
+              <h3>داشبورد تحلیل داده</h3>
+              <p>
+                طراحی داشبوردی ساده و قابل فهم برای نمایش داده‌های پیچیده.
+              </p>
+              <div class="tags">
+                <span class="tag">Dashboard</span>
+                <span class="tag">Analytics</span>
+                <span class="tag">CSS</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-image">
+              <img
+                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85"
+                alt="پروژه وب‌سایت شرکتی"
+              />
+            </div>
+            <div class="project-content">
+              <h3>وب‌سایت شرکتی</h3>
+              <p>
+                طراحی هویت دیجیتال یک شرکت خلاق با ساختار حرفه‌ای و مدرن.
+              </p>
+              <div class="tags">
+                <span class="tag">Branding</span>
+                <span class="tag">HTML</span>
+                <span class="tag">Responsive</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section reveal" id="contact">
+      <div class="container">
+        <div class="section-title">
+          <span>ارتباط با من</span>
+          <h2>بیایید روی ایده بعدی شما کار کنیم</h2>
+        </div>
+
+        <div class="contact-box">
+          <div class="contact-info">
+            <h3>در مورد پروژه‌تان صحبت کنیم.</h3>
+            <p>
+              اگر ایده‌ای دارید یا به یک همکار خلاق نیاز دارید، از طریق فرم
+              زیر با من در ارتباط باشید.
+            </p>
+
+            <div class="contact-item">
+              <div class="contact-icon">✉</div>
+              <div>
+                <small>ایمیل</small>
+                <span>hello@example.com</span>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">☎</div>
+              <div>
+                <small>تلفن</small>
+                <span>۰۹۱۲۱۲۳۴۵۶۷۸</span>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">⌖</div>
+              <div>
+                <small>موقعیت</small>
+                <span>تهران، ایران</span>
+              </div>
+            </div>
+          </div>
+
+          <form id="contactForm">
+            <div class="form-group">
+              <label for="name">نام و نام خانوادگی</label>
+              <input id="name" type="text" placeholder="نام شما" required />
+            </div>
+
+            <div class="form-group">
+              <label for="email">ایمیل</label>
+              <input id="email" type="email" placeholder="email@example.com" required />
+            </div>
+
+            <div class="form-group">
+              <label for="message">پیام شما</label>
+              <textarea
+                id="message"
+                placeholder="توضیح کوتاهی درباره پروژه بنویسید..."
+                required
+              ></textarea>
+            </div>
+
+            <button class="btn btn-primary" type="submit">
+              ارسال پیام
+              <span>←</span>
+            </button>
+
+            <p class="form-message" id="formMessage">
+              پیام شما با موفقیت ثبت شد.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © <span id="year"></span> تمام حقوق برای نام شما محفوظ است.
+    </div>
+  </footer>
+
+  <script>
+    const header = document.getElementById("header");
+    const navLinks = document.getElementById("navLinks");
+    const menuToggle = document.getElementById("menuToggle");
+    const themeToggle = document.getElementById("themeToggle");
+    const typingText = document.getElementById("typingText");
+    const contactForm = document.getElementById("contactForm");
+    const formMessage = document.getElementById("formMessage");
+
+    // باز و بسته کردن منوی موبایل
+    menuToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+    });
+
+    document.querySelectorAll(".nav-links a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+      });
+    });
+
+    // تغییر حالت تاریک و روشن
+    themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("light-mode");
+
+      const lightMode = document.body.classList.contains("light-mode");
+      themeToggle.textContent = lightMode ? "☾" : "☼";
+
+      localStorage.setItem("theme", lightMode ? "light" : "dark");
+    });
+
+    if (localStorage.getItem("theme") === "light") {
+      document.body.classList.add("light-mode");
+      themeToggle.textContent = "☾";
+    }
+
+    // تغییر ظاهر هدر هنگام اسکرول
+    window.addEventListener("scroll", () => {
+      header.classList.toggle("scrolled", window.scrollY > 30);
+    });
+
+    // افکت تایپ
+    const words = [
+      "طراح و توسعه‌دهنده وب",
+      "طراح رابط کاربری",
+      "متخصص تجربه کاربری"
+    ];
+
+    let wordIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+
+    function typeEffect() {
+      const currentWord = words[wordIndex];
+
+      if (deleting) {
+        typingText.textContent = currentWord.substring(0, charIndex--);
+      } else {
+        typingText.textContent = currentWord.substring(0, charIndex++);
+      }
+
+      let speed = deleting ? 55 : 90;
+
+      if (!deleting && charIndex === currentWord.length + 1) {
+        deleting = true;
+        speed = 1400;
+      }
+
+      if (deleting && charIndex === 0) {
+        deleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        speed = 400;
+      }
+
+      setTimeout(typeEffect, speed);
+    }
+
+    typeEffect();
+
+    // انیمیشن نمایش بخش‌ها
+    const revealElements = document.querySelectorAll(".reveal");
+
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    revealElements.forEach((element) => {
+      revealObserver.observe(element);
+    });
+
+    // انیمیشن مهارت‌ها
+    const skillSection = document.getElementById("skills");
+
+    const skillObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          document.querySelectorAll(".progress span").forEach((bar) => {
+            bar.style.width = bar.dataset.width;
+          });
+          skillObserver.disconnect();
+        }
+      },
+      { threshold: 0.35 }
+    );
+
+    skillObserver.observe(skillSection);
+
+    // فرم تماس نمایشی
+    contactForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      formMessage.style.display = "block";
+      contactForm.reset();
+
+      setTimeout(() => {
+        formMessage.style.display = "none";
+      }, 5000);
+    });
+
+    // سال جاری
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // مشخص کردن لینک فعال منو
+    const sections = document.querySelectorAll("section[id]");
+    const menuItems = document.querySelectorAll(".nav-links a");
+
+    window.addEventListener("scroll", () => {
+      let currentSection = "";
+
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop - 180;
+
+        if (window.scrollY >= sectionTop) {
+          currentSection = section.getAttribute("id");
+        }
+      });
+
+      menuItems.forEach((item) => {
+        item.classList.remove("active");
+
+        if (item.getAttribute("href") === `#${currentSection}`) {
+          item.classList.add("active");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
